@@ -547,8 +547,24 @@ function procesarImagen(img) {
             const data = ctx.getImageData(x, y, w, h).data;
             let R = 0, G = 0, B = 0;
             const n = w * h;
-            for (let i = 0; i < data.length; i += 4) { R += data[i]; G += data[i+1]; B += data[i+2]; }
-            const tipo = clasificarColor([R/n, G/n, B/n]);
+            let redPixels = 0;
+            
+            for (let i = 0; i < data.length; i += 4) { 
+                R += data[i]; G += data[i+1]; B += data[i+2];
+                // La estrella de mar es de un rojo/carmesí profundo (G y B bajos)
+                if (data[i] > 150 && data[i+1] < 100 && data[i+2] < 120) {
+                    redPixels++;
+                }
+            }
+            
+            let tipo = clasificarColor([R/n, G/n, B/n]);
+            
+            // Si más del 2% de los píxeles son rojo profundo, es seguro que es una estrella
+            // (esto evita que el promedio de arena+estrella se confunda con Coral)
+            if (redPixels > n * 0.02) {
+                tipo = 'Estrella';
+            }
+            
             const key  = makeKey(r, c);
             resultados[key] = tipo;
             conteo[tipo] = (conteo[tipo] || 0) + 1;
@@ -586,7 +602,7 @@ function clasificarColor(rgb) {
     const prototipos = {
         Arena:         [238, 222, 160],
         Coral:         [220, 110, 100],
-        Estrella:      [255, 230, 90], // Amarillo/dorado para la pista de estrella
+        Estrella:      [210, 60, 80], // Rojo/Carmesí de la estrella (por si acaso el promedio acierta)
         Concha_Rosa:   [245, 160, 185],
         Concha_Morada: [170, 130, 215]
     };
