@@ -551,17 +551,17 @@ function procesarImagen(img) {
             
             for (let i = 0; i < data.length; i += 4) { 
                 R += data[i]; G += data[i+1]; B += data[i+2];
-                // La estrella de mar es de un rojo/carmesí profundo (G y B bajos)
-                if (data[i] > 150 && data[i+1] < 100 && data[i+2] < 120) {
+                // La estrella de mar tiene unos pocos píxeles de un rojo oscuro muy característico
+                if (data[i] > 120 && data[i] - data[i+1] > 40 && data[i] - data[i+2] > 40 && data[i+1] < 100) {
                     redPixels++;
                 }
             }
             
             let tipo = clasificarColor([R/n, G/n, B/n]);
             
-            // Si más del 2% de los píxeles son rojo profundo, es seguro que es una estrella
-            // (esto evita que el promedio de arena+estrella se confunda con Coral)
-            if (redPixels > n * 0.02) {
+            // Si encontramos tan solo 5 píxeles con este rojo intenso, garantizamos que es la estrella
+            // (La estrella es muy pequeña y a veces solo tiene 15-20 píxeles rojos en total)
+            if (redPixels > 5) {
                 tipo = 'Estrella';
             }
             
