@@ -31,9 +31,6 @@ let historial_acciones = [];
 let cellElements     = {};             // key -> DOM element
 
 // Ola
-const FALLOS_PARA_OLA  = 12;
-let fallos             = 0;
-let olasDisponibles    = 0;
 let filaOlaRecomendada = 0;            // actualizada en actualizarProbabilidades
 
 // ─── DOM ─────────────────────────────────────────────────────────────────────
@@ -43,10 +40,6 @@ const modalOverlay   = document.getElementById('modal-overlay');
 const toastContainer = document.getElementById('toast-container');
 const syncDot        = document.getElementById('sync-dot');
 const syncLabel      = document.getElementById('sync-label');
-const olaBar         = document.getElementById('ola-bar');
-const olaCount       = document.getElementById('ola-count');
-const olasDisp       = document.getElementById('olas-disponibles');
-const olasNum        = document.getElementById('olas-num');
 const btnOla         = document.getElementById('btn-ola');
 
 let activeCell     = null;
@@ -139,7 +132,6 @@ function configurarEventos() {
     document.getElementById('btn-train-cancel').addEventListener('click', cerrarModal);
 
     btnOla.addEventListener('click', () => {
-        if (olasDisponibles <= 0) return;
         aplicarOla(filaOlaRecomendada);
     });
 
@@ -218,14 +210,6 @@ async function registrarResultado(r, c, res) {
         return;
     } else {
         celdas_conocidas.set(key, res);
-        if (res === 'F') {
-            fallos++;
-            if (fallos > 0 && fallos % FALLOS_PARA_OLA === 0) {
-                olasDisponibles++;
-                showToast('🌊 ¡Ola desbloqueada! Mira la fila recomendada en el tablero.', 'success');
-            }
-            actualizarUIola();
-        }
     }
 
     actualizarProbabilidades();
@@ -258,13 +242,13 @@ async function guardarEnHistorial(key, color, intentos = 0) {
             desconocido:    historial[key].Desconocido,
             intentos_total: historial[key].intentos_total
         }, { onConflict: 'id' });
-        if (error) {
-            console.error('Supabase write:', error);
-            showToast('⚠️ Error al guardar en la nube.', 'error');
-        }
+        
+        // Si hay error (ej. límite de cuota), fallamos silenciosamente 
+        // para no interrumpir el juego del usuario.
+        if (error) console.warn('Supabase write limit/error:', error);
+        
     } catch (err) {
-        console.error('Network error:', err);
-        showToast('⚠️ Sin conexión. Dato no guardado.', 'error');
+        console.warn('Network error:', err);
     }
 }
 
@@ -285,12 +269,11 @@ async function cargarHistorial() {
             };
         }
         setSyncStatus('ok');
-        const totalPerlas = Object.values(historial).reduce((s, v) => s + v.total, 0);
-        showToast(`💡 IA cargada: ${totalPerlas} perlas registradas.`, 'info');
+        // El toast de IA cargada se removió para evitar molestia al recargar
     } catch (err) {
-        console.error(err);
+        console.warn('Could not load history (might be quota or network issue):', err);
         setSyncStatus('offline');
-        showToast('Sin conexión. Sin historial.', 'error');
+        // Quitamos el toast de error para que la página siempre funcione suave sin molestar al usuario
     }
 }
 
@@ -303,7 +286,6 @@ function deshacer() {
         corales.delete(key);
     } else {
         celdas_conocidas.delete(key);
-        if (res === 'F' && fallos > 0) { fallos--; actualizarUIola(); }
     }
     actualizarProbabilidades();
 }
@@ -314,7 +296,6 @@ function reiniciar(ask = true) {
     celdas_conocidas.clear();
     colores_tablero.clear();
     historial_acciones = [];
-    fallos = 0;
     actualizarUIola();
     actualizarProbabilidades();
 }
@@ -322,24 +303,8 @@ function reiniciar(ask = true) {
 // ─── Ola (Wave) ───────────────────────────────────────────────────────────────
 
 function actualizarUIola() {
-    const fallosEnCiclo = fallos % FALLOS_PARA_OLA;
-    const display = olasDisponibles > 0 ? FALLOS_PARA_OLA : fallosEnCiclo;
-    olaCount.textContent = `${display} / ${FALLOS_PARA_OLA}`;
-    olaBar.style.width = `${(display / FALLOS_PARA_OLA) * 100}%`;
-    olaBar.style.background = olasDisponibles > 0
-        ? 'linear-gradient(90deg, #0ea5e9, #38bdf8)'
-        : 'linear-gradient(90deg, #3b82f6, #60a5fa)';
-
-    if (olasDisponibles > 0) {
-        olasDisp.classList.remove('hidden');
-        olasNum.textContent = olasDisponibles;
-        btnOla.disabled = false;
-        btnOla.classList.add('ready');
-    } else {
-        olasDisp.classList.add('hidden');
-        btnOla.disabled = true;
-        btnOla.classList.remove('ready');
-    }
+    btnOla.disabled = false;
+    btnOla.classList.add('ready');
     // Siempre mostrar la fila recomendada en el botón (aunque no haya ola disponible)
     btnOla.textContent = `🌊 Usar Ola — Fila ${filaOlaRecomendada + 1} recomendada`;
 }
@@ -394,7 +359,6 @@ function aplicarOla(fila) {
         }
     }
 
-    olasDisponibles--;
     actualizarUIola();
     actualizarProbabilidades();
 
