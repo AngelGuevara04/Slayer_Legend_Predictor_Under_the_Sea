@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predictor Bajo el Mar</title>
+    <meta name="description" content="Herramienta predictiva para el minijuego Bajo el Mar">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <h1>🔮 Predictor Bajo el Mar</h1>
+            <p>Haz clic en una celda para registrar. <strong>Ctrl+V</strong> para autocompletar desde captura.</p>
+        </header>
+
+        <main>
+            <!-- Grid con etiquetas A-F / 1-6 generado por JS -->
+            <div id="grid-wrapper" class="grid-wrapper"></div>
+
+            <div id="info-panel" class="info-panel">
+                <p id="status-text">Sincronizando con la nube...</p>
+            </div>
+
+            <!-- Panel de Ola -->
+            <div class="ola-panel">
+                <div class="ola-info">
+                    <span class="ola-label">💨 Fallos hacia Ola</span>
+                    <span id="ola-count" class="ola-count">0 / 12</span>
+                </div>
+                <div class="ola-bar-track">
+                    <div id="ola-bar" class="ola-bar" style="width:0%"></div>
+                </div>
+                <div id="olas-disponibles" class="olas-disponibles hidden">
+                    🌊 <span id="olas-num">0</span> ola(s) disponible(s)
+                </div>
+            </div>
+        </main>
+
+        <aside class="controls">
+            <button id="btn-undo" class="btn secondary">↩ Deshacer</button>
+            <button id="btn-restart" class="btn secondary">🔄 Reiniciar</button>
+            <button id="btn-train" class="btn accent">➕ Dato Externo</button>
+            <button id="btn-ola" class="btn ola-btn" disabled>🌊 Usar Ola</button>
+        </aside>
+
+        <div id="sync-status" class="sync-status">
+            <span id="sync-dot" class="sync-dot"></span>
+            <span id="sync-label">Conectando...</span>
+        </div>
+    </div>
+
+    <!-- Menú contextual -->
+    <div id="context-menu" class="context-menu hidden">
+        <button class="ctx-btn" data-type="F">🏖️ Vacío (Arena)</button>
+        <button class="ctx-btn" data-type="S">⭐ Pista (Estrella)</button>
+        <button class="ctx-btn" data-type="C">🪸 Coral</button>
+        <button class="ctx-btn" data-type="P">🔮 ¡Perla!</button>
+    </div>
+
+    <!-- Modal color de concha -->
+    <div id="modal-overlay" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h2 id="modal-title">¿Qué color era la concha?</h2>
+            <p id="modal-desc"></p>
+            <div class="modal-buttons">
+                <button id="btn-train-purple" class="btn" style="background:linear-gradient(135deg,#7c3aed,#a855f7);color:white;">🟣 Morada</button>
+                <button id="btn-train-pink" class="btn" style="background:linear-gradient(135deg,#db2777,#f472b6);color:white;">🌸 Rosada</button>
+                <button id="btn-train-cancel" class="btn secondary">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast-container" class="toast-container"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
