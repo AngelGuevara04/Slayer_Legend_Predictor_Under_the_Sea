@@ -559,9 +559,9 @@ function procesarImagen(img) {
             
             let tipo = clasificarColor([R/n, G/n, B/n]);
             
-            // Si encontramos tan solo 5 píxeles con este rojo intenso, garantizamos que es la estrella
-            // (La estrella es muy pequeña y a veces solo tiene 15-20 píxeles rojos en total)
-            if (redPixels > 5) {
+            // Si más del 12% de la zona central es rojo intenso, es la estrella
+            // (La estrella real ocupa ~25%, mientras que los bordes de las conchas rosas solo llegan al ~8%)
+            if (redPixels > n * 0.12) {
                 tipo = 'Estrella';
             }
             
