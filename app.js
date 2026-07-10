@@ -572,15 +572,16 @@ function procesarImagen(img) {
     }
 
     const totalCeldas     = FILAS * COLUMNAS;
-    const conchasCerradas = (conteo.Concha_Rosa || 0) + (conteo.Concha_Morada || 0);
-    const esTableroInicial = conchasCerradas >= Math.floor(totalCeldas * 0.5);
+    // Consideramos tablero inicial SÓLO si no hay absolutamente ninguna celda revelada
+    const reveladasTotales = (conteo.Arena || 0) + (conteo.Estrella || 0) + (conteo.Coral || 0);
+    const esTableroInicial = reveladasTotales === 0;
     let reveladasNuevas   = 0;
 
     for (const [key, tipo] of Object.entries(resultados)) {
         if (tipo === 'Concha_Rosa' || tipo === 'Concha_Morada') {
             colores_tablero.set(key, tipo);
         }
-        if (!esTableroInicial && !celdas_conocidas.has(key) && !corales.has(key)) {
+        if (!celdas_conocidas.has(key) && !corales.has(key)) {
             const { r, c } = parseKey(key);
             if (tipo === 'Arena') { celdas_conocidas.set(key, 'F'); historial_acciones.push({r,c,res:'F'}); reveladasNuevas++; }
             if (tipo === 'Estrella') { celdas_conocidas.set(key, 'S'); historial_acciones.push({r,c,res:'S'}); reveladasNuevas++; }
