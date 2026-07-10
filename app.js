@@ -535,7 +535,7 @@ function procesarImagen(img) {
 
     const cellW = canvas.width  / COLUMNAS;
     const cellH = canvas.height / FILAS;
-    const conteo = { Arena: 0, Coral: 0, Concha_Rosa: 0, Concha_Morada: 0 };
+    const conteo = { Arena: 0, Coral: 0, Estrella: 0, Concha_Rosa: 0, Concha_Morada: 0 };
     const resultados = {};
 
     for (let r = 0; r < FILAS; r++) {
@@ -567,6 +567,7 @@ function procesarImagen(img) {
         if (!esTableroInicial && !celdas_conocidas.has(key) && !corales.has(key)) {
             const { r, c } = parseKey(key);
             if (tipo === 'Arena') { celdas_conocidas.set(key, 'F'); historial_acciones.push({r,c,res:'F'}); reveladasNuevas++; }
+            if (tipo === 'Estrella') { celdas_conocidas.set(key, 'S'); historial_acciones.push({r,c,res:'S'}); reveladasNuevas++; }
             if (tipo === 'Coral') { corales.add(key); historial_acciones.push({r,c,res:'C'}); reveladasNuevas++; }
         }
     }
@@ -585,6 +586,7 @@ function clasificarColor(rgb) {
     const prototipos = {
         Arena:         [238, 222, 160],
         Coral:         [220, 110, 100],
+        Estrella:      [255, 230, 90], // Amarillo/dorado para la pista de estrella
         Concha_Rosa:   [245, 160, 185],
         Concha_Morada: [170, 130, 215]
     };
