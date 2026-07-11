@@ -636,10 +636,11 @@ function procesarImagen(img) {
 
     for (let r = 0; r < FILAS; r++) {
         for (let c = 0; c < COLUMNAS; c++) {
-            const x = Math.floor(c * cellW + cellW * 0.3);
-            const y = Math.floor(r * cellH + cellH * 0.3);
-            const w = Math.max(1, Math.floor(cellW * 0.4));
-            const h = Math.max(1, Math.floor(cellH * 0.4));
+            // Muestreo más pequeño (20%) y centrado para evitar el fondo de arena
+            const x = Math.floor(c * cellW + cellW * 0.4);
+            const y = Math.floor(r * cellH + cellH * 0.4);
+            const w = Math.max(1, Math.floor(cellW * 0.2));
+            const h = Math.max(1, Math.floor(cellH * 0.2));
             const data = ctx.getImageData(x, y, w, h).data;
             let R = 0, G = 0, B = 0;
             const n = w * h;
@@ -687,7 +688,6 @@ function clasificarColor(rgb) {
     const prototipos = {
         Arena:         [238, 222, 160],
         Coral:         [220, 110, 100],
-        Estrella:      [210, 60, 80], // Rojo/Carmesí de la estrella (por si acaso el promedio acierta)
         Concha_Rosa:   [245, 160, 185],
         Concha_Morada: [170, 130, 215]
     };
