@@ -594,8 +594,24 @@ function handleFileUpload(e) {
     cropperInstance = new Cropper(cropImg, {
         aspectRatio: 1,
         viewMode: 1,
-        autoCropArea: 0.95,
-        background: false
+        background: false,
+        ready: function () {
+            const imgData = this.cropper.getImageData();
+            // Si la imagen es vertical (captura de celular), predecir la posición del tablero
+            if (imgData.naturalHeight > imgData.naturalWidth) {
+                const size = imgData.naturalWidth; // El tablero abarca todo el ancho
+                // El tablero suele estar en la parte inferior, con un pequeño margen
+                const bottomMargin = imgData.naturalHeight * 0.16; 
+                let y = imgData.naturalHeight - size - bottomMargin;
+                
+                this.cropper.setData({
+                    x: 0,
+                    y: y > 0 ? y : 0,
+                    width: size,
+                    height: size
+                });
+            }
+        }
     });
     
     // Reset file input para permitir subir la misma foto otra vez si se cancela
@@ -616,6 +632,9 @@ function confirmarCrop() {
     const canvas = cropperInstance.getCroppedCanvas();
     if (!canvas) return;
     
+    // Limpiar el tablero antes de procesar una nueva imagen
+    reiniciar(true);
+
     const img = new Image();
     img.onload = () => { procesarImagen(img); };
     img.src = canvas.toDataURL('image/png');
