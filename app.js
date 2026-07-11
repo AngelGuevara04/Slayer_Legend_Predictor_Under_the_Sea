@@ -245,14 +245,11 @@ async function guardarEnHistorial(key, color, intentos = 0) {
     historial[key].intentos_total = (historial[key].intentos_total || 0) + intentos;
 
     try {
-        const { error } = await db.from('ai_history').upsert({
-            id:             key,
-            total:          historial[key].total,
-            concha_morada:  historial[key].Concha_Morada,
-            concha_rosa:    historial[key].Concha_Rosa,
-            desconocido:    historial[key].Desconocido,
-            intentos_total: historial[key].intentos_total
-        }, { onConflict: 'id' });
+        const { error } = await db.rpc('registrar_perla', {
+            p_id: key,
+            p_color: color,
+            p_intentos: intentos
+        });
         
         // Si hay error (ej. límite de cuota), fallamos silenciosamente 
         // para no interrumpir el juego del usuario.
