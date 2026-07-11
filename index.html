@@ -14,8 +14,18 @@
 <body>
     <div class="app-container">
         <header>
-            <h1>🔮 Predictor Bajo el Mar</h1>
-            <p>Haz clic en una celda para registrar.<br>
+            <div class="header-top">
+                <h1>🔮 Predictor Bajo el Mar</h1>
+                <div id="auth-container" class="auth-container">
+                    <button id="btn-login" class="btn outline small">Acceder con Google</button>
+                    <div id="user-profile" class="user-profile hidden">
+                        <img id="user-avatar" src="" alt="Avatar" class="avatar">
+                        <span id="user-name">Usuario</span>
+                        <button id="btn-logout" class="btn secondary small" style="padding: 4px 8px; font-size: 12px;">Salir</button>
+                    </div>
+                </div>
+            </div>
+            <p id="instruction-text">Haz clic en una celda para registrar.<br>
             <strong>Ctrl+V</strong> o <button id="btn-upload" class="btn secondary" style="padding:4px 8px; font-size:12px; vertical-align:middle;">📸 Subir Imagen</button> para auto-completar.</p>
             <input type="file" id="file-upload" accept="image/*" style="display: none;">
         </header>
