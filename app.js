@@ -120,11 +120,11 @@ function configurarEventos() {
     });
 
     document.getElementById('btn-undo').addEventListener('click', deshacer);
-    document.getElementById('btn-restart').addEventListener('click', () => reiniciar(true));
-
+    document.getElementById('btn-restart').addEventListener('click', () => reiniciar());
     document.getElementById('btn-train').addEventListener('click', () => {
         isTrainingMode = true;
-        showToast('Modo entrenamiento: haz clic en la celda donde salió la perla.', 'info');
+        externalTarget = null;
+        showToast('🎯 Modo entrenamiento: haz clic en la celda donde quieres registrar el dato.', 'info');
     });
 
     document.getElementById('btn-train-purple').addEventListener('click', () => guardarDatoExterno('Concha_Morada'));
@@ -136,6 +136,14 @@ function configurarEventos() {
     });
 
     document.addEventListener('paste', handlePaste);
+
+    // Eventos para subida y recorte de imagen (móviles)
+    document.getElementById('btn-upload').addEventListener('click', () => {
+        document.getElementById('file-upload').click();
+    });
+    document.getElementById('file-upload').addEventListener('change', handleFileUpload);
+    document.getElementById('btn-crop-cancel').addEventListener('click', cerrarCropModal);
+    document.getElementById('btn-crop-confirm').addEventListener('click', confirmarCrop);
 }
 
 // ─── Vecinos (devuelve keys en formato "Fila,Col") ───────────────────────────
@@ -515,7 +523,7 @@ function renderGrid(candidatos, pesos, mejorCelda) {
     }
 }
 
-// ─── Portapapeles / Imagen ────────────────────────────────────────────────────
+// ─── Portapapeles / Imagen y Recorte ───────────────────────────────────────────
 function handlePaste(e) {
     const items = (e.clipboardData || e.originalEvent.clipboardData).items;
     const imageItem = [...items].find(it => it.type.startsWith('image'));
@@ -525,6 +533,53 @@ function handlePaste(e) {
     const url  = URL.createObjectURL(blob);
     img.onload = () => { procesarImagen(img); URL.revokeObjectURL(url); };
     img.src = url;
+}
+
+let cropperInstance = null;
+
+function handleFileUpload(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const url = URL.createObjectURL(file);
+    const cropImg = document.getElementById('crop-image');
+    cropImg.src = url;
+    
+    document.getElementById('crop-modal-overlay').classList.remove('hidden');
+    document.getElementById('crop-modal-overlay').classList.add('show');
+    
+    if (cropperInstance) cropperInstance.destroy();
+    
+    // Configurar para aspecto 1:1 (cuadrado) para el tablero
+    cropperInstance = new Cropper(cropImg, {
+        aspectRatio: 1,
+        viewMode: 1,
+        autoCropArea: 0.95,
+        background: false
+    });
+    
+    // Reset file input para permitir subir la misma foto otra vez si se cancela
+    e.target.value = '';
+}
+
+function cerrarCropModal() {
+    document.getElementById('crop-modal-overlay').classList.remove('show');
+    document.getElementById('crop-modal-overlay').classList.add('hidden');
+    if (cropperInstance) {
+        cropperInstance.destroy();
+        cropperInstance = null;
+    }
+}
+
+function confirmarCrop() {
+    if (!cropperInstance) return;
+    const canvas = cropperInstance.getCroppedCanvas();
+    if (!canvas) return;
+    
+    const img = new Image();
+    img.onload = () => { procesarImagen(img); };
+    img.src = canvas.toDataURL('image/png');
+    
+    cerrarCropModal();
 }
 
 function procesarImagen(img) {
