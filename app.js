@@ -297,8 +297,7 @@ function onCellClick(r, c, e) {
     }
 
     const status = celdas_conocidas.get(key);
-    // Permitir clic si está vacía o es Arena ('F') para corregir conchas tras usar la Ola
-    if (corales.has(key) || status === 'S') return;
+    // Permitir clic en cualquier celda para corregir errores
 
     activeCell = { r, c };
     const x = Math.min(e.clientX, window.innerWidth - 170);
@@ -325,7 +324,9 @@ function cerrarModal() {
 // ─── Registrar resultado ──────────────────────────────────────────────────────
 async function registrarResultado(r, c, res) {
     const key = makeKey(r, c);
-    historial_acciones.push({ r, c, res });
+    // Guardar estado previo para poder deshacer correctamente
+    const prevState = corales.has(key) ? 'C' : celdas_conocidas.get(key) || null;
+    historial_acciones.push({ r, c, res, prevState });
 
     if (res === 'C') {
         corales.add(key);
@@ -344,8 +345,12 @@ async function registrarResultado(r, c, res) {
         showToast(`🌊 Perla en ${key} → ${colorLabel} | ${intentos} intento${intentos !== 1 ? 's' : ''}`, 'success');
         reiniciar(false);
         return;
+    } else if (res === 'VACIO') {
+        corales.delete(key);
+        celdas_conocidas.delete(key);
     } else {
         celdas_conocidas.set(key, res);
+        corales.delete(key);
     }
 
     actualizarProbabilidades();
@@ -363,6 +368,10 @@ async function guardarDatoExterno(color) {
 
 // ─── Supabase: guardar ────────────────────────────────────────────────────────
 async function guardarEnHistorial(key, color, intentos = 0) {
+    // Validar color antes de enviar al RPC
+    const coloresValidos = ['Concha_Morada', 'Concha_Rosa', 'Desconocido'];
+    if (!coloresValidos.includes(color)) color = 'Desconocido';
+
     if (!historial[key]) historial[key] = { total: 0, Concha_Morada: 0, Concha_Rosa: 0, Desconocido: 0, intentos_total: 0 };
     historial[key].total++;
     const campo = ['Concha_Morada','Concha_Rosa'].includes(color) ? color : 'Desconocido';
@@ -401,25 +410,42 @@ async function cargarHistorial() {
                 intentos_total: row.intentos_total || 0
             };
         }
+        // Cache en localStorage como fallback offline
+        try { localStorage.setItem('historial_cache', JSON.stringify(historial)); } catch(e) {}
         setSyncStatus('ok');
-        // El toast de IA cargada se removió para evitar molestia al recargar
     } catch (err) {
         console.warn('Could not load history (might be quota or network issue):', err);
+        // Intentar cargar desde cache local
+        try {
+            const cached = localStorage.getItem('historial_cache');
+            if (cached) {
+                historial = JSON.parse(cached);
+                setSyncStatus('offline');
+                return;
+            }
+        } catch(e) {}
         setSyncStatus('offline');
-        // Quitamos el toast de error para que la página siempre funcione suave sin molestar al usuario
     }
 }
 
 // ─── Deshacer / Reiniciar ─────────────────────────────────────────────────────
 function deshacer() {
     if (!historial_acciones.length) return;
-    const { r, c, res } = historial_acciones.pop();
+    const { r, c, res, prevState } = historial_acciones.pop();
     const key = makeKey(r, c);
-    if (res === 'C') {
-        corales.delete(key);
-    } else {
-        celdas_conocidas.delete(key);
+
+    // Limpiar estado actual
+    corales.delete(key);
+    celdas_conocidas.delete(key);
+
+    // Restaurar estado previo
+    if (prevState === 'C') {
+        corales.add(key);
+    } else if (prevState === 'F' || prevState === 'S') {
+        celdas_conocidas.set(key, prevState);
     }
+    // Si prevState === null, la celda queda limpia (correcto)
+
     actualizarProbabilidades();
 }
 
@@ -487,7 +513,7 @@ function aplicarOla(fila) {
         const key = makeKey(fila, c);
         if (!celdas_conocidas.has(key)) {
             celdas_conocidas.set(key, 'F');
-            historial_acciones.push({ r: fila, c, res: 'F' });
+            historial_acciones.push({ r: fila, c, res: 'F', prevState: null });
             limpiadas++;
         }
     }
@@ -654,6 +680,10 @@ function renderGrid(candidatos, pesos, mejorCelda) {
 
 // ─── Portapapeles / Imagen y Recorte ───────────────────────────────────────────
 function openCropForUrl(url) {
+    // Liberar blob URL anterior si existe
+    if (currentBlobUrl) URL.revokeObjectURL(currentBlobUrl);
+    currentBlobUrl = url;
+
     const cropImg = document.getElementById('crop-image');
     cropImg.src = url;
     
@@ -685,7 +715,8 @@ function openCropForUrl(url) {
 }
 
 function handlePaste(e) {
-    const items = (e.clipboardData || e.originalEvent.clipboardData).items;
+    if (!e.clipboardData) return;
+    const items = e.clipboardData.items;
     const imageItem = [...items].find(it => it.type.startsWith('image'));
     if (!imageItem) { showToast('No hay imagen en el portapapeles. Usa Win+Shift+S.', 'error'); return; }
     const blob = imageItem.getAsFile();
@@ -694,6 +725,7 @@ function handlePaste(e) {
 }
 
 let cropperInstance = null;
+let currentBlobUrl = null; // Para liberar blob URLs y evitar memory leaks
 
 function handleFileUpload(e) {
     const file = e.target.files[0];
@@ -712,6 +744,11 @@ function cerrarCropModal() {
         cropperInstance.destroy();
         cropperInstance = null;
     }
+    // Liberar blob URL para evitar memory leak
+    if (currentBlobUrl) {
+        URL.revokeObjectURL(currentBlobUrl);
+        currentBlobUrl = null;
+    }
 }
 
 function confirmarCrop() {
@@ -719,21 +756,21 @@ function confirmarCrop() {
     const canvas = cropperInstance.getCroppedCanvas();
     if (!canvas) return;
     
-    // Limpiar el tablero antes de procesar una nueva imagen
-    reiniciar(true);
+    // Limpiar el tablero sin pedir confirmación (el usuario ya confirmó al dar Procesar)
+    reiniciar(false);
 
-    const img = new Image();
-    img.onload = () => { procesarImagen(img); };
-    img.src = canvas.toDataURL('image/png');
+    // Pasar el canvas directamente en vez de convertir a dataURL y recargar (evita race condition)
+    procesarImagen(canvas);
     
     cerrarCropModal();
 }
 
-function procesarImagen(img) {
+function procesarImagen(source) {
+    // source puede ser un Image o un Canvas directamente
     const canvas = document.createElement('canvas');
-    canvas.width = img.width; canvas.height = img.height;
+    canvas.width = source.width; canvas.height = source.height;
     const ctx = canvas.getContext('2d');
-    ctx.drawImage(img, 0, 0);
+    ctx.drawImage(source, 0, 0);
 
     const cellW = canvas.width  / COLUMNAS;
     const cellH = canvas.height / FILAS;
@@ -775,8 +812,9 @@ function procesarImagen(img) {
         }
         if (!celdas_conocidas.has(key) && !corales.has(key)) {
             const { r, c } = parseKey(key);
-            if (tipo === 'Arena') { celdas_conocidas.set(key, 'F'); historial_acciones.push({r,c,res:'F'}); reveladasNuevas++; }
-            if (tipo === 'Coral') { corales.add(key); historial_acciones.push({r,c,res:'C'}); reveladasNuevas++; }
+            if (tipo === 'Arena')    { celdas_conocidas.set(key, 'F'); historial_acciones.push({r,c,res:'F',prevState:null}); reveladasNuevas++; }
+            if (tipo === 'Coral')    { corales.add(key); historial_acciones.push({r,c,res:'C',prevState:null}); reveladasNuevas++; }
+            if (tipo === 'Estrella') { celdas_conocidas.set(key, 'S'); historial_acciones.push({r,c,res:'S',prevState:null}); reveladasNuevas++; }
         }
     }
 
@@ -793,20 +831,27 @@ function procesarImagen(img) {
 function clasificarColor(rgb) {
     const prototipos = {
         Arena:         [238, 222, 160],
-        Coral:         [220, 110, 100],
-        Concha_Rosa:   [245, 160, 185],
-        Concha_Morada: [170, 130, 215]
+        Coral:         [232, 146, 84],
+        Concha_Rosa:   [243, 178, 195],
+        Concha_Morada: [225, 170, 240]
     };
+    const MAX_DIST = 80; // Umbral de confianza: si la distancia es mayor, no clasificar
     let best = null, bestDist = Infinity;
     for (const [clase, proto] of Object.entries(prototipos)) {
         const dist = Math.sqrt(proto.reduce((s, v, i) => s + (rgb[i] - v) ** 2, 0));
         if (dist < bestDist) { bestDist = dist; best = clase; }
     }
+    // Si la distancia al mejor prototipo es demasiado grande, no clasificar
+    if (bestDist > MAX_DIST) return 'Desconocido';
     return best;
 }
 
 // ─── Toast ────────────────────────────────────────────────────────────────────
 function showToast(msg, type = 'info') {
+    // Limitar a 5 toasts simultáneos para no desbordar la pantalla
+    while (toastContainer.children.length >= 5) {
+        toastContainer.removeChild(toastContainer.firstChild);
+    }
     const t = document.createElement('div');
     t.className = 'toast';
     t.style.borderLeft = `4px solid ${type === 'success' ? '#4ade80' : type === 'error' ? '#f87171' : '#60a5fa'}`;
