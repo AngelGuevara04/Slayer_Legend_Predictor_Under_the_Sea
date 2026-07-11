@@ -554,3 +554,20 @@ main {
     font-size: 0.95rem;
 }
 
+
+/* Cuadrícula 6x6 personalizada para el área de recorte */
+.cropper-view-box {
+    position: relative;
+}
+.cropper-view-box::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    pointer-events: none;
+    background-size: calc(100% / 6) calc(100% / 6);
+    background-image:
+        linear-gradient(to right, rgba(255, 255, 255, 0.45) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.45) 1px, transparent 1px);
+    z-index: 100;
+}
+

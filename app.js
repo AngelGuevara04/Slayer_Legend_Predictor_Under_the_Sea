@@ -709,6 +709,7 @@ function openCropForUrl(url) {
         aspectRatio: 1,
         viewMode: 1,
         background: false,
+        guides: false,
         ready: function () {
             const imgData = this.cropper.getImageData();
             if (imgData.naturalHeight > imgData.naturalWidth) {
