@@ -602,23 +602,12 @@ function procesarImagen(img) {
             const data = ctx.getImageData(x, y, w, h).data;
             let R = 0, G = 0, B = 0;
             const n = w * h;
-            let redPixels = 0;
             
             for (let i = 0; i < data.length; i += 4) { 
                 R += data[i]; G += data[i+1]; B += data[i+2];
-                // La estrella de mar tiene unos pocos píxeles de un rojo oscuro muy característico
-                if (data[i] > 120 && data[i] - data[i+1] > 40 && data[i] - data[i+2] > 40 && data[i+1] < 100) {
-                    redPixels++;
-                }
             }
             
             let tipo = clasificarColor([R/n, G/n, B/n]);
-            
-            // Si más del 12% de la zona central es rojo intenso, es la estrella
-            // (La estrella real ocupa ~25%, mientras que los bordes de las conchas rosas solo llegan al ~8%)
-            if (redPixels > n * 0.12) {
-                tipo = 'Estrella';
-            }
             
             const key  = makeKey(r, c);
             resultados[key] = tipo;
@@ -639,7 +628,6 @@ function procesarImagen(img) {
         if (!celdas_conocidas.has(key) && !corales.has(key)) {
             const { r, c } = parseKey(key);
             if (tipo === 'Arena') { celdas_conocidas.set(key, 'F'); historial_acciones.push({r,c,res:'F'}); reveladasNuevas++; }
-            if (tipo === 'Estrella') { celdas_conocidas.set(key, 'S'); historial_acciones.push({r,c,res:'S'}); reveladasNuevas++; }
             if (tipo === 'Coral') { corales.add(key); historial_acciones.push({r,c,res:'C'}); reveladasNuevas++; }
         }
     }
