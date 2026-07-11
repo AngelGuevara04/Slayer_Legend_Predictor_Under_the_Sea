@@ -73,7 +73,7 @@ function startTutorialGeneral() {
         showBullets: true,
         steps: [
             {
-                intro: "<b>¡Bienvenido al Predictor Bajo el Mar!</b><br><br>Esta herramienta te ayudará a encontrar las perlas apoyándose en los datos de la comunidad y probabilidades matemáticas."
+                intro: "<b>¡Bienvenido al Buscaminas Bajo el Mar!</b><br><br>Esta herramienta te ayudará a encontrar las perlas apoyándose en los datos de la comunidad y probabilidades matemáticas."
             },
             {
                 element: document.querySelector('.grid-labeled'),
@@ -140,7 +140,7 @@ function startTutorial(tipo) {
         options.steps = [
             {
                 element: document.querySelector('#btn-ola'),
-                intro: "<b>1. Activar la Ola</b><br><br>Cuando uses el ítem de la Ola dentro del juego, presiona este botón. El predictor calculará la mejor fila y la llenará de arena automáticamente."
+                intro: "<b>1. Activar la Ola</b><br><br>Cuando uses el ítem de la Ola dentro del juego, presiona este botón. El buscaminas calculará la mejor fila y la llenará de arena automáticamente."
             },
             {
                 element: document.querySelector('.grid-labeled'),
@@ -169,7 +169,7 @@ function startTutorial(tipo) {
         options.steps = [
             {
                 element: document.querySelector('#btn-restart'),
-                intro: "<b>Empezar de Nuevo</b><br><br>Cuando encuentres todas las perlas y el juego te dé un tablero nuevo, presiona Reiniciar para limpiar todo el predictor y comenzar de cero."
+                intro: "<b>Empezar de Nuevo</b><br><br>Cuando encuentres todas las perlas y el juego te dé un tablero nuevo, presiona Reiniciar para limpiar todo el buscaminas y comenzar de cero."
             }
         ];
     }
