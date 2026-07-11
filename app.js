@@ -56,13 +56,41 @@ async function init() {
 
     if (!localStorage.getItem('tutorial_visto')) {
         setTimeout(() => {
-            showHelpMenu();
+            startTutorialGeneral();
             localStorage.setItem('tutorial_visto', 'true');
         }, 1000);
     }
 }
 
 // ─── Menú de Ayuda y Tutoriales ──────────────────────────────────────────────
+function startTutorialGeneral() {
+    cerrarHelpMenu();
+    introJs().setOptions({
+        nextLabel: 'Siguiente',
+        prevLabel: 'Atrás',
+        doneLabel: '¡A jugar!',
+        showStepNumbers: false,
+        showBullets: true,
+        steps: [
+            {
+                intro: "<b>¡Bienvenido al Predictor Bajo el Mar!</b><br><br>Esta herramienta te ayudará a encontrar las perlas apoyándose en los datos de la comunidad y probabilidades matemáticas."
+            },
+            {
+                element: document.querySelector('.grid-labeled'),
+                intro: "<b>El Tablero</b><br><br>Puedes hacer clic en cualquier casilla para marcar manualmente Arena, Estrella, Coral o Perla."
+            },
+            {
+                element: document.querySelector('.controls'),
+                intro: "<b>Herramientas Avanzadas</b><br><br>Aquí encontrarás opciones para Subir Capturas automáticas, usar la Ola, Deshacer movimientos o registrar Datos Externos."
+            },
+            {
+                element: document.querySelector('#btn-help'),
+                intro: "<b>¿Necesitas más detalles?</b><br><br>Si quieres saber exactamente cómo funciona alguna de estas herramientas, puedes presionar este botón de <b>📖 Ayuda</b> en cualquier momento para ver guías detalladas de cada función."
+            }
+        ]
+    }).start();
+}
+
 function showHelpMenu() {
     document.getElementById('help-modal-overlay').classList.remove('hidden');
     document.getElementById('help-modal-overlay').classList.add('show');
