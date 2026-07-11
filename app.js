@@ -23,10 +23,6 @@ function parseKey(key) {
 }
 
 // ─── Estado ──────────────────────────────────────────────────────────────────
-let isTrainingMode = false;
-let externalTarget = null;
-let currentUser = null;
-
 let corales          = new Set();       // Set de keys
 let celdas_conocidas = new Map();       // key -> 'F' | 'S'
 let colores_tablero  = new Map();       // key -> 'Concha_Rosa' | 'Concha_Morada'
@@ -47,58 +43,16 @@ const syncLabel      = document.getElementById('sync-label');
 const btnOla         = document.getElementById('btn-ola');
 
 let activeCell     = null;
+let externalTarget = null;
+let isTrainingMode = false;
 
-// ─── Inicio ──────────────────────────────────────────────────────────────────
+// ─── Init ────────────────────────────────────────────────────────────────────
 async function init() {
     crearCuadricula();
     configurarEventos();
     actualizarUIola();
-    await checkAuth();
     await cargarHistorial();
     actualizarProbabilidades();
-}
-
-// ─── Autenticación ───────────────────────────────────────────────────────────
-async function checkAuth() {
-    const { data: { session } } = await db.auth.getSession();
-    updateAuthUI(session?.user || null);
-
-    db.auth.onAuthStateChange((_event, session) => {
-        updateAuthUI(session?.user || null);
-    });
-}
-
-function updateAuthUI(user) {
-    currentUser = user;
-    const btnLogin = document.getElementById('btn-login');
-    const userProfile = document.getElementById('user-profile');
-    
-    if (user) {
-        btnLogin.classList.add('hidden');
-        userProfile.classList.remove('hidden');
-        const name = user.user_metadata?.full_name || 'Usuario';
-        const avatar = user.user_metadata?.avatar_url || 'https://www.gravatar.com/avatar/?d=mp';
-        document.getElementById('user-name').textContent = name;
-        document.getElementById('user-avatar').src = avatar;
-    } else {
-        btnLogin.classList.remove('hidden');
-        userProfile.classList.add('hidden');
-    }
-}
-
-async function login() {
-    const { error } = await db.auth.signInWithOAuth({
-        provider: 'google',
-        options: {
-            redirectTo: window.location.origin + window.location.pathname
-        }
-    });
-    if (error) showToast('Error al iniciar sesión', 'error');
-}
-
-async function logout() {
-    await db.auth.signOut();
-    showToast('Sesión cerrada', 'info');
 }
 
 function setSyncStatus(estado) {
@@ -190,10 +144,6 @@ function configurarEventos() {
     document.getElementById('file-upload').addEventListener('change', handleFileUpload);
     document.getElementById('btn-crop-cancel').addEventListener('click', cerrarCropModal);
     document.getElementById('btn-crop-confirm').addEventListener('click', confirmarCrop);
-
-    // Eventos de Autenticación
-    document.getElementById('btn-login').addEventListener('click', login);
-    document.getElementById('btn-logout').addEventListener('click', logout);
 }
 
 // ─── Vecinos (devuelve keys en formato "Fila,Col") ───────────────────────────
@@ -256,12 +206,6 @@ async function registrarResultado(r, c, res) {
         const color   = colores_tablero.get(key) || 'Desconocido';
         const intentos = celdas_conocidas.size + corales.size;
 
-        if (!currentUser) {
-            showToast('Inicia sesión con Google para guardar esta perla en la nube.', 'error');
-            reiniciar(false);
-            return;
-        }
-
         statusText.textContent = '⌛ Guardando en la nube...';
         statusText.style.color = '#f59e0b';
 
@@ -281,11 +225,6 @@ async function registrarResultado(r, c, res) {
 
 // ─── Dato externo ─────────────────────────────────────────────────────────────
 async function guardarDatoExterno(color) {
-    if (!currentUser) {
-        showToast('Debes iniciar sesión con Google para aportar datos.', 'error');
-        cerrarModal();
-        return;
-    }
     if (!externalTarget) return;
     const key = makeKey(externalTarget.r, externalTarget.c);
     await guardarEnHistorial(key, color);
