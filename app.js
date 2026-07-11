@@ -53,6 +53,45 @@ async function init() {
     actualizarUIola();
     await cargarHistorial();
     actualizarProbabilidades();
+
+    if (!localStorage.getItem('tutorial_visto')) {
+        setTimeout(() => {
+            startTutorial();
+            localStorage.setItem('tutorial_visto', 'true');
+        }, 1000);
+    }
+}
+
+// ─── Tutorial ────────────────────────────────────────────────────────────────
+function startTutorial() {
+    introJs().setOptions({
+        nextLabel: 'Siguiente',
+        prevLabel: 'Atrás',
+        doneLabel: '¡Entendido!',
+        showStepNumbers: false,
+        showBullets: true,
+        steps: [
+            {
+                intro: "<b>¡Bienvenido al Predictor Bajo el Mar!</b><br><br>Esta herramienta te ayudará a encontrar las perlas apoyándose en los datos de la comunidad y probabilidades matemáticas."
+            },
+            {
+                element: document.querySelector('.grid-labeled'),
+                intro: "<b>El Tablero</b><br><br>Haz clic en cualquier casilla para marcar Arena, Estrella, Coral o Perla y ver cómo se actualizan las probabilidades."
+            },
+            {
+                element: document.querySelector('#btn-upload'),
+                intro: "<b>Subir Captura</b><br><br>Ahorra tiempo subiendo una captura de pantalla del juego. La IA detectará automáticamente la Arena y los Corales por ti."
+            },
+            {
+                element: document.querySelector('#btn-ola'),
+                intro: "<b>La Ola</b><br><br>Cuando uses la Ola en el juego, presiona este botón para despejar automáticamente la fila recomendada en el tablero."
+            },
+            {
+                element: document.querySelector('#btn-train'),
+                intro: "<b>Dato Externo</b><br><br>¿Encontraste una perla pero tu tablero ya estaba modificado? Usa este botón para registrarla directamente en la nube y ayudar a entrenar la IA."
+            }
+        ]
+    }).start();
 }
 
 function setSyncStatus(estado) {
@@ -144,6 +183,8 @@ function configurarEventos() {
     document.getElementById('file-upload').addEventListener('change', handleFileUpload);
     document.getElementById('btn-crop-cancel').addEventListener('click', cerrarCropModal);
     document.getElementById('btn-crop-confirm').addEventListener('click', confirmarCrop);
+
+    document.getElementById('btn-help').addEventListener('click', startTutorial);
 }
 
 // ─── Vecinos (devuelve keys en formato "Fila,Col") ───────────────────────────

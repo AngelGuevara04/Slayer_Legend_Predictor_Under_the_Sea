@@ -601,6 +601,44 @@ main {
     height: 12px;
 }
 
+/* ─── Tutorial Intro.js (Slayer Legend Theme) ───────────────────────────── */
+.introjs-tooltip {
+    background: #12141c !important;
+    border: 1px solid #c49a45 !important;
+    border-radius: 8px !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.8), inset 0 0 15px rgba(196,154,69,0.1) !important;
+    color: #f8fafc !important;
+    font-family: 'Inter', sans-serif !important;
+}
+.introjs-tooltiptext {
+    font-size: 0.95rem !important;
+    line-height: 1.4 !important;
+}
+.introjs-tooltiptext b {
+    color: #fcd34d !important;
+}
+.introjs-arrow.top { border-bottom-color: #c49a45 !important; }
+.introjs-arrow.bottom { border-top-color: #c49a45 !important; }
+.introjs-arrow.left { border-right-color: #c49a45 !important; }
+.introjs-arrow.right { border-left-color: #c49a45 !important; }
+.introjs-button {
+    background: #1a1c23 !important;
+    border: 1px solid rgba(139, 92, 246, 0.5) !important;
+    color: #e2e8f0 !important;
+    text-shadow: none !important;
+    border-radius: 4px !important;
+}
+.introjs-button:hover {
+    background: rgba(139, 92, 246, 0.2) !important;
+    border-color: #8b5cf6 !important;
+}
+.introjs-bullets ul li a {
+    background: rgba(255,255,255,0.2) !important;
+}
+.introjs-bullets ul li a.active {
+    background: #c49a45 !important;
+}
+
 /* ─── Salón de la Fama (Créditos Slayer Legend) ───────────────────────────── */
 .credits-panel {
     background: linear-gradient(180deg, #12141c 0%, #0a0a0f 100%);
