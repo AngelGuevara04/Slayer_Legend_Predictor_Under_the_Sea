@@ -551,7 +551,7 @@ function actualizarProbabilidades() {
     for (const cand of candidatos) pesos[cand] = sumaPrior > 0 ? prior[cand] / sumaPrior : 0;
 
     // 4. Estrategia óptima: minimizar candidatos esperados tras revelar
-    let mejorCelda = null, mejorVE = Infinity;
+    let mejorCelda = null, mejorVE = Infinity, mejorProb = -1;
     for (const jugada of candidatos) {
         const { r: jr, c: jc } = parseKey(jugada);
         const vecJ = new Set(vecinos(jr, jc));
@@ -573,7 +573,11 @@ function actualizarProbabilidades() {
             }
             ve += prob * restantes;
         }
-        if (ve < mejorVE) { mejorVE = ve; mejorCelda = jugada; }
+        if (ve < mejorVE || (ve === mejorVE && pesos[jugada] > mejorProb)) { 
+            mejorVE = ve; 
+            mejorCelda = jugada; 
+            mejorProb = pesos[jugada];
+        }
     }
 
     // 5. Mejor fila para ola (actualizar estado y UI)
@@ -619,7 +623,7 @@ function renderGrid(candidatos, pesos, mejorCelda) {
                 else if (colorDetectado === 'Concha_Rosa') dot = '<span class="color-dot dot-rosa"></span>';
                 cell.innerHTML = `<span class="prob-num">${prob.toFixed(1)}%</span>${dot}`;
                 if (key === mejorCelda) cell.classList.add('best-choice');
-                if (esFilaOla) cell.classList.add('ola-sugerida');
+                else if (esFilaOla) cell.classList.add('ola-sugerida');
 
             } else {
                 cell.classList.add('disabled');
