@@ -649,23 +649,7 @@ function renderGrid(candidatos, pesos, mejorCelda) {
 }
 
 // ─── Portapapeles / Imagen y Recorte ───────────────────────────────────────────
-function handlePaste(e) {
-    const items = (e.clipboardData || e.originalEvent.clipboardData).items;
-    const imageItem = [...items].find(it => it.type.startsWith('image'));
-    if (!imageItem) { showToast('No hay imagen en el portapapeles. Usa Win+Shift+S.', 'error'); return; }
-    const blob = imageItem.getAsFile();
-    const img  = new Image();
-    const url  = URL.createObjectURL(blob);
-    img.onload = () => { procesarImagen(img); URL.revokeObjectURL(url); };
-    img.src = url;
-}
-
-let cropperInstance = null;
-
-function handleFileUpload(e) {
-    const file = e.target.files[0];
-    if (!file) return;
-    const url = URL.createObjectURL(file);
+function openCropForUrl(url) {
     const cropImg = document.getElementById('crop-image');
     cropImg.src = url;
     
@@ -674,17 +658,14 @@ function handleFileUpload(e) {
     
     if (cropperInstance) cropperInstance.destroy();
     
-    // Configurar para aspecto 1:1 (cuadrado) para el tablero
     cropperInstance = new Cropper(cropImg, {
         aspectRatio: 1,
         viewMode: 1,
         background: false,
         ready: function () {
             const imgData = this.cropper.getImageData();
-            // Si la imagen es vertical (captura de celular), predecir la posición del tablero
             if (imgData.naturalHeight > imgData.naturalWidth) {
-                const size = imgData.naturalWidth; // El tablero abarca todo el ancho
-                // El tablero suele estar en la parte inferior, con un pequeño margen
+                const size = imgData.naturalWidth; 
                 const bottomMargin = imgData.naturalHeight * 0.16; 
                 let y = imgData.naturalHeight - size - bottomMargin;
                 
@@ -697,6 +678,24 @@ function handleFileUpload(e) {
             }
         }
     });
+}
+
+function handlePaste(e) {
+    const items = (e.clipboardData || e.originalEvent.clipboardData).items;
+    const imageItem = [...items].find(it => it.type.startsWith('image'));
+    if (!imageItem) { showToast('No hay imagen en el portapapeles. Usa Win+Shift+S.', 'error'); return; }
+    const blob = imageItem.getAsFile();
+    const url  = URL.createObjectURL(blob);
+    openCropForUrl(url);
+}
+
+let cropperInstance = null;
+
+function handleFileUpload(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const url = URL.createObjectURL(file);
+    openCropForUrl(url);
     
     // Reset file input para permitir subir la misma foto otra vez si se cancela
     e.target.value = '';
