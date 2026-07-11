@@ -326,7 +326,8 @@ async function registrarResultado(r, c, res) {
     const key = makeKey(r, c);
     // Guardar estado previo para poder deshacer correctamente
     const prevState = corales.has(key) ? 'C' : celdas_conocidas.get(key) || null;
-    historial_acciones.push({ r, c, res, prevState });
+    const prevColor = colores_tablero.get(key) || null;
+    historial_acciones.push({ r, c, res, prevState, prevColor });
 
     if (res === 'C') {
         corales.add(key);
@@ -345,9 +346,14 @@ async function registrarResultado(r, c, res) {
         showToast(`🌊 Perla en ${key} → ${colorLabel} | ${intentos} intento${intentos !== 1 ? 's' : ''}`, 'success');
         reiniciar(false);
         return;
+    } else if (res === 'COLOR_MORADA') {
+        colores_tablero.set(key, 'Concha_Morada');
+    } else if (res === 'COLOR_ROSA') {
+        colores_tablero.set(key, 'Concha_Rosa');
     } else if (res === 'VACIO') {
         corales.delete(key);
         celdas_conocidas.delete(key);
+        colores_tablero.delete(key);
     } else {
         celdas_conocidas.set(key, res);
         corales.delete(key);
@@ -431,8 +437,15 @@ async function cargarHistorial() {
 // ─── Deshacer / Reiniciar ─────────────────────────────────────────────────────
 function deshacer() {
     if (!historial_acciones.length) return;
-    const { r, c, res, prevState } = historial_acciones.pop();
+    const { r, c, res, prevState, prevColor } = historial_acciones.pop();
     const key = makeKey(r, c);
+
+    if (res === 'COLOR_MORADA' || res === 'COLOR_ROSA') {
+        if (prevColor) colores_tablero.set(key, prevColor);
+        else colores_tablero.delete(key);
+        actualizarProbabilidades();
+        return;
+    }
 
     // Limpiar estado actual
     corales.delete(key);
