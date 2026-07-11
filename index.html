@@ -78,6 +78,22 @@
         </div>
     </div>
 
+    <!-- Modal de Menú de Ayuda -->
+    <div id="help-modal-overlay" class="modal-overlay hidden">
+        <div class="modal-content" style="max-width: 90vw; width: 400px; text-align: center; padding: 20px;">
+            <h2 style="color: #fcd34d; margin-bottom: 15px; font-size: 1.4rem;">📖 Guías y Tutoriales</h2>
+            <div class="tutorial-menu">
+                <button class="btn outline" onclick="startTutorial('imagen')">📸 Cómo cargar el tablero</button>
+                <button class="btn outline" onclick="startTutorial('tablero')">👆 Cómo marcar en el tablero</button>
+                <button class="btn outline" onclick="startTutorial('ola')">🌊 Cómo usar la Ola</button>
+                <button class="btn outline" onclick="startTutorial('dato_externo')">➕ Cómo registrar Dato Externo</button>
+                <button class="btn outline" onclick="startTutorial('deshacer')">↩ Uso de Deshacer</button>
+                <button class="btn outline" onclick="startTutorial('reiniciar')">🔄 Uso de Reiniciar</button>
+            </div>
+            <button id="btn-help-close" class="btn secondary" style="margin-top: 20px; width: 100%;">Cerrar Menú</button>
+        </div>
+    </div>
+
     <!-- Modal de recorte (Cropper) -->
     <div id="crop-modal-overlay" class="modal-overlay hidden">
         <div class="modal-content" style="max-width: 90vw; width: 400px; text-align: center; padding: 15px;">

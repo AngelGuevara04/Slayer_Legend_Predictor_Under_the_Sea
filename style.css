@@ -639,6 +639,17 @@ main {
     background: #c49a45 !important;
 }
 
+.tutorial-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.tutorial-menu .btn {
+    text-align: left;
+    padding: 10px 15px;
+    font-size: 0.95rem;
+}
+
 /* ─── Salón de la Fama (Créditos Slayer Legend) ───────────────────────────── */
 .credits-panel {
     background: linear-gradient(180deg, #12141c 0%, #0a0a0f 100%);

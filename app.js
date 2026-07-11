@@ -56,50 +56,97 @@ async function init() {
 
     if (!localStorage.getItem('tutorial_visto')) {
         setTimeout(() => {
-            startTutorial();
+            showHelpMenu();
             localStorage.setItem('tutorial_visto', 'true');
         }, 1000);
     }
 }
 
-// ─── Tutorial ────────────────────────────────────────────────────────────────
-function startTutorial() {
-    introJs().setOptions({
+// ─── Menú de Ayuda y Tutoriales ──────────────────────────────────────────────
+function showHelpMenu() {
+    document.getElementById('help-modal-overlay').classList.remove('hidden');
+    document.getElementById('help-modal-overlay').classList.add('show');
+}
+function cerrarHelpMenu() {
+    document.getElementById('help-modal-overlay').classList.remove('show');
+    document.getElementById('help-modal-overlay').classList.add('hidden');
+}
+
+function startTutorial(tipo) {
+    cerrarHelpMenu();
+    let options = {
         nextLabel: 'Siguiente',
         prevLabel: 'Atrás',
         doneLabel: '¡Entendido!',
         showStepNumbers: false,
         showBullets: true,
-        steps: [
+        steps: []
+    };
+
+    if (tipo === 'imagen') {
+        options.steps = [
             {
-                intro: "<b>¡Bienvenido al Predictor Bajo el Mar!</b><br><br>Esta herramienta te ayudará a encontrar las perlas apoyándose en los datos de la comunidad y probabilidades matemáticas."
+                element: document.querySelector('#btn-upload'),
+                intro: "<b>1. Subir Captura</b><br><br>Presiona este botón para subir una foto completa de tu celular."
+            },
+            {
+                intro: "<b>2. Recorte Inteligente</b><br><br>El sistema pre-seleccionará la zona inferior de tu pantalla.<br><img src='tutorial.png' style='width:100%; max-height:180px; object-fit:cover; border-radius:8px; margin-top:10px; border:1px solid #c49a45;'><br>Asegúrate de que el cuadro de recorte contenga exactamente la cuadrícula de 6x6 (las 36 conchas) y dale a Confirmar."
+            }
+        ];
+    } else if (tipo === 'tablero') {
+        options.steps = [
+            {
+                element: document.querySelector('.grid-labeled'),
+                intro: "<b>1. Marcado Manual</b><br><br>Puedes marcar las casillas manualmente haciendo clic sobre ellas."
             },
             {
                 element: document.querySelector('.grid-labeled'),
-                intro: "<b>El Tablero y Probabilidades</b><br><br>Haz clic en cualquier casilla para marcar Arena, Estrella, Coral o Perla.<br><br>Los <b>porcentajes (%)</b> indican qué tan probable es que haya una perla. El ícono de la <b>estrella ⭐</b> te sugiere la casilla matemáticamente más segura para hacer clic en el juego."
+                intro: "<b>2. Recomendación</b><br><br>La casilla que tenga el <b>borde resaltado en verde</b> es la que el sistema te sugiere como la más segura para encontrar una perla basándose en matemáticas."
             },
             {
-                element: document.querySelector('#btn-upload'),
-                intro: "<b>Subir Captura</b><br><br>Sube una captura de pantalla completa desde tu celular. El sistema intentará <b>recortar el tablero automáticamente</b> por ti.<br><img src='tutorial.png' style='width:100%; max-height:180px; object-fit:cover; border-radius:8px; margin-top:10px; border:1px solid #c49a45;'><br>Solo asegúrate de que el cuadro abarque exactamente las 36 conchas y dale a Confirmar."
-            },
+                element: document.querySelector('.grid-labeled'),
+                intro: "<b>3. Tipos de Celdas</b><br><br>Al hacer clic, se abrirá un menú donde podrás indicarle a la IA si encontraste Arena, una Estrella (Pista), Coral o una Perla."
+            }
+        ];
+    } else if (tipo === 'ola') {
+        options.steps = [
             {
                 element: document.querySelector('#btn-ola'),
-                intro: "<b>La Ola</b><br><br>Cuando uses el potenciador de 'Ola' en el juego, usa este botón para despejar automáticamente la fila recomendada (se llenará de arena).<br><br><i>Tip: Si la ola revela una perla o estrella, puedes hacer clic sobre la arena para corregirlo.</i>"
+                intro: "<b>1. Activar la Ola</b><br><br>Cuando uses el ítem de la Ola dentro del juego, presiona este botón. El predictor calculará la mejor fila y la llenará de arena automáticamente."
+            },
+            {
+                element: document.querySelector('.grid-labeled'),
+                intro: "<b>2. Modificar la Ola</b><br><br>Si al pasar la Ola en el juego descubres una Estrella o una Perla, simplemente haz clic sobre esa casilla de arena en el tablero web para corregirla y actualizar los cálculos."
+            }
+        ];
+    } else if (tipo === 'dato_externo') {
+        options.steps = [
+            {
+                element: document.querySelector('#btn-train'),
+                intro: "<b>1. Ayuda a la Comunidad</b><br><br>Usa este botón si acabas de encontrar una perla en el juego pero tu tablero ya está arruinado y no quieres reiniciar."
             },
             {
                 element: document.querySelector('#btn-train'),
-                intro: "<b>Dato Externo</b><br><br>¿Encontraste una perla pero tu tablero ya estaba modificado o arruinado? Usa este botón para registrar el color de la perla en la base de datos de la nube y ayudar a la comunidad."
-            },
+                intro: "<b>2. Entrenamiento Global</b><br><br>Te permitirá indicarle a la nube el color de la perla y sus coordenadas exactas para seguir entrenando a la Inteligencia Artificial global sin alterar tu partida actual."
+            }
+        ];
+    } else if (tipo === 'deshacer') {
+        options.steps = [
             {
                 element: document.querySelector('#btn-undo'),
-                intro: "<b>Controles: Deshacer</b><br><br>Si te equivocas marcando una casilla, simplemente presiona <b>Deshacer</b> para volver al paso anterior de forma segura."
-            },
+                intro: "<b>Deshacer un Error</b><br><br>Si te equivocas marcando una casilla, usa este botón para retroceder un paso. ¡Puedes deshacer varios pasos seguidos!"
+            }
+        ];
+    } else if (tipo === 'reiniciar') {
+        options.steps = [
             {
                 element: document.querySelector('#btn-restart'),
-                intro: "<b>Controles: Reiniciar</b><br><br>Limpia todo el tablero para empezar una partida nueva."
+                intro: "<b>Empezar de Nuevo</b><br><br>Cuando encuentres todas las perlas y el juego te dé un tablero nuevo, presiona Reiniciar para limpiar todo el predictor y comenzar de cero."
             }
-        ]
-    }).start();
+        ];
+    }
+
+    introJs().setOptions(options).start();
 }
 
 function setSyncStatus(estado) {
@@ -192,7 +239,8 @@ function configurarEventos() {
     document.getElementById('btn-crop-cancel').addEventListener('click', cerrarCropModal);
     document.getElementById('btn-crop-confirm').addEventListener('click', confirmarCrop);
 
-    document.getElementById('btn-help').addEventListener('click', startTutorial);
+    document.getElementById('btn-help').addEventListener('click', showHelpMenu);
+    document.getElementById('btn-help-close').addEventListener('click', cerrarHelpMenu);
 }
 
 // ─── Vecinos (devuelve keys en formato "Fila,Col") ───────────────────────────
