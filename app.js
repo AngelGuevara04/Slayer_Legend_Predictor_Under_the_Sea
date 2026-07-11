@@ -171,7 +171,9 @@ function onCellClick(r, c, e) {
         return;
     }
 
-    if (celdas_conocidas.has(key) || corales.has(key)) return;
+    const status = celdas_conocidas.get(key);
+    // Permitir clic si está vacía o es Arena ('F') para corregir conchas tras usar la Ola
+    if (corales.has(key) || status === 'S') return;
 
     activeCell = { r, c };
     const x = Math.min(e.clientX, window.innerWidth - 170);
@@ -202,6 +204,7 @@ async function registrarResultado(r, c, res) {
 
     if (res === 'C') {
         corales.add(key);
+        celdas_conocidas.delete(key);
     } else if (res === 'P') {
         const color   = colores_tablero.get(key) || 'Desconocido';
         const intentos = celdas_conocidas.size + corales.size;
