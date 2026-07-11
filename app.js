@@ -301,7 +301,7 @@ function onCellClick(r, c, e) {
 
     activeCell = { r, c };
     const x = Math.min(e.clientX, window.innerWidth - 170);
-    const y = Math.min(e.clientY, window.innerHeight - 220);
+    const y = Math.min(e.clientY, window.innerHeight - 300);
     contextMenu.style.left = `${x}px`;
     contextMenu.style.top  = `${y}px`;
     contextMenu.classList.remove('hidden');
