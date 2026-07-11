@@ -76,19 +76,27 @@ function startTutorial() {
             },
             {
                 element: document.querySelector('.grid-labeled'),
-                intro: "<b>El Tablero</b><br><br>Haz clic en cualquier casilla para marcar Arena, Estrella, Coral o Perla y ver cómo se actualizan las probabilidades."
+                intro: "<b>El Tablero y Probabilidades</b><br><br>Haz clic en cualquier casilla para marcar Arena, Estrella, Coral o Perla.<br><br>Los <b>porcentajes (%)</b> indican qué tan probable es que haya una perla. El ícono de la <b>estrella ⭐</b> te sugiere la casilla matemáticamente más segura para hacer clic en el juego."
             },
             {
                 element: document.querySelector('#btn-upload'),
-                intro: "<b>Subir Captura</b><br><br>Ahorra tiempo subiendo una captura de pantalla del juego. La IA detectará automáticamente la Arena y los Corales por ti."
+                intro: "<b>Subir Captura</b><br><br>Sube una captura de pantalla completa desde tu celular. El sistema intentará <b>recortar el tablero automáticamente</b> por ti.<br><img src='tutorial.png' style='width:100%; max-height:180px; object-fit:cover; border-radius:8px; margin-top:10px; border:1px solid #c49a45;'><br>Solo asegúrate de que el cuadro abarque exactamente las 36 conchas y dale a Confirmar."
             },
             {
                 element: document.querySelector('#btn-ola'),
-                intro: "<b>La Ola</b><br><br>Cuando uses la Ola en el juego, presiona este botón para despejar automáticamente la fila recomendada en el tablero."
+                intro: "<b>La Ola</b><br><br>Cuando uses el potenciador de 'Ola' en el juego, usa este botón para despejar automáticamente la fila recomendada (se llenará de arena).<br><br><i>Tip: Si la ola revela una perla o estrella, puedes hacer clic sobre la arena para corregirlo.</i>"
             },
             {
                 element: document.querySelector('#btn-train'),
-                intro: "<b>Dato Externo</b><br><br>¿Encontraste una perla pero tu tablero ya estaba modificado? Usa este botón para registrarla directamente en la nube y ayudar a entrenar la IA."
+                intro: "<b>Dato Externo</b><br><br>¿Encontraste una perla pero tu tablero ya estaba modificado o arruinado? Usa este botón para registrar el color de la perla en la base de datos de la nube y ayudar a la comunidad."
+            },
+            {
+                element: document.querySelector('#btn-undo'),
+                intro: "<b>Controles: Deshacer</b><br><br>Si te equivocas marcando una casilla, simplemente presiona <b>Deshacer</b> para volver al paso anterior de forma segura."
+            },
+            {
+                element: document.querySelector('#btn-restart'),
+                intro: "<b>Controles: Reiniciar</b><br><br>Limpia todo el tablero para empezar una partida nueva."
             }
         ]
     }).start();
