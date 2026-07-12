@@ -484,32 +484,66 @@ function actualizarUIola() {
 // La ola avanza de IZQUIERDA a DERECHA y se detiene al encontrar el primer coral.
 // Solo se limpian (marcan Arena) las celdas antes del primer coral en la fila.
 // Score de la fila = candidatos que sería posible limpiar con la ola.
-function calcularMejorFilaOla(candidatos) {
-    let mejorFila = 0, mejorScore = -1;
+function calcularMejorFilaOla(candidatos, pesos) {
+    let mejorFila = 0, mejorVE = Infinity;
     for (let r = 0; r < FILAS; r++) {
-        // Límite: columna del primer coral (la ola no puede pasar)
+        // Encontrar hasta dónde llega la ola (se detiene en el primer coral)
         let limiteCol = COLUMNAS;
         for (let c = 0; c < COLUMNAS; c++) {
             if (corales.has(makeKey(r, c))) { limiteCol = c; break; }
         }
 
-        // Candidatos alcanzables por la ola en esta fila
-        let directos = 0;
+        const celdasOla = new Set();
         for (let c = 0; c < limiteCol; c++) {
-            if (candidatos.has(makeKey(r, c))) directos++;
+            celdasOla.add(makeKey(r, c));
         }
 
-        // Candidatos vecinos en filas adyacentes que también quedarían descartados
-        let extra = 0;
-        for (let c = 0; c < limiteCol; c++) {
-            for (const v of vecinos(r, c)) {
-                const { r: vr } = parseKey(v);
-                if (candidatos.has(v) && vr !== r) { extra++; break; }
+        let ve = 0;
+        for (const perla of candidatos) {
+            const prob = pesos[perla];
+            let restantes = 0;
+
+            if (celdasOla.has(perla)) {
+                restantes = 0; // La ola descubre la perla
+            } else {
+                const vecPerla = new Set(vecinos(parseKey(perla).r, parseKey(perla).c));
+                const reveloEstrella = [...celdasOla].some(x => vecPerla.has(x));
+
+                if (reveloEstrella) {
+                    // Reveló al menos una estrella. Las estrellas son las casillas de la ola vecinas a la perla.
+                    const estrellas = [...celdasOla].filter(x => vecPerla.has(x));
+                    const arenas = [...celdasOla].filter(x => !vecPerla.has(x));
+                    let validos = new Set(candidatos);
+                    // La perla debe ser vecina de TODAS las estrellas reveladas
+                    for (const s of estrellas) {
+                        const sVecinos = new Set(vecinos(parseKey(s).r, parseKey(s).c));
+                        validos = new Set([...validos].filter(x => sVecinos.has(x)));
+                    }
+                    // La perla no puede ser vecina de la arena revelada
+                    for (const a of arenas) {
+                        const aVecinos = new Set(vecinos(parseKey(a).r, parseKey(a).c));
+                        aVecinos.add(a); // ni la arena misma
+                        validos = new Set([...validos].filter(x => !aVecinos.has(x)));
+                    }
+                    restantes = validos.size;
+                } else {
+                    // Reveló pura Arena
+                    let validos = new Set(candidatos);
+                    for (const a of celdasOla) {
+                        const aVecinos = new Set(vecinos(parseKey(a).r, parseKey(a).c));
+                        aVecinos.add(a);
+                        validos = new Set([...validos].filter(x => !aVecinos.has(x)));
+                    }
+                    restantes = validos.size;
+                }
             }
+            ve += prob * restantes;
         }
 
-        const score = directos + extra * 0.5;
-        if (score > mejorScore) { mejorScore = score; mejorFila = r; }
+        if (ve < mejorVE) {
+            mejorVE = ve;
+            mejorFila = r;
+        }
     }
     return mejorFila;
 }
@@ -620,7 +654,7 @@ function actualizarProbabilidades() {
     }
 
     // 5. Mejor fila para ola (actualizar estado y UI)
-    filaOlaRecomendada = calcularMejorFilaOla(candidatos);
+    filaOlaRecomendada = calcularMejorFilaOla(candidatos, pesos);
     actualizarUIola();
 
     renderGrid(candidatos, pesos, mejorCelda);
