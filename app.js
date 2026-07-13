@@ -64,11 +64,10 @@ async function init() {
             overlay.style.display = 'none';
         }
         
-        if (now >= endMaint) {
-            const donationUI = document.getElementById('donation-features');
-            if (donationUI) donationUI.classList.remove('hidden');
-            window.featuresActivados = true;
-        }
+        const donationUI = document.getElementById('donation-features');
+        if (donationUI) donationUI.classList.remove('hidden');
+        window.featuresActivados = true;
+        
         return false;
     };
     
