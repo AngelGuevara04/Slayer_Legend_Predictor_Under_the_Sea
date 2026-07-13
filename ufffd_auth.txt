@@ -1,3 +1,0 @@
-110: mostrarToast('Ã°Å¸Â�?â€  Ã‚Â¡LOGRO DESBLOQUEADO! ' + nombre_logro);
-171: <span style="color: #a855f7; font-weight: bold;">${p.pearls_found} ðŸ�?®</span><br>
-172: <span style="color: #ef4444; font-size: 0.8rem;">ðŸ�?¥ ${p.highest_streak} racha</span>
