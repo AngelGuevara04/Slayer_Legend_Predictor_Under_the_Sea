@@ -165,22 +165,23 @@ function aplicarTema(tema) {
     const root = document.documentElement;
     if (tema === 'abyss') {
         root.style.setProperty('--bg-color', '#020617');
-        root.style.setProperty('--panel-bg', '#0f172a');
-        root.style.setProperty('--panel-border', '#1e293b');
-        root.style.setProperty('--cell-bg', '#1e293b');
+        root.style.setProperty('--panel-bg', 'rgba(15, 23, 42, 0.45)');
+        root.style.setProperty('--panel-border', 'rgba(255, 255, 255, 0.1)');
+        root.style.setProperty('--cell-bg', 'rgba(30, 41, 59, 0.4)');
+        root.style.setProperty('--cell-border', 'rgba(255, 255, 255, 0.05)');
     } else if (tema === 'neon') {
         root.style.setProperty('--bg-color', '#000000');
-        root.style.setProperty('--panel-bg', '#111');
-        root.style.setProperty('--panel-border', '#f0f');
-        root.style.setProperty('--cell-bg', '#222');
-        root.style.setProperty('--cell-border', '#f0f');
+        root.style.setProperty('--panel-bg', 'rgba(17, 17, 17, 0.55)');
+        root.style.setProperty('--panel-border', 'rgba(255, 0, 255, 0.4)');
+        root.style.setProperty('--cell-bg', 'rgba(34, 34, 34, 0.5)');
+        root.style.setProperty('--cell-border', 'rgba(255, 0, 255, 0.3)');
     } else {
         // Default
         root.style.setProperty('--bg-color', '#0a0a0f');
-        root.style.setProperty('--panel-bg', '#13131a');
-        root.style.setProperty('--panel-border', '#1f1f2e');
-        root.style.setProperty('--cell-bg', '#1a1a24');
-        root.style.setProperty('--cell-border', '#2a2a35');
+        root.style.setProperty('--panel-bg', 'rgba(19, 19, 26, 0.5)');
+        root.style.setProperty('--panel-border', 'rgba(255, 255, 255, 0.08)');
+        root.style.setProperty('--cell-bg', 'rgba(26, 26, 36, 0.5)');
+        root.style.setProperty('--cell-border', 'rgba(255, 255, 255, 0.05)');
     }
     // Guardar preferencia
     localStorage.setItem('user_theme', tema);
