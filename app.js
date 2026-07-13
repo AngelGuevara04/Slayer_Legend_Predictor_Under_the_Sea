@@ -12,7 +12,7 @@ const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 // Ejemplo: celda superior-izquierda = "1,A", inferior-derecha = "6,F"
 
 function makeKey(r, c) {
-    // r: 0-5 (�ndice), c: 0-5 (�ndice)  ?  "1,A" ... "6,F"
+    // r 05 ndice c 05 ndice    1A  6F
     return `${r + 1},${String.fromCharCode(65 + c)}`;
 }
 
@@ -25,8 +25,8 @@ function parseKey(key) {
 // ??? Estado ??????????????????????????????????????????????????????????????????
 let corales          = new Set();       // Set de keys
 let celdas_conocidas = new Map();       // key -> 'F' | 'S'
-let colores_tablero  = new Map();       // key -> 'Concha_Rosa' | 'Concha_Morada'
-let historial        = {};             // key -> { total, Concha_Morada, Concha_Rosa, Desconocido, intentos_total }
+let colores_tablero  = new Map();       // key -> 'Concha_Rosa' | '🟣 Morada'
+let historial        = {};             // key -> { total, Concha_🟣 Morada, Concha_Rosa, Desconocido, intentos_total }
 let historial_acciones = [];
 let cellElements     = {};             // key -> DOM element
 
@@ -88,7 +88,7 @@ async function init() {
     }
 }
 
-// ??? Men� de Ayuda y Tutoriales ??????????????????????????????????????????????
+// Men de Ayuda y Tutoriales
 function startTutorialGeneral() {
     cerrarHelpMenu();
     introJs().setOptions({
@@ -210,7 +210,7 @@ function setSyncStatus(estado) {
     else                           syncLabel.textContent = 'Conectando...';
 }
 
-// ??? Cuadr�cula con etiquetas ?????????????????????????????????????????????????
+// Cuadrcula con etiquetas
 function crearCuadricula() {
     const wrapper = document.getElementById('grid-wrapper');
     wrapper.innerHTML = '';
@@ -219,7 +219,7 @@ function crearCuadricula() {
     const grid = document.createElement('div');
     grid.className = 'grid-labeled';
 
-    // Esquina vac�a
+    // Esquina vaca
     grid.appendChild(Object.assign(document.createElement('div'), { className: 'grid-corner' }));
 
     // Encabezados de columna: A B C D E F
@@ -275,7 +275,7 @@ function configurarEventos() {
         showToast('? Modo entrenamiento: haz clic en la celda donde quieres registrar el dato.', 'info');
     });
 
-    document.getElementById('btn-train-purple').addEventListener('click', () => guardarDatoExterno('Concha_Morada'));
+    document.getElementById('btn-train-purple').addEventListener('click', () => guardarDatoExterno('🟣 Morada'));
     document.getElementById('btn-train-pink').addEventListener('click', () => guardarDatoExterno('Concha_Rosa'));
     document.getElementById('btn-train-cancel').addEventListener('click', cerrarModal);
 
@@ -285,7 +285,7 @@ function configurarEventos() {
 
     document.addEventListener('paste', handlePaste);
 
-    // Eventos para subida y recorte de imagen (m�viles)
+    // Eventos para subida y recorte de imagen mviles
     document.getElementById('btn-upload').addEventListener('click', () => {
         document.getElementById('file-upload').click();
     });
@@ -309,7 +309,7 @@ function vecinos(r, c) {
 
 // ??? Click en celda ??????????????????????????????????????????????????????????
 function onCellClick(r, c, e) {
-    // L�gica de 4 Tiradas Gratis
+    // Lgica de 4 Tiradas Gratis
     if (typeof currentUser === 'undefined' || !currentUser) {
         window.freeClicks = (window.freeClicks || 0) + 1;
         localStorage.setItem('freeClicks', window.freeClicks);
@@ -391,25 +391,25 @@ async function registrarResultado(r, c, res, force = false) {
                 colors: ['#a855f7', '#f472b6', '#fcd34d']
             });
         }
-        const color   = colores_tablero.get(key) || 'Desconocido';
+        const color   = colores_tablero.get(key) || '❓ Desconocido';
         const intentos = celdas_conocidas.size + corales.size;
 
         if (!force && typeof checkAchievementsOnPearlFound === 'function') {
             checkAchievementsOnPearlFound(intentos);
         }
 
-        statusText.textContent = '? Guardando en la nube...';
+        statusText.textContent = '🔄 Guardando en la nube...';
         statusText.style.color = '#f59e0b';
 
         await guardarEnHistorial(key, color, intentos);
 
-        const colorLabel = color === 'Concha_Morada' ? '? Morada'
-                         : color === 'Concha_Rosa'   ? '? Rosada' : '? Desconocido';
+        const colorLabel = color === '🟣 Morada' ? '🟣 Morada'
+                         : color === 'Concha_Rosa'   ? '🌸 Rosada' : '? Desconocido';
         showToast(`? Perla en ${key} ? ${colorLabel} | ${intentos} intento${intentos !== 1 ? 's' : ''}`, 'success');
         reiniciar(false);
         return;
     } else if (res === 'COLOR_MORADA') {
-        colores_tablero.set(key, 'Concha_Morada');
+        colores_tablero.set(key, '🟣 Morada');
     } else if (res === 'COLOR_ROSA') {
         colores_tablero.set(key, 'Concha_Rosa');
     } else if (res === 'VACIO') {
@@ -429,7 +429,7 @@ async function guardarDatoExterno(color) {
     if (!externalTarget) return;
     const key = makeKey(externalTarget.r, externalTarget.c);
     await guardarEnHistorial(key, color);
-    showToast(`Dato guardado en ${key} (${color === 'Concha_Morada' ? 'Morada ?' : 'Rosada ?'}).`, 'success');
+    showToast(`Dato guardado en ${key} (${color === '🟣 Morada' ? '🟣 Morada ?' : 'Rosada ?'}).`, 'success');
     cerrarModal();
     actualizarProbabilidades();
 }
@@ -437,12 +437,12 @@ async function guardarDatoExterno(color) {
 // ??? Supabase: guardar ????????????????????????????????????????????????????????
 async function guardarEnHistorial(key, color, intentos = 0) {
     // Validar color antes de enviar al RPC
-    const coloresValidos = ['Concha_Morada', 'Concha_Rosa', 'Desconocido'];
-    if (!coloresValidos.includes(color)) color = 'Desconocido';
+    const coloresValidos = ['🟣 Morada', 'Concha_Rosa', 'Desconocido'];
+    if (!coloresValidos.includes(color)) color = '❓ Desconocido';
 
-    if (!historial[key]) historial[key] = { total: 0, Concha_Morada: 0, Concha_Rosa: 0, Desconocido: 0, intentos_total: 0 };
+    if (!historial[key]) historial[key] = { total: 0, Concha_🟣 Morada: 0, Concha_Rosa: 0, Desconocido: 0, intentos_total: 0 };
     historial[key].total++;
-    const campo = ['Concha_Morada','Concha_Rosa'].includes(color) ? color : 'Desconocido';
+    const campo = ['🟣 Morada','Concha_Rosa'].includes(color) ? color : 'Desconocido';
     historial[key][campo]++;
     historial[key].intentos_total = (historial[key].intentos_total || 0) + intentos;
 
@@ -453,7 +453,7 @@ async function guardarEnHistorial(key, color, intentos = 0) {
             p_intentos: intentos
         });
         
-        // Si hay error (ej. l�mite de cuota), fallamos silenciosamente 
+        // Si hay error ej lmite de cuota fallamos silenciosamente
         // para no interrumpir el juego del usuario.
         if (error) console.warn('Supabase write limit/error:', error);
         
@@ -472,9 +472,9 @@ async function cargarHistorial() {
         for (const row of (data || [])) {
             historial[row.id] = {
                 total:          row.total,
-                Concha_Morada:  row.concha_morada,
+                Concha_🟣 Morada:  row.concha_morada,
                 Concha_Rosa:    row.concha_rosa,
-                Desconocido:    row.desconocido,
+                ❓ Desconocido:    row.desconocido,
                 intentos_total: row.intentos_total || 0
             };
         }
@@ -527,7 +527,7 @@ function deshacer() {
 function reiniciar(ask = true) {
     if (ask && !confirm('�Reiniciar el tablero actual?')) return;
     
-    // Si reinicias sin haber encontrado la perla y ya hab�as jugado, pierdes la racha
+    // Si reinicias sin haber encontrado la perla y ya habas jugado pierdes la racha
     let foundPearl = false;
     for (const [k, v] of celdas_conocidas) if (v === 'P') foundPearl = true;
     if (ask && !foundPearl && (celdas_conocidas.size > 0 || corales.size > 0)) {
@@ -547,7 +547,7 @@ function reiniciar(ask = true) {
 function actualizarUIola() {
     btnOla.disabled = false;
     btnOla.classList.add('ready');
-    // Siempre mostrar la fila recomendada en el bot�n (aunque no haya ola disponible)
+    // Siempre mostrar la fila recomendada en el botn aunque no haya ola disponible
     btnOla.textContent = `? Usar Ola � Fila ${filaOlaRecomendada + 1} recomendada`;
 }
 
@@ -557,14 +557,14 @@ function usarOla() {
 
     // La ola avanza de IZQUIERDA a DERECHA y se detiene al encontrar el primer coral.
     // Solo se limpian (marcan Arena) las celdas antes del primer coral en la fila.
-    // Score de la fila = candidatos que ser�a posible limpiar con la ola.
+    // Score de la fila  candidatos que sera posible limpiar con la ola
     aplicarOla(filaOlaRecomendada);
 }
 
 function calcularMejorFilaOla(candidatos, pesos) {
     let mejorFila = 0, mejorVE = Infinity;
     for (let r = 0; r < FILAS; r++) {
-        // Encontrar hasta d�nde llega la ola (se detiene en el primer coral)
+        // Encontrar hasta dnde llega la ola se detiene en el primer coral
         let limiteCol = COLUMNAS;
         for (let c = 0; c < COLUMNAS; c++) {
             if (corales.has(makeKey(r, c))) { limiteCol = c; break; }
@@ -587,7 +587,7 @@ function calcularMejorFilaOla(candidatos, pesos) {
                 const reveloEstrella = [...celdasOla].some(x => vecPerla.has(x));
 
                 if (reveloEstrella) {
-                    // Revel� al menos una estrella. Las estrellas son las casillas de la ola vecinas a la perla.
+                    // Revel al menos una estrella Las estrellas son las casillas de la ola vecinas a la perla
                     const estrellas = [...celdasOla].filter(x => vecPerla.has(x));
                     const arenas = [...celdasOla].filter(x => !vecPerla.has(x));
                     let validos = new Set(candidatos);
@@ -604,7 +604,7 @@ function calcularMejorFilaOla(candidatos, pesos) {
                     }
                     restantes = validos.size;
                 } else {
-                    // Revel� pura Arena
+                    // Revel pura Arena
                     let validos = new Set(candidatos);
                     for (const a of celdasOla) {
                         const aVecinos = new Set(vecinos(parseKey(a).r, parseKey(a).c));
@@ -626,7 +626,7 @@ function calcularMejorFilaOla(candidatos, pesos) {
 }
 
 function aplicarOla(fila) {
-    // Encontrar primer coral desde la izquierda (la ola se bloquea ah�)
+    // Encontrar primer coral desde la izquierda la ola se bloquea ah
     let limiteCol = COLUMNAS;
     for (let c = 0; c < COLUMNAS; c++) {
         if (corales.has(makeKey(fila, c))) { limiteCol = c; break; }
@@ -652,9 +652,9 @@ function aplicarOla(fila) {
 }
 
 // ?????????????????????????????????????????????????????????????????????????????
-// MODELO DE PREDICCI�N
-// Combina: restricciones l�gicas + frecuencia bayesiana (Beta) + eficiencia
-// (intentos promedio) + estrategia �ptima (minimiza candidatos esperados).
+// MODELO DE PREDICCIN
+// Combina restricciones lgicas  frecuencia bayesiana Beta  eficiencia
+// intentos promedio  estrategia ptima minimiza candidatos esperados
 // ?????????????????????????????????????????????????????????????????????????????
 
 function actualizarProbabilidades() {
@@ -666,7 +666,7 @@ function actualizarProbabilidades() {
             if (!corales.has(key)) candidatos.add(key);
         }
 
-    // 2. Restricciones l�gicas
+    // 2 Restricciones lgicas
     for (const [key, res] of celdas_conocidas) {
         const { r, c } = parseKey(key);
         if (res === 'F') {
@@ -700,7 +700,7 @@ function actualizarProbabilidades() {
     const pesos = {};
     for (const cand of candidatos) pesos[cand] = sumaPrior > 0 ? prior[cand] / sumaPrior : 0;
 
-    // 4. Estrategia �ptima: minimizar candidatos esperados tras revelar
+    // 4 Estrategia ptima minimizar candidatos esperados tras revelar
     let mejorCelda = null, mejorVE = Infinity, mejorProb = -1;
     for (const jugada of candidatos) {
         const { r: jr, c: jc } = parseKey(jugada);
@@ -712,11 +712,11 @@ function actualizarProbabilidades() {
             if (perla === jugada) {
                 restantes = 0;
             } else if (vecJ.has(perla)) {
-                // Ser�a estrella: perla en vecinos de jugada
+                // Sera estrella perla en vecinos de jugada
                 const vv = new Set(vecinos(jr, jc).filter(v => !corales.has(v)));
                 restantes = [...candidatos].filter(c => vv.has(c)).length;
             } else {
-                // Ser�a arena: excluir jugada + vecinos
+                // Sera arena excluir jugada  vecinos
                 const excluir = new Set(vecJ);
                 excluir.add(jugada);
                 restantes = [...candidatos].filter(c => !excluir.has(c)).length;
@@ -768,13 +768,13 @@ function renderGrid(candidatos, pesos, mejorCelda) {
                 const res = celdas_conocidas.get(key);
                 if (res === 'F') { cell.classList.add('arena'); cell.innerHTML = '??<br><small>Arena</small>'; }
                 if (res === 'S') { cell.classList.add('pista'); cell.innerHTML = '?<br><small>Pista</small>'; }
-                // Las celdas ya reveladas en la fila recomendada tambi�n se resaltan
+                // Las celdas ya reveladas en la fila recomendada tambin se resaltan
                 if (esFilaOla) cell.classList.add('ola-sugerida');
 
             } else if (candidatos.has(key)) {
                 const prob = (pesos[key] || 0) * 100;
                 let dot = '';
-                if (colorDetectado === 'Concha_Morada') dot = '<span class="color-dot dot-morada"></span>';
+                if (colorDetectado === '🟣 Morada') dot = '<span class="color-dot dot-morada"></span>';
                 else if (colorDetectado === 'Concha_Rosa') dot = '<span class="color-dot dot-rosa"></span>';
                 cell.innerHTML = `<span class="prob-num">${prob.toFixed(1)}%</span>${dot}`;
                 if (key === mejorCelda) cell.classList.add('best-choice');
@@ -783,7 +783,7 @@ function renderGrid(candidatos, pesos, mejorCelda) {
             } else {
                 cell.classList.add('disabled');
                 let dot = '';
-                if (colorDetectado === 'Concha_Morada') dot = '<span class="color-dot dot-morada"></span>';
+                if (colorDetectado === '🟣 Morada') dot = '<span class="color-dot dot-morada"></span>';
                 else if (colorDetectado === 'Concha_Rosa') dot = '<span class="color-dot dot-rosa"></span>';
                 cell.innerHTML = `<span style="font-size:0.7rem;opacity:0.4">?</span>${dot}`;
                 if (esFilaOla) cell.classList.add('ola-sugerida');
@@ -800,7 +800,7 @@ function renderGrid(candidatos, pesos, mejorCelda) {
         statusText.style.color = '#f87171';
     } else {
         const colMsg = colores_tablero.size > 0 ? ` � ${colores_tablero.size} colores detectados` : '';
-        // Siempre mostrar la recomendaci�n de ola
+        // Siempre mostrar la recomendacin de ola
         const olaMsg = ` � ? Ola ? Fila ${filaOlaRecomendada + 1}`;
         statusText.textContent = `${candidatos.size} posibles. Verde = mejor jugada${colMsg}${olaMsg}`;
         statusText.style.color = '#93c5fd';
@@ -886,7 +886,7 @@ function confirmarCrop() {
     const canvas = cropperInstance.getCroppedCanvas();
     if (!canvas) return;
     
-    // Limpiar el tablero sin pedir confirmaci�n (el usuario ya confirm� al dar Procesar)
+    // Limpiar el tablero sin pedir confirmacin el usuario ya confirm al dar Procesar
     reiniciar(false);
 
     // Pasar el canvas directamente en vez de convertir a dataURL y recargar (evita race condition)
@@ -904,12 +904,12 @@ function procesarImagen(source) {
 
     const cellW = canvas.width  / COLUMNAS;
     const cellH = canvas.height / FILAS;
-    const conteo = { Arena: 0, Coral: 0, Estrella: 0, Concha_Rosa: 0, Concha_Morada: 0 };
+    const conteo = { Arena: 0, Coral: 0, Estrella: 0, Concha_Rosa: 0, Concha_🟣 Morada: 0 };
     const resultados = {};
 
     for (let r = 0; r < FILAS; r++) {
         for (let c = 0; c < COLUMNAS; c++) {
-            // Muestreo m�s peque�o (20%) y centrado para evitar el fondo de arena
+            // Muestreo ms pequeo 20 y centrado para evitar el fondo de arena
             const x = Math.floor(c * cellW + cellW * 0.4);
             const y = Math.floor(r * cellH + cellH * 0.4);
             const w = Math.max(1, Math.floor(cellW * 0.2));
@@ -931,13 +931,13 @@ function procesarImagen(source) {
     }
 
     const totalCeldas     = FILAS * COLUMNAS;
-    // Consideramos tablero inicial S�LO si no hay absolutamente ninguna celda revelada
+    // Consideramos tablero inicial SLO si no hay absolutamente ninguna celda revelada
     const reveladasTotales = (conteo.Arena || 0) + (conteo.Estrella || 0) + (conteo.Coral || 0);
     const esTableroInicial = reveladasTotales === 0;
     let reveladasNuevas   = 0;
 
     for (const [key, tipo] of Object.entries(resultados)) {
-        if (tipo === 'Concha_Rosa' || tipo === 'Concha_Morada') {
+        if (tipo === 'Concha_Rosa' || tipo === '🟣 Morada') {
             colores_tablero.set(key, tipo);
         }
         if (!celdas_conocidas.has(key) && !corales.has(key)) {
@@ -950,7 +950,7 @@ function procesarImagen(source) {
 
     actualizarProbabilidades();
     if (esTableroInicial) {
-        showToast(`? Tablero registrado: ${conteo.Concha_Morada||0} moradas ?, ${conteo.Concha_Rosa||0} rosadas ?`, 'success');
+        showToast(`? Tablero registrado: ${conteo.Concha_🟣 Morada||0} moradas ?, ${conteo.Concha_Rosa||0} rosadas ?`, 'success');
     } else if (reveladasNuevas > 0) {
         showToast(`? ${reveladasNuevas} celdas reveladas detectadas.`, 'success');
     } else {
@@ -963,7 +963,7 @@ function clasificarColor(rgb) {
         Arena:         [238, 222, 160],
         Coral:         [232, 146, 84],
         Concha_Rosa:   [243, 178, 195],
-        Concha_Morada: [225, 170, 240]
+        Concha_🟣 Morada: [225, 170, 240]
     };
     const MAX_DIST = 80; // Umbral de confianza: si la distancia es mayor, no clasificar
     let best = null, bestDist = Infinity;
@@ -972,13 +972,13 @@ function clasificarColor(rgb) {
         if (dist < bestDist) { bestDist = dist; best = clase; }
     }
     // Si la distancia al mejor prototipo es demasiado grande, no clasificar
-    if (bestDist > MAX_DIST) return 'Desconocido';
+    if (bestDist > MAX_DIST) return '❓ Desconocido';
     return best;
 }
 
 // ??? Toast ????????????????????????????????????????????????????????????????????
 function showToast(msg, type = 'info') {
-    // Limitar a 5 toasts simult�neos para no desbordar la pantalla
+    // Limitar a 5 toasts simultneos para no desbordar la pantalla
     while (toastContainer.children.length >= 5) {
         toastContainer.removeChild(toastContainer.firstChild);
     }

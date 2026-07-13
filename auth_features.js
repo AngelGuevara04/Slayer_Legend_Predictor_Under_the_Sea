@@ -1,7 +1,7 @@
-// Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬ Variables Globales Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬
+// Variables Globales
 let currentUser = null;
 
-// Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬ AutenticaciÃƒÂ³n Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬
+// Autenticacin
 async function checkAuth() {
     const { data: { session } } = await db.auth.getSession();
     currentUser = session ? session.user : null;
@@ -45,7 +45,7 @@ async function checkAuth() {
     }
 }
 
-// Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬ Sistema de Logros e Insignias Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬
+// Sistema de Logros e Insignias
 async function registrarLogro(achievement_id, nombre_logro) {
     if (!currentUser) return;
     
@@ -89,7 +89,7 @@ async function checkAchievementsOnPearlFound(intentosPrevios) {
     if (intentosPrevios === 0) registrarLogro('ONE_SHOT', 'Francotirador (A la primera)');
 }
 
-// Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬ Tablas de ClasificaciÃƒÂ³n (Leaderboards) Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬
+// Tablas de Clasificacin Leaderboards
 async function mostrarLeaderboards() {
     const modal = document.getElementById('leaderboard-modal');
     modal.classList.remove('hidden');
@@ -125,7 +125,7 @@ async function mostrarLeaderboards() {
     });
 }
 
-// Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬ Temas Visuales (Skins) Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬
+// Temas Visuales Skins
 function mostrarTemas() {
     const modal = document.getElementById('themes-modal');
     modal.classList.remove('hidden');
@@ -158,7 +158,7 @@ function aplicarTema(tema) {
     localStorage.setItem('user_theme', tema);
 }
 
-// Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬ Listeners y Setup Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬
+// Listeners y Setup
 document.addEventListener('DOMContentLoaded', () => {
     // Auth listeners
     const btnLogin = document.getElementById('btn-login');
@@ -217,7 +217,7 @@ window.resetUserStreak = async () => {
         if (streakEl) streakEl.innerText = "0";
     } catch(e) {}
 };
-// Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬ Onboarding de Slayer Legend Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬Ã¢â€�?â‚¬
+// Onboarding de Slayer Legend
 async function checkSlayerProfile() {
     if (!currentUser) return;
     const { data: profile } = await db.from('profiles').select('slayer_name, slayer_level, name').eq('id', currentUser.id).single();
@@ -234,7 +234,7 @@ document.getElementById('btn-save-onboarding').addEventListener('click', async (
     const sLevel = parseInt(document.getElementById('input-slayer-level').value, 10);
     
     if (!sName) {
-        mostrarToast('Ã¢Å¡Â Ã¯Â¸Â�? Por favor ingresa un nombre para tu personaje.');
+                mostrarToast('⚠️ Por favor ingresa un nombre y nivel válido.');
         return;
     }
     
@@ -249,7 +249,7 @@ document.getElementById('btn-save-onboarding').addEventListener('click', async (
         mostrarToast('Ã°Å¸Å½Â® Ã‚Â¡Perfil de Slayer Legend guardado!');
         document.getElementById('user-name').innerText = sName + (isNaN(sLevel) ? '' : ' (Lv.' + sLevel + ')');
     } else {
-        mostrarToast('Ã¢Â�?Å’ Error guardando el perfil');
+            mostrarToast('❌ Error guardando el perfil');
     }
 });
 async function updateGlobalPearls() {
