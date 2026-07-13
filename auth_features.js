@@ -259,10 +259,5 @@ async function updateGlobalPearls() {
         const globalPearlsEl = document.getElementById('global-pearls');
         if (globalPearlsEl) globalPearlsEl.innerText = sum;
     }
-} = await db.from('global_stats').select('total_pearls').eq('id', 1).single();
-    if (!error && data) {
-        const globalPearlsEl = document.getElementById('global-pearls');
-        if (globalPearlsEl) globalPearlsEl.innerText = data.total_pearls;
-    }
 }
 
