@@ -66,12 +66,8 @@ async function registrarLogro(achievement_id, nombre_logro) {
 }
 
 async function checkAchievementsOnPearlFound(intentosPrevios) {
-    if (!currentUser) {
-        // Usuario anónimo, sólo incrementar estadísitca global
-        await db.rpc('increment_pearls_and_streak', { user_id_param: null });
-        updateGlobalPearls();
-        return;
-    }
+    updateGlobalPearls();
+    if (!currentUser) return;
     
     // Sumar 1 perla y aumentar racha
     await db.rpc('increment_pearls_and_streak', { user_id_param: currentUser.id });
@@ -91,7 +87,6 @@ async function checkAchievementsOnPearlFound(intentosPrevios) {
     if (total === 50) registrarLogro('FIFTY_PEARLS', 'Buscaminas Maestro (50 perlas)');
     
     if (intentosPrevios === 0) registrarLogro('ONE_SHOT', 'Francotirador (A la primera)');
-    updateGlobalPearls();
 }
 
 // ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ Tablas de ClasificaciÃƒÆ’Ã‚Â³n (Leaderboards) ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬
@@ -258,9 +253,16 @@ document.getElementById('btn-save-onboarding').addEventListener('click', async (
     }
 });
 async function updateGlobalPearls() {
-    const { data, error } = await db.from('global_stats').select('total_pearls').eq('id', 1).single();
+    const { data, error } = await db.from('ai_history').select('total');
+    if (!error && data) {
+        const sum = data.reduce((acc, row) => acc + (row.total || 0), 0);
+        const globalPearlsEl = document.getElementById('global-pearls');
+        if (globalPearlsEl) globalPearlsEl.innerText = sum;
+    }
+} = await db.from('global_stats').select('total_pearls').eq('id', 1).single();
     if (!error && data) {
         const globalPearlsEl = document.getElementById('global-pearls');
         if (globalPearlsEl) globalPearlsEl.innerText = data.total_pearls;
     }
 }
+
