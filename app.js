@@ -438,11 +438,13 @@ async function guardarDatoExterno(color) {
 async function guardarEnHistorial(key, color, intentos = 0) {
     // Validar color antes de enviar al RPC
     const coloresValidos = ['🟣 Morada', 'Concha_Rosa', 'Desconocido'];
-    if (!coloresValidos.includes(color)) color = '❓ Desconocido';
+    let colorFinal = color;
+    if (color === '🟣 Morada') colorFinal = 'Concha_Morada';
+    else if (!['Concha_Morada', 'Concha_Rosa', 'Desconocido'].includes(color)) colorFinal = 'Desconocido';
 
-    if (!historial[key]) historial[key] = { total: 0, Concha_🟣 Morada: 0, Concha_Rosa: 0, Desconocido: 0, intentos_total: 0 };
+    if (!historial[key]) historial[key] = { total: 0, Concha_Morada: 0, Concha_Rosa: 0, Desconocido: 0, intentos_total: 0 };
     historial[key].total++;
-    const campo = ['🟣 Morada','Concha_Rosa'].includes(color) ? color : 'Desconocido';
+    const campo = ['Concha_Morada','Concha_Rosa'].includes(colorFinal) ? colorFinal : 'Desconocido';
     historial[key][campo]++;
     historial[key].intentos_total = (historial[key].intentos_total || 0) + intentos;
 
@@ -472,9 +474,9 @@ async function cargarHistorial() {
         for (const row of (data || [])) {
             historial[row.id] = {
                 total:          row.total,
-                Concha_🟣 Morada:  row.concha_morada,
+                Concha_Morada:  row.concha_morada,
                 Concha_Rosa:    row.concha_rosa,
-                ❓ Desconocido:    row.desconocido,
+                Desconocido:    row.desconocido,
                 intentos_total: row.intentos_total || 0
             };
         }
