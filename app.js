@@ -372,6 +372,10 @@ async function registrarResultado(r, c, res) {
         const color   = colores_tablero.get(key) || 'Desconocido';
         const intentos = celdas_conocidas.size + corales.size;
 
+        if (!force && typeof checkAchievementsOnPearlFound === 'function') {
+            checkAchievementsOnPearlFound(intentos);
+        }
+
         statusText.textContent = '⌛ Guardando en la nube...';
         statusText.style.color = '#f59e0b';
 
@@ -694,6 +698,11 @@ function actualizarProbabilidades() {
     actualizarUIola();
 
     renderGrid(candidatos, pesos, mejorCelda);
+    
+    // Guardar partida en la nube
+    if (typeof guardarPartidaEnLaNube === 'function') {
+        guardarPartidaEnLaNube();
+    }
 }
 
 // ─── Render ───────────────────────────────────────────────────────────────────
