@@ -45,6 +45,57 @@ async function checkAuth() {
     }
 }
 
+async function loginConGoogle() {
+    const { error } = await db.auth.signInWithOAuth({ provider: 'google' });
+    if (error) mostrarToast('Error al iniciar sesión: ' + error.message, true);
+}
+
+async function logout() {
+    await db.auth.signOut();
+    window.location.reload();
+}
+
+// ─── Guardado en la Nube (Cross-play) ──────────────────────────────────────
+async function guardarPartidaEnLaNube() {
+    if (!currentUser) return;
+    
+    // Convertir el estado a un objeto serializable
+    const state = {
+        celdas_conocidas: Array.from(celdas_conocidas.entries()),
+        corales: Array.from(corales),
+        colores_tablero: Array.from(colores_tablero.entries()),
+        historial_acciones: historial_acciones
+    };
+    
+    await db.from('saved_games').upsert({
+        user_id: currentUser.id,
+        game_state: state,
+        updated_at: new Date().toISOString()
+    });
+}
+
+async function cargarPartidaEnLaNube() {
+    const { data } = await db.from('saved_games').select('game_state').eq('user_id', currentUser.id).single();
+    if (data && data.game_state) {
+        try {
+            // Restaurar estado
+            celdas_conocidas.clear();
+            corales.clear();
+            colores_tablero.clear();
+            
+            data.game_state.celdas_conocidas.forEach(([k, v]) => celdas_conocidas.set(k, v));
+            data.game_state.corales.forEach(k => corales.add(k));
+            data.game_state.colores_tablero.forEach(([k, v]) => colores_tablero.set(k, v));
+            
+            // Re-render
+            actualizarProbabilidades();
+            mostrarToast('Partida restaurada de la nube ☁️');
+        } catch (e) {
+            console.error('Error cargando partida:', e);
+        }
+    }
+}
+
 // Sistema de Logros e Insignias
 async function registrarLogro(achievement_id, nombre_logro) {
     if (!currentUser) return;
