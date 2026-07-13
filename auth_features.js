@@ -107,7 +107,7 @@ async function registrarLogro(achievement_id, nombre_logro) {
     
     // Si no hubo error, significa que no lo tenÃƒÂ­a repetido (por el UNIQUE constraint)
     if (!error) {
-        mostrarToast('Ã°Å¸Â�?â€  Ã‚Â¡LOGRO DESBLOQUEADO! ' + nombre_logro);
+        mostrarToast('🏆 ¡LOGRO DESBLOQUEADO! ' + nombre_logro);
         
         // Confeti especial
         if (typeof confetti === 'function') {
@@ -168,8 +168,8 @@ async function mostrarLeaderboards() {
                 <span style="color: #f8fafc; font-weight: ${p.id === currentUser?.id ? 'bold' : 'normal'};">${displayName}</span>
             </div>
             <div style="text-align: right;">
-                <span style="color: #a855f7; font-weight: bold;">${p.pearls_found} ðŸ�?®</span><br>
-                <span style="color: #ef4444; font-size: 0.8rem;">ðŸ�?¥ ${p.highest_streak} racha</span>
+                <span style="color: #a855f7; font-weight: bold;">${p.pearls_found} 🔮</span><br>
+                <span style="color: #ef4444; font-size: 0.8rem;">🔥 ${p.highest_streak} racha</span>
             </div>
         `;
         list.appendChild(div);

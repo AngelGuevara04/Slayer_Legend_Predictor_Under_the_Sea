@@ -80,10 +80,10 @@ async function init() {
     await cargarHistorial();
     actualizarProbabilidades();
 
-    if (!localStorage.getItem('tutorial_visto')) {
+    if (!localStorage.getIítem('tutorial_visto')) {
         setTimeout(() => {
             startTutorialGeneral();
-            localStorage.setItem('tutorial_visto', 'true');
+            localStorage.setIítem('tutorial_visto', 'true');
         }, 1000);
     }
 }
@@ -93,13 +93,13 @@ function startTutorialGeneral() {
     cerrarHelpMenu();
     introJs().setOptions({
         nextLabel: 'Siguiente',
-        prevLabel: 'Atr�s',
-        doneLabel: '�A jugar!',
+        prevLabel: 'Atrás',
+        doneLabel: '¡A jugar!',
         showStepNumbers: false,
         showBullets: true,
         steps: [
             {
-                intro: "<b>�Bienvenido al Buscaminas Bajo el Mar!</b><br><br>Esta herramienta te ayudar� a encontrar las perlas apoy�ndose en los datos de la comunidad y probabilidades matem�ticas."
+                intro: "<b>¡Bienvenido al Buscaminas Bajo el Mar!</b><br><br>Esta herramienta te ayudará a encontrar las perlas apoyándose en los datos de la comunidad y probabilidades maítemáticas."
             },
             {
                 element: document.querySelector('.grid-labeled'),
@@ -107,11 +107,11 @@ function startTutorialGeneral() {
             },
             {
                 element: document.querySelector('.controls'),
-                intro: "<b>Herramientas Avanzadas</b><br><br>Aqu� encontrar�s opciones para Subir Capturas autom�ticas, usar la Ola, Deshacer movimientos o registrar Datos Externos."
+                intro: "<b>Herramientas Avanzadas</b><br><br>Aquí encontrarás opciones para Subir Capturas automáticas, usar la Ola, Deshacer movimientos o registrar Datos Externos."
             },
             {
                 element: document.querySelector('#btn-help'),
-                intro: "<b>�Necesitas m�s detalles?</b><br><br>Si quieres saber exactamente c�mo funciona alguna de estas herramientas, puedes presionar este bot�n de <b>? Ayuda</b> en cualquier momento para ver gu�as detalladas de cada funci�n."
+                intro: "<b>¿Necesitas más detalles?</b><br><br>Si quieres saber exactamente cómo funciona alguna de estas herramientas, puedes presionar este botón de <b>? Ayuda</b> en cualquier momento para ver guías detalladas de cada función."
             }
         ]
     }).start();
@@ -130,8 +130,8 @@ function startTutorial(tipo) {
     cerrarHelpMenu();
     let options = {
         nextLabel: 'Siguiente',
-        prevLabel: 'Atr�s',
-        doneLabel: '�Entendido!',
+        prevLabel: 'Atrás',
+        doneLabel: '¡Entendido!',
         showStepNumbers: false,
         showBullets: true,
         steps: []
@@ -141,10 +141,10 @@ function startTutorial(tipo) {
         options.steps = [
             {
                 element: document.querySelector('#btn-upload'),
-                intro: "<b>1. Subir Captura</b><br><br>Presiona este bot�n para subir una foto completa de tu celular."
+                intro: "<b>1. Subir Captura</b><br><br>Presiona este botón para subir una foto completa de tu celular."
             },
             {
-                intro: "<b>2. Recorte Inteligente</b><br><br>El sistema pre-seleccionar� la zona inferior de tu pantalla.<br><img src='tutorial.png' style='width:100%; max-height:180px; object-fit:cover; border-radius:8px; margin-top:10px; border:1px solid #c49a45;'><br>Aseg�rate de que el cuadro de recorte contenga exactamente la cuadr�cula de 6x6 (las 36 conchas) y dale a Confirmar."
+                intro: "<b>2. Recorte Inteligente</b><br><br>El sisítema pre-seleccionará la zona inferior de tu pantalla.<br><img src='tutorial.png' style='width:100%; max-height:180px; object-fit:cover; border-radius:8px; margin-top:10px; border:1px solid #c49a45;'><br>Asegúrate de que el cuadro de recorte contenga exactamente la cuadrícula de 6x6 (las 36 conchas) y dale a Confirmar."
             }
         ];
     } else if (tipo === 'tablero') {
@@ -155,47 +155,47 @@ function startTutorial(tipo) {
             },
             {
                 element: document.querySelector('.grid-labeled'),
-                intro: "<b>2. Recomendaci�n</b><br><br>La casilla que tenga el <b>borde resaltado en verde</b> es la que el sistema te sugiere como la m�s segura para encontrar una perla bas�ndose en matem�ticas."
+                intro: "<b>2. Recomendación</b><br><br>La casilla que tenga el <b>borde resaltado en verde</b> es la que el sisítema te sugiere como la más segura para encontrar una perla basándose en maítemáticas."
             },
             {
                 element: document.querySelector('.grid-labeled'),
-                intro: "<b>3. Tipos de Celdas</b><br><br>Al hacer clic, se abrir� un men� donde podr�s indicarle a la IA si encontraste Arena, una Estrella (Pista), Coral o una Perla."
+                intro: "<b>3. Tipos de Celdas</b><br><br>Al hacer clic, se abrirá un menú donde podrás indicarle a la IA si encontraste Arena, una Estrella (Pista), Coral o una Perla."
             }
         ];
     } else if (tipo === 'ola') {
         options.steps = [
             {
                 element: document.querySelector('#btn-ola'),
-                intro: "<b>1. Activar la Ola</b><br><br>Cuando uses el �tem de la Ola dentro del juego, presiona este bot�n. El buscaminas calcular� la mejor fila y la llenar� de arena autom�ticamente."
+                intro: "<b>1. Activar la Ola</b><br><br>Cuando uses el ítem de la Ola dentro del juego, presiona este botón. El buscaminas calculará la mejor fila y la llenará de arena automáticamente."
             },
             {
                 element: document.querySelector('.grid-labeled'),
-                intro: "<b>2. Modificar la Ola</b><br><br>Si al pasar la Ola en el juego descubres una Estrella o una Perla, simplemente haz clic sobre esa casilla de arena en el tablero web para corregirla y actualizar los c�lculos."
+                intro: "<b>2. Modificar la Ola</b><br><br>Si al pasar la Ola en el juego descubres una Estrella o una Perla, simplemente haz clic sobre esa casilla de arena en el tablero web para corregirla y actualizar los cálculos."
             }
         ];
     } else if (tipo === 'dato_externo') {
         options.steps = [
             {
                 element: document.querySelector('#btn-train'),
-                intro: "<b>1. Ayuda a la Comunidad</b><br><br>Usa este bot�n si acabas de encontrar una perla en el juego pero tu tablero ya est� arruinado y no quieres reiniciar."
+                intro: "<b>1. Ayuda a la Comunidad</b><br><br>Usa este botón si acabas de encontrar una perla en el juego pero tu tablero ya está arruinado y no quieres reiniciar."
             },
             {
                 element: document.querySelector('#btn-train'),
-                intro: "<b>2. Entrenamiento Global</b><br><br>Te permitir� indicarle a la nube el color de la perla y sus coordenadas exactas para seguir entrenando a la Inteligencia Artificial global sin alterar tu partida actual."
+                intro: "<b>2. Entrenamiento Global</b><br><br>Te permitirá indicarle a la nube el color de la perla y sus coordenadas exactas para seguir entrenando a la Inteligencia Artificial global sin alterar tu partida actual."
             }
         ];
     } else if (tipo === 'deshacer') {
         options.steps = [
             {
                 element: document.querySelector('#btn-undo'),
-                intro: "<b>Deshacer un Error</b><br><br>Si te equivocas marcando una casilla, usa este bot�n para retroceder un paso. �Puedes deshacer varios pasos seguidos!"
+                intro: "<b>Deshacer un Error</b><br><br>Si te equivocas marcando una casilla, usa este botón para retroceder un paso. ¡Puedes deshacer varios pasos seguidos!"
             }
         ];
     } else if (tipo === 'reiniciar') {
         options.steps = [
             {
                 element: document.querySelector('#btn-restart'),
-                intro: "<b>Empezar de Nuevo</b><br><br>Cuando encuentres todas las perlas y el juego te d� un tablero nuevo, presiona Reiniciar para limpiar todo el buscaminas y comenzar de cero."
+                intro: "<b>Empezar de Nuevo</b><br><br>Cuando encuentres todas las perlas y el juego te dé un tablero nuevo, presiona Reiniciar para limpiar todo el buscaminas y comenzar de cero."
             }
         ];
     }
@@ -206,7 +206,7 @@ function startTutorial(tipo) {
 function setSyncStatus(estado) {
     syncDot.className = 'sync-dot ' + estado;
     if (estado === 'ok')          syncLabel.textContent = 'Conectado a la nube';
-    else if (estado === 'offline') syncLabel.textContent = 'Sin conexi�n (modo local)';
+    else if (estado === 'offline') syncLabel.textContent = 'Sin conexión (modo local)';
     else                           syncLabel.textContent = 'Conectando...';
 }
 
@@ -312,14 +312,14 @@ function onCellClick(r, c, e) {
     // Lgica de 4 Tiradas Gratis
     if (typeof currentUser === 'undefined' || !currentUser) {
         window.freeClicks = (window.freeClicks || 0) + 1;
-        localStorage.setItem('freeClicks', window.freeClicks);
+        localStorage.setIítem('freeClicks', window.freeClicks);
         if (window.freeClicks >= 5) {
             const authOverlay = document.getElementById('auth-overlay');
             if (authOverlay) {
                 authOverlay.classList.remove('hidden');
                 authOverlay.classList.add('show');
                 const msgEl = document.getElementById('auth-wall-msg');
-                if (msgEl) msgEl.innerText = '�Se acabaron tus tiradas de prueba! Inicia sesi�n con Google para guardar tus partidas, desbloquear temas visuales y competir en el Ranking Global.';
+                if (msgEl) msgEl.innerText = '¡Se acabaron tus tiradas de prueba! Inicia sesión con Google para guardar tus partidas, desbloquear ítemas visuales y competir en el Ranking Global.';
             }
             return;
         }
@@ -331,9 +331,9 @@ function onCellClick(r, c, e) {
     if (isTrainingMode) {
         isTrainingMode = false;
         externalTarget = { r, c };
-        document.getElementById('modal-title').textContent = 'Entrenar IA � �Qu� color era la concha?';
+        document.getElementById('modal-title').textContent = 'Entrenar IA — ¿Qué color era la concha?';
         document.getElementById('modal-desc').textContent =
-            `Posici�n: Fila ${r + 1}, Columna ${String.fromCharCode(65 + c)} (${key})`;
+            `Posición: Fila ${r + 1}, Columna ${String.fromCharCode(65 + c)} (${key})`;
         modalOverlay.classList.remove('hidden');
         modalOverlay.classList.add('show');
         return;
@@ -367,7 +367,7 @@ function cerrarModal() {
 // ??? Registrar resultado ??????????????????????????????????????????????????????
 async function registrarResultado(r, c, res, force = false) {
     if (res === 'P' && !force) {
-        if (!confirm('�Est�s seguro de que has encontrado la PERLA en esta casilla?\n\n�Cuidado! Si te equivocas, tu racha y las estad�sticas de la IA se ver�n afectadas.')) {
+        if (!confirm('¿Estás seguro de que has encontrado la PERLA en esta casilla?\n\n¡Cuidado! Si te equivocas, tu racha y las estadísticas de la IA se verán afectadas.')) {
             return;
         }
     }
@@ -481,13 +481,13 @@ async function cargarHistorial() {
             };
         }
         // Cache en localStorage como fallback offline
-        try { localStorage.setItem('historial_cache', JSON.stringify(historial)); } catch(e) {}
+        try { localStorage.setIítem('historial_cache', JSON.stringify(historial)); } catch(e) {}
         setSyncStatus('ok');
     } catch (err) {
         console.warn('Could not load history (might be quota or network issue):', err);
         // Intentar cargar desde cache local
         try {
-            const cached = localStorage.getItem('historial_cache');
+            const cached = localStorage.getIítem('historial_cache');
             if (cached) {
                 historial = JSON.parse(cached);
                 setSyncStatus('offline');
@@ -527,7 +527,7 @@ function deshacer() {
 }
 
 function reiniciar(ask = true) {
-    if (ask && !confirm('�Reiniciar el tablero actual?')) return;
+    if (ask && !confirm('¿Reiniciar el tablero actual?')) return;
     
     // Si reinicias sin haber encontrado la perla y ya habas jugado pierdes la racha
     let foundPearl = false;
@@ -550,7 +550,7 @@ function actualizarUIola() {
     btnOla.disabled = false;
     btnOla.classList.add('ready');
     // Siempre mostrar la fila recomendada en el botn aunque no haya ola disponible
-    btnOla.textContent = `? Usar Ola � Fila ${filaOlaRecomendada + 1} recomendada`;
+    btnOla.textContent = `🌊 Usar Ola — Fila ${filaOlaRecomendada + 1} recomendada`;
 }
 
 function usarOla() {
@@ -650,7 +650,7 @@ function aplicarOla(fila) {
     const bloqueadaEn = limiteCol < COLUMNAS
         ? ` (bloqueada por coral en col ${String.fromCharCode(65 + limiteCol)})`
         : '';
-    showToast(`? Ola en Fila ${fila + 1}: ${limpiadas} celdas limpiadas${bloqueadaEn}.`, 'success');
+    showToast(`🌊 Ola en Fila ${fila + 1}: ${limpiadas} celdas limpiadas${bloqueadaEn}.`, 'success');
 }
 
 // ?????????????????????????????????????????????????????????????????????????????
@@ -763,13 +763,13 @@ function renderGrid(candidatos, pesos, mejorCelda) {
                 // Coral: bloquea la ola y excluye probabilidad
                 // Mostrar indicador de bloqueo si es la fila recomendada
                 cell.classList.add('coral');
-                const bloqueLabel = esFilaOla ? '<span class="coral-block-icon" title="Bloquea la ola">?</span>' : '';
-                cell.innerHTML = `?${bloqueLabel}<br><small>Coral</small>`;
+                const bloqueLabel = esFilaOla ? '<span class="coral-block-icon" title="Bloquea la ola">🚫</span>' : '';
+                cell.innerHTML = `🐚${bloqueLabel}<br><small>Coral</small>`;
 
             } else if (celdas_conocidas.has(key)) {
                 const res = celdas_conocidas.get(key);
-                if (res === 'F') { cell.classList.add('arena'); cell.innerHTML = '??<br><small>Arena</small>'; }
-                if (res === 'S') { cell.classList.add('pista'); cell.innerHTML = '?<br><small>Pista</small>'; }
+                if (res === 'F') { cell.classList.add('arena'); cell.innerHTML = '🏖️<br><small>Arena</small>'; }
+                if (res === 'S') { cell.classList.add('pista'); cell.innerHTML = '⭐<br><small>Pista</small>'; }
                 // Las celdas ya reveladas en la fila recomendada tambin se resaltan
                 if (esFilaOla) cell.classList.add('ola-sugerida');
 
@@ -795,15 +795,15 @@ function renderGrid(candidatos, pesos, mejorCelda) {
 
     // Status text
     if (candidatos.size === 1) {
-        statusText.textContent = '? �La perla EST� en la celda verde!';
+        statusText.textContent = '✨ ¡La perla ESTÁ en la celda verde!';
         statusText.style.color = '#4ade80';
     } else if (candidatos.size === 0) {
-        statusText.textContent = '?? Conflicto: ning�n candidato. �Te equivocaste?';
+        statusText.textContent = '⚠️ Conflicto: ningún candidato. ¿Te equivocaste?';
         statusText.style.color = '#f87171';
     } else {
-        const colMsg = colores_tablero.size > 0 ? ` � ${colores_tablero.size} colores detectados` : '';
+        const colMsg = colores_tablero.size > 0 ? ` · ${colores_tablero.size} colores detectados` : '';
         // Siempre mostrar la recomendacin de ola
-        const olaMsg = ` � ? Ola ? Fila ${filaOlaRecomendada + 1}`;
+        const olaMsg = ` · 🌊 Ola → Fila ${filaOlaRecomendada + 1}`;
         statusText.textContent = `${candidatos.size} posibles. Verde = mejor jugada${colMsg}${olaMsg}`;
         statusText.style.color = '#93c5fd';
     }
@@ -848,10 +848,10 @@ function openCropForUrl(url) {
 
 function handlePaste(e) {
     if (!e.clipboardData) return;
-    const items = e.clipboardData.items;
-    const imageItem = [...items].find(it => it.type.startsWith('image'));
-    if (!imageItem) { showToast('No hay imagen en el portapapeles. Usa Win+Shift+S.', 'error'); return; }
-    const blob = imageItem.getAsFile();
+    const iítems = e.clipboardData.iítems;
+    const imageIítem = [...iítems].find(it => it.type.startsWith('image'));
+    if (!imageIítem) { showToast('No hay imagen en el portapapeles. Usa Win+Shift+S.', 'error'); return; }
+    const blob = imageIítem.getAsFile();
     const url  = URL.createObjectURL(blob);
     openCropForUrl(url);
 }
