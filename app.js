@@ -48,6 +48,19 @@ let isTrainingMode = false;
 
 // ─── Init ────────────────────────────────────────────────────────────────────
 async function init() {
+    const checkMaintenance = () => {
+        if (new Date() >= new Date('2026-07-12T22:59:00-06:00')) {
+            const overlay = document.getElementById('maintenance-overlay');
+            overlay.classList.remove('hidden');
+            overlay.style.display = 'flex';
+            return true;
+        }
+        return false;
+    };
+    
+    if (checkMaintenance()) return; // Bloquear arranque
+    setInterval(checkMaintenance, 30000); // Comprobar si ya es la hora (cada 30s)
+
     crearCuadricula();
     configurarEventos();
     actualizarUIola();
