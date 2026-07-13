@@ -43,7 +43,10 @@
                     <img id="user-avatar" src="" alt="Avatar" style="width: 40px; height: 40px; border-radius: 50%; border: 2px solid #a855f7;">
                     <div style="text-align: left;">
                         <div id="user-name" style="font-weight: bold; color: #fcd34d; font-size: 1rem;">Jugador</div>
-                        <div style="font-size: 0.8rem; color: #94a3b8;"><span id="user-pearls">0</span> perlas encontradas</div>
+                        <div style="font-size: 0.8rem; color: #94a3b8;">
+                            <span id="user-pearls">0</span> perlas encontradas
+                            | <span id="user-streak" style="color: #ef4444; font-weight: bold;">0</span>🔥 Racha
+                        </div>
                     </div>
                 </div>
                 <button id="btn-logout" class="btn outline" style="padding: 6px 12px; font-size: 0.8rem;">Salir</button>
@@ -60,6 +63,7 @@
                     <button id="btn-train" class="btn accent">➕ Dato Externo</button>
                     <button id="btn-leaderboards" class="btn outline" style="border-color: #fcd34d; color: #fcd34d;">🏆 Clasificación</button>
                     <button id="btn-themes" class="btn outline" style="border-color: #a855f7; color: #a855f7;">🎨 Temas</button>
+                    <button id="btn-sound-toggle" class="btn outline" style="border-color: #38bdf8; color: #38bdf8;" onclick="toggleSound()">🔊 Sonido Activado</button>
                     <button id="btn-help" class="btn outline">📖 Ayuda</button>
                     <a href="https://forms.gle/Kz9EbmQVSE6QDjP58" target="_blank" class="btn outline" style="text-decoration:none; display:flex; justify-content:center; align-items:center; color: #f87171; border-color: rgba(248, 113, 113, 0.4);">💬 Reportar Falla</a>
                 </div>
@@ -190,6 +194,10 @@
         </div>
     </div>
 
+    <!-- Burbujas de fondo -->
+    <div id="bubbles-container"></div>
+
+    <script src="sfx.js"></script>
     <script src="auth_features.js"></script>
     <script src="app.js"></script>
 </body>

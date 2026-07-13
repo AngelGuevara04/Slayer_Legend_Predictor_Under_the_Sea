@@ -26,6 +26,8 @@ async function checkAuth() {
             document.getElementById('user-name').innerText = profile.name || 'Buscador';
             document.getElementById('user-avatar').src = profile.avatar_url || 'https://www.svgrepo.com/show/5125/avatar.svg';
             document.getElementById('user-pearls').innerText = profile.pearls_found;
+            const streakEl = document.getElementById('user-streak');
+            if (streakEl) streakEl.innerText = profile.current_streak || 0;
         }
         
         // Cargar partida en la nube (Feature 2)
@@ -107,14 +109,17 @@ async function registrarLogro(achievement_id, nombre_logro) {
 async function checkAchievementsOnPearlFound(intentosPrevios) {
     if (!currentUser) return;
     
-    // Sumar 1 perla al perfil
-    await db.rpc('increment_pearls', { user_id_param: currentUser.id });
+    // Sumar 1 perla y aumentar racha
+    await db.rpc('increment_pearls_and_streak', { user_id_param: currentUser.id });
     
-    const { data: profile } = await db.from('profiles').select('pearls_found').eq('id', currentUser.id).single();
+    const { data: profile } = await db.from('profiles').select('pearls_found, current_streak').eq('id', currentUser.id).single();
     const total = profile ? profile.pearls_found : 0;
+    const streak = profile ? profile.current_streak : 0;
     
     // Actualizar UI
     document.getElementById('user-pearls').innerText = total;
+    const streakEl = document.getElementById('user-streak');
+    if (streakEl) streakEl.innerText = streak;
     
     // Checar logros
     if (total === 1) registrarLogro('FIRST_PEARL', 'Buzo Novato (Primera perla)');
@@ -230,3 +235,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     checkAuth();
 });
+
+window.resetUserStreak = async () => {
+    if (!currentUser) return;
+    try {
+        await db.rpc('reset_streak', { user_id_param: currentUser.id });
+        const streakEl = document.getElementById('user-streak');
+        if (streakEl) streakEl.innerText = "0";
+    } catch(e) {}
+};

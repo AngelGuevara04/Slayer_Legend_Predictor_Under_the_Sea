@@ -51,10 +51,9 @@ async function init() {
     const checkMaintenance = () => {
         const now = new Date();
         const startMaint = new Date('2026-07-13T22:59:00-06:00');
-        const endMaint = new Date('2026-07-13T23:59:00-06:00');
         const overlay = document.getElementById('maintenance-overlay');
         
-        if (now >= startMaint && now < endMaint) {
+        if (now >= startMaint) {
             overlay.classList.remove('hidden');
             overlay.classList.add('show');
             overlay.style.display = 'flex';
@@ -311,6 +310,7 @@ function vecinos(r, c) {
 
 // ─── Click en celda ──────────────────────────────────────────────────────────
 function onCellClick(r, c, e) {
+    if (typeof window.playBloop === 'function') window.playBloop();
     const key = makeKey(r, c);
 
     if (isTrainingMode) {
@@ -361,6 +361,7 @@ async function registrarResultado(r, c, res) {
         corales.add(key);
         celdas_conocidas.delete(key);
     } else if (res === 'P') {
+        if (typeof window.playWinChime === 'function') window.playWinChime();
         if (window.featuresActivados && typeof confetti === 'function') {
             confetti({
                 particleCount: 100,
@@ -504,6 +505,14 @@ function deshacer() {
 
 function reiniciar(ask = true) {
     if (ask && !confirm('¿Reiniciar el tablero actual?')) return;
+    
+    // Si reinicias sin haber encontrado la perla y ya habías jugado, pierdes la racha
+    let foundPearl = false;
+    for (const [k, v] of celdas_conocidas) if (v === 'P') foundPearl = true;
+    if (ask && !foundPearl && (celdas_conocidas.size > 0 || corales.size > 0)) {
+        if (typeof window.resetUserStreak === 'function') window.resetUserStreak();
+    }
+
     corales.clear();
     celdas_conocidas.clear();
     colores_tablero.clear();
@@ -521,9 +530,16 @@ function actualizarUIola() {
     btnOla.textContent = `🌊 Usar Ola — Fila ${filaOlaRecomendada + 1} recomendada`;
 }
 
-// La ola avanza de IZQUIERDA a DERECHA y se detiene al encontrar el primer coral.
-// Solo se limpian (marcan Arena) las celdas antes del primer coral en la fila.
-// Score de la fila = candidatos que sería posible limpiar con la ola.
+function usarOla() {
+    if (filaOlaRecomendada === -1) return;
+    if (typeof window.playWaveSound === 'function') window.playWaveSound();
+
+    // La ola avanza de IZQUIERDA a DERECHA y se detiene al encontrar el primer coral.
+    // Solo se limpian (marcan Arena) las celdas antes del primer coral en la fila.
+    // Score de la fila = candidatos que sería posible limpiar con la ola.
+    aplicarOla(filaOlaRecomendada);
+}
+
 function calcularMejorFilaOla(candidatos, pesos) {
     let mejorFila = 0, mejorVE = Infinity;
     for (let r = 0; r < FILAS; r++) {
