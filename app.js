@@ -65,7 +65,7 @@ async function init() {
         }
         
         const donationUI = document.getElementById('donation-features');
-        if (donationUI) donationUI.classList.remove('hidden');
+        // if (donationUI) donationUI.classList.remove('hidden'); // Oculto temporalmente por privacidad
         window.featuresActivados = true;
         
         return false;
