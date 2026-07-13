@@ -52,6 +52,7 @@ async function init() {
         if (new Date() >= new Date('2026-07-12T22:59:00-06:00')) {
             const overlay = document.getElementById('maintenance-overlay');
             overlay.classList.remove('hidden');
+            overlay.classList.add('show');
             overlay.style.display = 'flex';
             return true;
         }
