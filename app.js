@@ -343,8 +343,11 @@ function onCellClick(r, c, e) {
     // Permitir clic en cualquier celda para corregir errores
 
     activeCell = { r, c };
-    const x = Math.min(e.clientX, window.innerWidth - 170);
-    const y = Math.min(e.clientY, window.innerHeight - 300);
+    const clientX = e.clientX ?? (e.touches && e.touches[0] ? e.touches[0].clientX : window.innerWidth / 2);
+    const clientY = e.clientY ?? (e.touches && e.touches[0] ? e.touches[0].clientY : window.innerHeight / 2);
+
+    const x = Math.min(clientX, window.innerWidth - 170);
+    const y = Math.min(clientY, window.innerHeight - 300);
     contextMenu.style.left = `${x}px`;
     contextMenu.style.top  = `${y}px`;
     contextMenu.classList.remove('hidden');
