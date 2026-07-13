@@ -17,43 +17,53 @@
 </head>
 <body>
     <div class="app-container">
-        <header style="display: flex; justify-content: space-between; align-items: center;">
-            <div>
-                <h1>🌊 Buscaminas Bajo el Mar</h1>
-                <p>Haz clic en una celda para registrar.<br>
-                <strong>Ctrl+V</strong> o <button id="btn-upload" class="btn secondary" style="padding:4px 8px; font-size:12px; vertical-align:middle;">📸 Subir Imagen</button> para auto-completar.</p>
-                <input type="file" id="file-upload" accept="image/*" style="display: none;">
-            </div>
-            
-            <div id="user-profile" class="hidden" style="display: flex; align-items: center; gap: 15px; background: rgba(30,41,59,0.5); padding: 10px 20px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);">
-                <div style="text-align: right;">
-                    <div id="user-name" style="font-weight: bold; color: #fcd34d; font-size: 1rem;">Jugador</div>
-                    <div style="font-size: 0.8rem; color: #94a3b8;"><span id="user-pearls">0</span> perlas encontradas</div>
+        <div class="main-column">
+            <header style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h1>🌊 Buscaminas Bajo el Mar</h1>
+                    <p>Haz clic en una celda para registrar.<br>
+                    <strong>Ctrl+V</strong> o <button id="btn-upload" class="btn secondary" style="padding:4px 8px; font-size:12px; vertical-align:middle;">📸 Subir Imagen</button> para auto-completar.</p>
+                    <input type="file" id="file-upload" accept="image/*" style="display: none;">
                 </div>
-                <img id="user-avatar" src="" alt="Avatar" style="width: 40px; height: 40px; border-radius: 50%; border: 2px solid #a855f7;">
-                <button id="btn-logout" class="btn outline" style="padding: 6px 12px; font-size: 0.8rem; margin-left: 10px;">Salir</button>
-            </div>
-        </header>
+            </header>
 
-        <main>
-            <!-- Grid con etiquetas A-F / 1-6 generado por JS -->
-            <div id="grid-wrapper" class="grid-wrapper"></div>
+            <main>
+                <!-- Grid con etiquetas A-F / 1-6 generado por JS -->
+                <div id="grid-wrapper" class="grid-wrapper"></div>
 
-            <div id="info-panel" class="info-panel">
-                <p id="status-text">Sincronizando con la nube...</p>
+                <div id="info-panel" class="info-panel">
+                    <p id="status-text">Sincronizando con la nube...</p>
+                </div>
+            </main>
+        </div>
+
+        <div class="sidebar-column">
+            <div id="user-profile" class="hidden" style="display: flex; align-items: center; justify-content: space-between; gap: 15px; background: rgba(30,41,59,0.5); padding: 10px 20px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 15px;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <img id="user-avatar" src="" alt="Avatar" style="width: 40px; height: 40px; border-radius: 50%; border: 2px solid #a855f7;">
+                    <div style="text-align: left;">
+                        <div id="user-name" style="font-weight: bold; color: #fcd34d; font-size: 1rem;">Jugador</div>
+                        <div style="font-size: 0.8rem; color: #94a3b8;"><span id="user-pearls">0</span> perlas encontradas</div>
+                    </div>
+                </div>
+                <button id="btn-logout" class="btn outline" style="padding: 6px 12px; font-size: 0.8rem;">Salir</button>
             </div>
-        </main>
 
         <aside class="controls">
             <button id="btn-undo" class="btn secondary">↩ Deshacer</button>
             <button id="btn-restart" class="btn secondary">🔄 Reiniciar</button>
-            <button id="btn-train" class="btn accent">➕ Dato Externo</button>
             <button id="btn-ola" class="btn ola-btn" disabled>🌊 Usar Ola</button>
-            <a href="https://forms.gle/Kz9EbmQVSE6QDjP58" target="_blank" class="btn outline" style="margin-left:auto; text-decoration:none; display:flex; align-items:center; color: #f87171; border-color: rgba(248, 113, 113, 0.4);">💬 Reportar Falla</a>
-            <button id="btn-help" class="btn outline">📖 Ayuda</button>
-            <div style="width: 100%; height: 1px; background: #334155; margin: 10px 0;"></div>
-            <button id="btn-leaderboards" class="btn outline" style="border-color: #fcd34d; color: #fcd34d;">🏆 Clasificación</button>
-            <button id="btn-themes" class="btn outline" style="border-color: #a855f7; color: #a855f7;">🎨 Temas</button>
+
+            <details class="more-options">
+                <summary class="btn outline" style="margin-top: 10px; border-color: #3b82f6; color: #3b82f6;">⚙️ Más Opciones</summary>
+                <div class="more-options-content" style="display: flex; flex-direction: column; gap: 8px; margin-top: 8px; padding: 10px; background: rgba(15,23,42,0.6); border-radius: 8px; border: 1px solid rgba(255,255,255,0.05);">
+                    <button id="btn-train" class="btn accent">➕ Dato Externo</button>
+                    <button id="btn-leaderboards" class="btn outline" style="border-color: #fcd34d; color: #fcd34d;">🏆 Clasificación</button>
+                    <button id="btn-themes" class="btn outline" style="border-color: #a855f7; color: #a855f7;">🎨 Temas</button>
+                    <button id="btn-help" class="btn outline">📖 Ayuda</button>
+                    <a href="https://forms.gle/Kz9EbmQVSE6QDjP58" target="_blank" class="btn outline" style="text-decoration:none; display:flex; justify-content:center; align-items:center; color: #f87171; border-color: rgba(248, 113, 113, 0.4);">💬 Reportar Falla</a>
+                </div>
+            </details>
         </aside>
 
         <!-- Donaciones y Estadísticas (Ocultas hasta mañana 23:59) -->
@@ -67,11 +77,11 @@
             <p style="font-size: 0.75rem; color: #94a3b8; margin-top: 8px;">Las donaciones mantienen viva esta herramienta. ¡Gracias!</p>
         </div>
 
-        <div id="sync-status" class="sync-status">
-            <span id="sync-dot" class="sync-dot"></span>
-            <span id="sync-label">Conectando...</span>
+            <div id="sync-status" class="sync-status">
+                <span id="sync-dot" class="sync-dot"></span>
+                <span id="sync-label">Conectando...</span>
+            </div>
         </div>
-
     </div>
 
     <!-- Menú contextual -->
