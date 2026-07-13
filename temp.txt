@@ -1,0 +1,4 @@
+           // key -> { total, Concha_🟣 Morada, Concha_Rosa, Desconocido, in
+ Estrella: 0, Concha_Rosa: 0, Concha_🟣 Morada: 0 };
+ Tablero registrado: ${conteo.Concha_🟣 Morada||0} moradas ?, ${conteo.Conch
+        Concha_🟣 Morada: [225, 170, 240]

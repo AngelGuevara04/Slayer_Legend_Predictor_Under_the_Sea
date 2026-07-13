@@ -1,0 +1,26 @@
+= new Map();       // key -> 'Concha_Rosa' | 'Concha_Morada'
+// key -> { total, Concha_Morada, Concha_Rosa, Desconoc
+la cuadrícula de 6x6 (las 36 conchas) y dale a Confirmar."
+k', () => guardarDatoExterno('Concha_Morada'));
+k', () => guardarDatoExterno('Concha_Rosa'));
+trenar IA – ¿Qué color era la concha?';
+const colorLabel = color === 'Concha_Morada' ? '🟣 Morada'
+: color === 'Concha_Rosa'   ? '🌸 Rosada' : '❓ Des
+colores_tablero.set(key, 'Concha_Morada');
+colores_tablero.set(key, 'Concha_Rosa');
+rdado en ${key} (${color === 'Concha_Morada' ? 'Morada 🟣' : 'Rosad
+const coloresValidos = ['Concha_Morada', 'Concha_Rosa', 'Desc
+historial[key] = { total: 0, Concha_Morada: 0, Concha_Rosa: 0, De
+const campo = ['Concha_Morada','Concha_Rosa'].includ
+Concha_Morada:  row.concha_morada,
+Concha_Rosa:    row.concha_rosa,
+if (colorDetectado === 'Concha_Morada') dot = '<span class="
+else if (colorDetectado === 'Concha_Rosa') dot = '<span class="co
+if (colorDetectado === 'Concha_Morada') dot = '<span class="
+else if (colorDetectado === 'Concha_Rosa') dot = '<span class="co
+na: 0, Coral: 0, Estrella: 0, Concha_Rosa: 0, Concha_Morada: 0 };
+if (tipo === 'Concha_Rosa' || tipo === 'Concha_Mor
+Tablero registrado: ${conteo.Concha_Morada||0} moradas 🟣, ${conte
+o.Concha_Rosa||0} rosadas 🌸`, 'success
+Concha_Rosa:   [243, 178, 195],
+Concha_Morada: [225, 170, 240]

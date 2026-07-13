@@ -1,0 +1,23 @@
+96: prevLabel: 'Atr�s',
+97: doneLabel: '�A jugar!',
+102: intro: "<b>�Bienvenido al Buscaminas Bajo el Mar!</b><br><br>Esta herramienta te ayudar� a encontrar las perlas apoy�ndose en los datos de la comunidad y probabilidades matem�ticas."
+110: intro: "<b>Herramientas Avanzadas</b><br><br>Aqu� encontrar�s opciones para Subir Capturas autom�ticas, usar la Ola, Deshacer movimientos o registrar Datos Externos."
+114: intro: "<b>�Necesitas m�s detalles?</b><br><br>Si quieres saber exactamente c�mo funciona alguna de estas herramientas, puedes presionar este bot�n de <b>? Ayuda</b> en cualquier momento para ver gu�as detalladas de cada funci�n."
+133: prevLabel: 'Atr�s',
+134: doneLabel: '�Entendido!',
+144: intro: "<b>1. Subir Captura</b><br><br>Presiona este bot�n para subir una foto completa de tu celular."
+147: intro: "<b>2. Recorte Inteligente</b><br><br>El sistema pre-seleccionar� la zona inferior de tu pantalla.<br><img src='tutorial.png' style='width:100%; max-height:180px; object-fit:cover; border-radius:8px; margin-top:10px; border:1px solid #c49a45;'><br>Aseg�rate de que el cuadro de recorte contenga exactamente la cuadr�cula de 6x6 (las 36 conchas) y dale a Confirmar."
+158: intro: "<b>2. Recomendaci�n</b><br><br>La casilla que tenga el <b>borde resaltado en verde</b> es la que el sistema te sugiere como la m�s segura para encontrar una perla bas�ndose en matem�ticas."
+162: intro: "<b>3. Tipos de Celdas</b><br><br>Al hacer clic, se abrir� un men� donde podr�s indicarle a la IA si encontraste Arena, una Estrella (Pista), Coral o una Perla."
+169: intro: "<b>1. Activar la Ola</b><br><br>Cuando uses el �tem de la Ola dentro del juego, presiona este bot�n. El buscaminas calcular� la mejor fila y la llenar� de arena autom�ticamente."
+173: intro: "<b>2. Modificar la Ola</b><br><br>Si al pasar la Ola en el juego descubres una Estrella o una Perla, simplemente haz clic sobre esa casilla de arena en el tablero web para corregirla y actualizar los c�lculos."
+180: intro: "<b>1. Ayuda a la Comunidad</b><br><br>Usa este bot�n si acabas de encontrar una perla en el juego pero tu tablero ya est� arruinado y no quieres reiniciar."
+184: intro: "<b>2. Entrenamiento Global</b><br><br>Te permitir� indicarle a la nube el color de la perla y sus coordenadas exactas para seguir entrenando a la Inteligencia Artificial global sin alterar tu partida actual."
+191: intro: "<b>Deshacer un Error</b><br><br>Si te equivocas marcando una casilla, usa este bot�n para retroceder un paso. �Puedes deshacer varios pasos seguidos!"
+198: intro: "<b>Empezar de Nuevo</b><br><br>Cuando encuentres todas las perlas y el juego te d� un tablero nuevo, presiona Reiniciar para limpiar todo el buscaminas y comenzar de cero."
+209: else if (estado === 'offline') syncLabel.textContent = 'Sin conexi�n (modo local)';
+322: if (msgEl) msgEl.innerText = '�Se acabaron tus tiradas de prueba! Inicia sesi�n con Google para guardar tus partidas, desbloquear temas visuales y competir en el Ranking Global.';
+334: document.getElementById('modal-title').textContent = 'Entrenar IA � �Qu� color era la concha?';
+336: `Posici�n: Fila ${r + 1}, Columna ${String.fromCharCode(65 + c)} (${key})`;
+370: if (!confirm('�Est�s seguro de que has encontrado la PERLA en esta casilla?\n\n�Cuidado! Si te equivocas, tu racha y las estad�sticas de la IA se ver�n afectadas.')) {
+530: if (ask && !confirm('�Reiniciar el tablero actual?')) return;

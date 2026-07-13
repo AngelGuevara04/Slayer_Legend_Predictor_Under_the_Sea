@@ -1,0 +1,5 @@
+162: intro: "<b>3. Tipos de Celdas</b><br><br>Al hacer clic, se abrirá un men� donde podrás indicarle a la IA si encontraste Arena, una Estrella (Pista), Coral o una Perla."
+169: intro: "<b>1. Activar la Ola</b><br><br>Cuando uses el �ítem de la Ola dentro del juego, presiona este bot�n. El buscaminas calcular� la mejor fila y la llenará de arena automáticamente."
+184: intro: "<b>2. Entrenamiento Global</b><br><br>Te permitir� indicarle a la nube el color de la perla y sus coordenadas exactas para seguir entrenando a la Inteligencia Artificial global sin alterar tu partida actual."
+191: intro: "<b>Deshacer un Error</b><br><br>Si te equivocas marcando una casilla, usa este bot�n para retroceder un paso. ¡Puedes deshacer! varios pasos seguidos!"
+334: document.getElementById('modal-title').textContent = 'Entrenar IA � ¿Qué color era la concha?';

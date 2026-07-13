@@ -1,0 +1,33 @@
+ta te ayudará a encontrar las perlas apoyándose en los datos de l
+ente Arena, Estrella, Coral o Perla."
+más segura para encontrar una perla basándose en matemáticas."
+Estrella (Pista), Coral o una Perla."
+descubres una Estrella o una Perla, simplemente haz clic sobre e
+ón si acabas de encontrar una perla en el juego pero tu tablero y
+arle a la nube el color de la perla y sus coordenadas exactas par
+r>Cuando encuentres todas las perlas y el juego te dé un tablero
+guro de que has encontrado la PERLA en esta casilla?\n\n¡Cuidado!
+showToast(`🌊 Perla en ${key} → ${colorLabel} | $
+r } = await db.rpc('registrar_perla', {
+icias sin haber encontrado la perla y ya habías jugado, pierdes l
+for (const perla of candidatos) {
+const prob = pesos[perla];
+if (celdasOla.has(perla)) {
+es = 0; // La ola descubre la perla
+const vecPerla = new Set(vecinos(parseKey(pe
+rla).r, parseKey(perla).c));
+= [...celdasOla].some(x => vecPerla.has(x));
+sillas de la ola vecinas a la perla.
+[...celdasOla].filter(x => vecPerla.has(x));
+...celdasOla].filter(x => !vecPerla.has(x));
+// La perla debe ser vecina de TODAS las
+// La perla no puede ser vecina de la are
+const perlas = reg?.total || 0;
+const alpha = perlas + 1;
+onst beta  = (totalPartidas - perlas) + 1;
+for (const perla of candidatos) {
+const prob = pesos[perla];
+if (perla === jugada) {
+} else if (vecJ.has(perla)) {
+// Sería estrella: perla en vecinos de jugada
+atusText.textContent = '🎯 ¡La perla ESTÁ en la celda verde!';

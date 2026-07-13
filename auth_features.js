@@ -283,6 +283,8 @@ async function checkSlayerProfile() {
     if (!currentUser) return;
     const { data: profile } = await db.from('profiles').select('slayer_name, slayer_level, name').eq('id', currentUser.id).single();
     if (profile && !profile.slayer_name) {
+        // Solo mostrar si no lo ha saltado en esta sesión
+        if (sessionStorage.getItem('onboarding_skipped')) return;
         document.getElementById('onboarding-modal').classList.remove('hidden');
         document.getElementById('onboarding-modal').style.display = 'flex';
         // Auto-llenar con el nombre de google para ahorrarles tiempo
@@ -293,25 +295,48 @@ async function checkSlayerProfile() {
 document.getElementById('btn-save-onboarding').addEventListener('click', async () => {
     const sName = document.getElementById('input-slayer-name').value.trim();
     const sLevel = parseInt(document.getElementById('input-slayer-level').value, 10);
+    const sServer = document.getElementById('input-slayer-server').value;
+    const sTime = document.getElementById('input-slayer-time').value;
     
     if (!sName) {
-                mostrarToast('⚠️ Por favor ingresa un nombre y nivel válido.');
+        mostrarToast('⚠️ Por favor ingresa tu nombre de personaje.');
+        document.getElementById('input-slayer-name').focus();
+        document.getElementById('input-slayer-name').style.borderColor = '#ef4444';
+        setTimeout(() => { document.getElementById('input-slayer-name').style.borderColor = 'rgba(255,255,255,0.15)'; }, 2000);
         return;
     }
     
-    const { error } = await db.from('profiles').update({ 
+    const updateData = { 
         slayer_name: sName,
         slayer_level: isNaN(sLevel) ? null : sLevel
-    }).eq('id', currentUser.id);
+    };
+    
+    // Guardar servidor y tiempo en el campo metadata (JSON)
+    const metadata = {};
+    if (sServer) metadata.server = sServer;
+    if (sTime) metadata.play_time = sTime;
+    if (Object.keys(metadata).length > 0) {
+        updateData.metadata = metadata;
+    }
+    
+    const { error } = await db.from('profiles').update(updateData).eq('id', currentUser.id);
     
     if (!error) {
         document.getElementById('onboarding-modal').classList.add('hidden');
         document.getElementById('onboarding-modal').style.display = 'none';
-        mostrarToast('Ã°Å¸Å½Â® Ã‚Â¡Perfil de Slayer Legend guardado!');
+        mostrarToast('🎮 ¡Perfil de Slayer Legend guardado!');
         document.getElementById('user-name').innerText = sName + (isNaN(sLevel) ? '' : ' (Lv.' + sLevel + ')');
     } else {
-            mostrarToast('❌ Error guardando el perfil');
+        mostrarToast('❌ Error guardando el perfil');
     }
+});
+
+// Botón para llenar después
+document.getElementById('btn-skip-onboarding').addEventListener('click', () => {
+    document.getElementById('onboarding-modal').classList.add('hidden');
+    document.getElementById('onboarding-modal').style.display = 'none';
+    sessionStorage.setItem('onboarding_skipped', 'true');
+    mostrarToast('Puedes configurar tu perfil luego desde la barra lateral.');
 });
 async function updateGlobalPearls() {
     const { data, error } = await db.from('ai_history').select('total');

@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/7.2.0/introjs.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=1.1">
+    <link rel="stylesheet" href="style.css?v=1.2">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/7.2.0/intro.min.js"></script>
@@ -174,21 +174,72 @@
     <div id="toast-container" class="toast-container"></div>
 
         <!-- Modal Onboarding -->
-    <div id="onboarding-modal" class="modal-overlay hidden" style="z-index: 10000; flex-direction: column; justify-content: center; align-items: center; background-color: rgba(15, 23, 42, 0.95); text-align: center;">
-        <div class="modal-content glass-panel" style="max-width: 400px; padding: 30px; text-align: center;">
-            <h2 style="color: #fcd34d; margin-top: 0;">¡Bienvenido Buscador! 🌊</h2>
-            <p style="color: #cbd5e1; font-size: 0.95rem; margin-bottom: 20px;">
-                Para entrar al Ranking Global necesitamos saber quién eres en <strong>Slayer Legend</strong>.
+    <div id="onboarding-modal" class="modal-overlay hidden" style="z-index: 10000; flex-direction: column; justify-content: center; align-items: center; background-color: rgba(15, 23, 42, 0.97); text-align: center;">
+        <div class="modal-content glass-panel" style="max-width: 420px; padding: 30px 28px; text-align: center; border: 1px solid rgba(168, 85, 247, 0.3); box-shadow: 0 0 40px rgba(168, 85, 247, 0.15);">
+            <div style="font-size: 2.5rem; margin-bottom: 5px;">🌊⚔️</div>
+            <h2 style="color: #fcd34d; margin-top: 0; margin-bottom: 5px; font-size: 1.4rem;">¡Bienvenido Buscador!</h2>
+            <p style="color: #94a3b8; font-size: 0.85rem; margin-bottom: 20px;">
+                Configura tu perfil para el <strong style="color: #a855f7;">Ranking Global</strong> y competir con otros jugadores.
             </p>
-            <div style="margin-bottom: 15px; text-align: left;">
-                <label style="color: #94a3b8; font-size: 0.85rem; display: block; margin-bottom: 5px;">Nombre de tu Personaje</label>
-                <input type="text" id="input-slayer-name" placeholder="Ej. SlayerPro99" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: white; box-sizing: border-box;" />
+
+            <!-- Nombre del personaje -->
+            <div style="margin-bottom: 14px; text-align: left;">
+                <label style="color: #cbd5e1; font-size: 0.82rem; display: flex; align-items: center; gap: 5px; margin-bottom: 5px;">
+                    <span>⚔️</span> Nombre de tu Personaje <span style="color: #ef4444;">*</span>
+                </label>
+                <input type="text" id="input-slayer-name" placeholder="Ej. SlayerPro99" maxlength="30" style="width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.15); background: rgba(0,0,0,0.4); color: white; box-sizing: border-box; font-size: 0.95rem; transition: border-color 0.2s;" onfocus="this.style.borderColor='#a855f7'" onblur="this.style.borderColor='rgba(255,255,255,0.15)'" />
             </div>
+
+            <!-- Nivel actual -->
+            <div style="margin-bottom: 14px; text-align: left;">
+                <label style="color: #cbd5e1; font-size: 0.82rem; display: flex; align-items: center; gap: 5px; margin-bottom: 5px;">
+                    <span>📊</span> Tu Nivel Actual
+                </label>
+                <input type="number" id="input-slayer-level" placeholder="Ej. 1250" min="1" max="99999" style="width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.15); background: rgba(0,0,0,0.4); color: white; box-sizing: border-box; font-size: 0.95rem; transition: border-color 0.2s;" onfocus="this.style.borderColor='#a855f7'" onblur="this.style.borderColor='rgba(255,255,255,0.15)'" />
+            </div>
+
+            <!-- Servidor -->
+            <div style="margin-bottom: 14px; text-align: left;">
+                <label style="color: #cbd5e1; font-size: 0.82rem; display: flex; align-items: center; gap: 5px; margin-bottom: 5px;">
+                    <span>🌐</span> Servidor
+                </label>
+                <select id="input-slayer-server" style="width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.15); background: rgba(0,0,0,0.4); color: white; box-sizing: border-box; font-size: 0.95rem; cursor: pointer; transition: border-color 0.2s; appearance: none; -webkit-appearance: none; background-image: url('data:image/svg+xml;utf8,<svg fill=\"white\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\"><path d=\"M7 10l5 5 5-5z\"/></svg>'); background-repeat: no-repeat; background-position: right 10px center; background-size: 18px;" onfocus="this.style.borderColor='#a855f7'" onblur="this.style.borderColor='rgba(255,255,255,0.15)'">
+                    <option value="" disabled selected style="color: #64748b;">Selecciona tu servidor</option>
+                    <option value="S1">Servidor 1</option>
+                    <option value="S2">Servidor 2</option>
+                    <option value="S3">Servidor 3</option>
+                    <option value="S4">Servidor 4</option>
+                    <option value="S5">Servidor 5</option>
+                    <option value="S6">Servidor 6</option>
+                    <option value="S7">Servidor 7</option>
+                    <option value="S8">Servidor 8</option>
+                    <option value="S9">Servidor 9</option>
+                    <option value="S10">Servidor 10</option>
+                    <option value="otro">Otro</option>
+                </select>
+            </div>
+
+            <!-- Tiempo jugando -->
             <div style="margin-bottom: 20px; text-align: left;">
-                <label style="color: #94a3b8; font-size: 0.85rem; display: block; margin-bottom: 5px;">Tu Nivel Actual</label>
-                <input type="number" id="input-slayer-level" placeholder="Ej. 1250" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: white; box-sizing: border-box;" />
+                <label style="color: #cbd5e1; font-size: 0.82rem; display: flex; align-items: center; gap: 5px; margin-bottom: 5px;">
+                    <span>⏳</span> ¿Cuánto llevas jugando?
+                </label>
+                <select id="input-slayer-time" style="width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.15); background: rgba(0,0,0,0.4); color: white; box-sizing: border-box; font-size: 0.95rem; cursor: pointer; transition: border-color 0.2s; appearance: none; -webkit-appearance: none; background-image: url('data:image/svg+xml;utf8,<svg fill=\"white\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\"><path d=\"M7 10l5 5 5-5z\"/></svg>'); background-repeat: no-repeat; background-position: right 10px center; background-size: 18px;" onfocus="this.style.borderColor='#a855f7'" onblur="this.style.borderColor='rgba(255,255,255,0.15)'">
+                    <option value="" disabled selected style="color: #64748b;">Selecciona una opción</option>
+                    <option value="nuevo">Menos de 1 mes</option>
+                    <option value="1-3m">1 a 3 meses</option>
+                    <option value="3-6m">3 a 6 meses</option>
+                    <option value="6-12m">6 meses a 1 año</option>
+                    <option value="1y+">Más de 1 año</option>
+                </select>
             </div>
-            <button id="btn-save-onboarding" class="btn accent" style="width: 100%;">Comenzar Aventura 🚀</button>
+
+            <button id="btn-save-onboarding" class="btn accent" style="width: 100%; font-size: 1rem; padding: 12px; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                🚀 Comenzar Aventura
+            </button>
+            <button id="btn-skip-onboarding" style="background: none; border: none; color: #64748b; font-size: 0.8rem; margin-top: 12px; cursor: pointer; text-decoration: underline;">
+                Llenar después
+            </button>
         </div>
     </div>
 
@@ -232,8 +283,8 @@
     <div id="bubbles-container"></div>
 
     <script src="sfx.js"></script>
-    <script src="auth_features.js?v=1.1"></script>
-    <script src="app.js?v=1.1"></script>
+    <script src="auth_features.js?v=1.2"></script>
+    <script src="app.js?v=1.2"></script>
 </body>
 </html>
 
