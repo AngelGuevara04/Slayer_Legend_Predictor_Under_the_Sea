@@ -366,6 +366,12 @@ function cerrarModal() {
 
 // ─── Registrar resultado ──────────────────────────────────────────────────────
 async function registrarResultado(r, c, res, force = false) {
+    if (res === 'P' && !force) {
+        if (!confirm('¿Estás seguro de que has encontrado la PERLA en esta casilla?\n\n¡Cuidado! Si te equivocas, tu racha y las estadísticas de la IA se verán afectadas.')) {
+            return;
+        }
+    }
+
     const key = makeKey(r, c);
     // Guardar estado previo para poder deshacer correctamente
     const prevState = corales.has(key) ? 'C' : celdas_conocidas.get(key) || null;
