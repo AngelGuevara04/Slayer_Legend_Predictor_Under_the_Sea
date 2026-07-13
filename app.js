@@ -26,7 +26,7 @@ function parseKey(key) {
 let corales          = new Set();       // Set de keys
 let celdas_conocidas = new Map();       // key -> 'F' | 'S'
 let colores_tablero  = new Map();       // key -> 'Concha_Rosa' | '🟣 Morada'
-let historial        = {};             // key -> { total, Concha_🟣 Morada, Concha_Rosa, Desconocido, intentos_total }
+let historial        = {};             // key -> { total, Concha_Morada, Concha_Rosa, Desconocido, intentos_total }
 let historial_acciones = [];
 let cellElements     = {};             // key -> DOM element
 
@@ -391,7 +391,7 @@ async function registrarResultado(r, c, res, force = false) {
                 colors: ['#a855f7', '#f472b6', '#fcd34d']
             });
         }
-        const color   = colores_tablero.get(key) || '❓ Desconocido';
+        const color   = colores_tablero.get(key) || 'Desconocido';
         const intentos = celdas_conocidas.size + corales.size;
 
         if (!force && typeof checkAchievementsOnPearlFound === 'function') {
@@ -906,7 +906,7 @@ function procesarImagen(source) {
 
     const cellW = canvas.width  / COLUMNAS;
     const cellH = canvas.height / FILAS;
-    const conteo = { Arena: 0, Coral: 0, Estrella: 0, Concha_Rosa: 0, Concha_🟣 Morada: 0 };
+    const conteo = { Arena: 0, Coral: 0, Estrella: 0, Concha_Rosa: 0, Concha_Morada: 0 };
     const resultados = {};
 
     for (let r = 0; r < FILAS; r++) {
@@ -952,7 +952,7 @@ function procesarImagen(source) {
 
     actualizarProbabilidades();
     if (esTableroInicial) {
-        showToast(`? Tablero registrado: ${conteo.Concha_🟣 Morada||0} moradas ?, ${conteo.Concha_Rosa||0} rosadas ?`, 'success');
+        showToast(`? Tablero registrado: ${conteo.Concha_Morada||0} moradas ?, ${conteo.Concha_Rosa||0} rosadas ?`, 'success');
     } else if (reveladasNuevas > 0) {
         showToast(`? ${reveladasNuevas} celdas reveladas detectadas.`, 'success');
     } else {
@@ -965,7 +965,7 @@ function clasificarColor(rgb) {
         Arena:         [238, 222, 160],
         Coral:         [232, 146, 84],
         Concha_Rosa:   [243, 178, 195],
-        Concha_🟣 Morada: [225, 170, 240]
+        Concha_Morada: [225, 170, 240]
     };
     const MAX_DIST = 80; // Umbral de confianza: si la distancia es mayor, no clasificar
     let best = null, bestDist = Infinity;
@@ -974,7 +974,7 @@ function clasificarColor(rgb) {
         if (dist < bestDist) { bestDist = dist; best = clase; }
     }
     // Si la distancia al mejor prototipo es demasiado grande, no clasificar
-    if (bestDist > MAX_DIST) return '❓ Desconocido';
+    if (bestDist > MAX_DIST) return 'Desconocido';
     return best;
 }
 
