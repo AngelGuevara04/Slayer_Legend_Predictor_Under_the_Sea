@@ -46,7 +46,12 @@ async function checkAuth() {
 }
 
 async function loginConGoogle() {
-    const { error } = await db.auth.signInWithOAuth({ provider: 'google' });
+    const { error } = await db.auth.signInWithOAuth({ 
+        provider: 'google',
+        options: {
+            redirectTo: window.location.origin + window.location.pathname
+        }
+    });
     if (error) mostrarToast('Error al iniciar sesión: ' + error.message, true);
 }
 
