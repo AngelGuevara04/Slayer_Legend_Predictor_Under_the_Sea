@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -20,9 +20,9 @@
         <div class="main-column">
             <header style="display: flex; justify-content: space-between; align-items: center;">
                 <div>
-                    <h1>ðŸŒŠ Buscaminas Bajo el Mar</h1>
+                    <h1>🌊 Buscaminas Bajo el Mar</h1>
                     <p>Haz clic en una celda para registrar.<br>
-                    <strong>Ctrl+V</strong> o <button id="btn-upload" class="btn secondary" style="padding:4px 8px; font-size:12px; vertical-align:middle;">ðŸ“¸ Subir Imagen</button> para auto-completar.</p>
+                    <strong>Ctrl+V</strong> o <button id="btn-upload" class="btn secondary" style="padding:4px 8px; font-size:12px; vertical-align:middle;">📸 Subir Imagen</button> para auto-completar.</p>
                     <input type="file" id="file-upload" accept="image/*" style="display: none;">
                 </div>
             </header>
@@ -45,7 +45,7 @@
                         <div id="user-name" style="font-weight: bold; color: #fcd34d; font-size: 1rem;">Jugador</div>
                         <div style="font-size: 0.8rem; color: #94a3b8;">
                             <span id="user-pearls">0</span> perlas encontradas
-                            | <span id="user-streak" style="color: #ef4444; font-weight: bold;">0</span>ðŸ”¥ Racha
+                            | <span id="user-streak" style="color: #ef4444; font-weight: bold;">0</span>🔥 Racha
                         </div>
                     </div>
                 </div>
@@ -53,32 +53,32 @@
             </div>
 
         <aside class="controls">
-            <button id="btn-undo" class="btn secondary">â†© Deshacer</button>
-            <button id="btn-restart" class="btn secondary">ðŸ”„ Reiniciar</button>
-            <button id="btn-ola" class="btn ola-btn" disabled>ðŸŒŠ Usar Ola</button>
+            <button id="btn-undo" class="btn secondary">↩ Deshacer</button>
+            <button id="btn-restart" class="btn secondary">🔄 Reiniciar</button>
+            <button id="btn-ola" class="btn ola-btn" disabled>🌊 Usar Ola</button>
 
             <details class="more-options">
-                <summary class="btn outline" style="margin-top: 10px; border-color: #3b82f6; color: #3b82f6;">âš™ï¸ MÃ¡s Opciones</summary>
+                <summary class="btn outline" style="margin-top: 10px; border-color: #3b82f6; color: #3b82f6;">⚙�? Más Opciones</summary>
                 <div class="more-options-content glass-panel" style="display: flex; flex-direction: column; gap: 8px; margin-top: 8px; padding: 10px; border-radius: 8px;">
-                    <button id="btn-train" class="btn accent">âž• Dato Externo</button>
-                    <button id="btn-leaderboards" class="btn outline" style="border-color: #fcd34d; color: #fcd34d;">ðŸ† ClasificaciÃ³n</button>
-                    <button id="btn-themes" class="btn outline" style="border-color: #a855f7; color: #a855f7;">ðŸŽ¨ Temas</button>
-                    <button id="btn-sound-toggle" class="btn outline" style="border-color: #38bdf8; color: #38bdf8;" onclick="toggleSound()">ðŸ”Š Sonido Activado</button>
-                    <button id="btn-help" class="btn outline">ðŸ“– Ayuda</button>
-                    <a href="https://forms.gle/Kz9EbmQVSE6QDjP58" target="_blank" class="btn outline" style="text-decoration:none; display:flex; justify-content:center; align-items:center; color: #f87171; border-color: rgba(248, 113, 113, 0.4);">ðŸ’¬ Reportar Falla</a>
+                    <button id="btn-train" class="btn accent">➕ Dato Externo</button>
+                    <button id="btn-leaderboards" class="btn outline" style="border-color: #fcd34d; color: #fcd34d;">�?� Clasificación</button>
+                    <button id="btn-themes" class="btn outline" style="border-color: #a855f7; color: #a855f7;">🎨 Temas</button>
+                    <button id="btn-sound-toggle" class="btn outline" style="border-color: #38bdf8; color: #38bdf8;" onclick="toggleSound()">🔊 Sonido Activado</button>
+                    <button id="btn-help" class="btn outline">📖 Ayuda</button>
+                    <a href="https://forms.gle/Kz9EbmQVSE6QDjP58" target="_blank" class="btn outline" style="text-decoration:none; display:flex; justify-content:center; align-items:center; color: #f87171; border-color: rgba(248, 113, 113, 0.4);">💬 Reportar Falla</a>
                 </div>
             </details>
         </aside>
 
-        <!-- Donaciones y EstadÃ­sticas (Ocultas hasta maÃ±ana 23:59) -->
+        <!-- Donaciones y Estadísticas (Ocultas hasta mañana 23:59) -->
         <div id="donation-features" class="hidden glass-panel" style="margin-top: 15px; padding: 15px; border-radius: 12px; text-align: center; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.5);">
             <p style="color: #cbd5e1; font-size: 0.9rem; margin-bottom: 10px;">
-                ðŸŒŸ <strong style="color: #fcd34d;">EstadÃ­stica Global:</strong> La IA ha encontrado <span id="global-pearls" style="font-weight: bold; color: #a855f7;">86</span> perlas para la comunidad.
+                🌟 <strong style="color: #fcd34d;">Estadística Global:</strong> La IA ha encontrado <span id="global-pearls" style="font-weight: bold; color: #a855f7;">86</span> perlas para la comunidad.
             </p>
             <a href="https://ko-fi.com/keeps123" target="_blank" class="btn" style="background: linear-gradient(135deg, #fcd34d, #f59e0b); color: #000; font-weight: bold; width: 100%; display: flex; align-items: center; justify-content: center; text-decoration: none;">
-                â˜• InvÃ­tame un CafÃ©
+                ☕ Invítame un Café
             </a>
-            <p style="font-size: 0.75rem; color: #94a3b8; margin-top: 8px;">Las donaciones mantienen viva esta herramienta. Â¡Gracias!</p>
+            <p style="font-size: 0.75rem; color: #94a3b8; margin-top: 8px;">Las donaciones mantienen viva esta herramienta. ¡Gracias!</p>
         </div>
 
             <div id="sync-status" class="sync-status">
@@ -88,47 +88,47 @@
         </div>
     </div>
 
-    <!-- MenÃº contextual -->
+    <!-- Menú contextual -->
     <div id="context-menu" class="context-menu hidden">
-        <button class="ctx-btn" data-type="F">ðŸ–ï¸ VacÃ­o (Arena)</button>
-        <button class="ctx-btn" data-type="S">â­ Pista (Estrella)</button>
-        <button class="ctx-btn" data-type="C">ðŸª¸ Coral</button>
-        <button class="ctx-btn" data-type="P">ðŸ”® Â¡Perla!</button>
+        <button class="ctx-btn" data-type="F">�?��? Vacío (Arena)</button>
+        <button class="ctx-btn" data-type="S">�? Pista (Estrella)</button>
+        <button class="ctx-btn" data-type="C">🪸 Coral</button>
+        <button class="ctx-btn" data-type="P">🔮 ¡Perla!</button>
         
         <!-- Nuevas opciones para corregir colores -->
         <div style="height: 1px; background: #334155; margin: 4px 0;"></div>
-        <button class="ctx-btn" data-type="COLOR_MORADA">ðŸŸ£ Concha Morada</button>
-        <button class="ctx-btn" data-type="COLOR_ROSA">ðŸŒ¸ Concha Rosa</button>
+        <button class="ctx-btn" data-type="COLOR_MORADA">🟣 Concha Morada</button>
+        <button class="ctx-btn" data-type="COLOR_ROSA">🌸 Concha Rosa</button>
 
-        <button class="ctx-btn" data-type="VACIO" style="border-top: 1px solid #334155; margin-top: 4px; padding-top: 8px;">ðŸ§¹ Desmarcar</button>
+        <button class="ctx-btn" data-type="VACIO" style="border-top: 1px solid #334155; margin-top: 4px; padding-top: 8px;">🧹 Desmarcar</button>
     </div>
 
     <!-- Modal color de concha -->
     <div id="modal-overlay" class="modal-overlay hidden">
         <div class="modal-content">
-            <h2 id="modal-title">Â¿QuÃ© color era la concha?</h2>
+            <h2 id="modal-title">¿Qué color era la concha?</h2>
             <p id="modal-desc"></p>
             <div class="modal-buttons">
-                <button id="btn-train-purple" class="btn" style="background:linear-gradient(135deg,#7c3aed,#a855f7);color:white;">ðŸŸ£ Morada</button>
-                <button id="btn-train-pink" class="btn" style="background:linear-gradient(135deg,#db2777,#f472b6);color:white;">ðŸŒ¸ Rosada</button>
+                <button id="btn-train-purple" class="btn" style="background:linear-gradient(135deg,#7c3aed,#a855f7);color:white;">🟣 Morada</button>
+                <button id="btn-train-pink" class="btn" style="background:linear-gradient(135deg,#db2777,#f472b6);color:white;">🌸 Rosada</button>
                 <button id="btn-train-cancel" class="btn secondary">Cancelar</button>
             </div>
         </div>
     </div>
 
-    <!-- Modal de MenÃº de Ayuda -->
+    <!-- Modal de Menú de Ayuda -->
     <div id="help-modal-overlay" class="modal-overlay hidden">
         <div class="modal-content" style="max-width: 90vw; width: 400px; text-align: center; padding: 20px;">
-            <h2 style="color: #fcd34d; margin-bottom: 15px; font-size: 1.4rem;">ðŸ“– GuÃ­as y Tutoriales</h2>
+            <h2 style="color: #fcd34d; margin-bottom: 15px; font-size: 1.4rem;">📖 Guías y Tutoriales</h2>
             <div class="tutorial-menu">
-                <button class="btn outline" onclick="startTutorial('imagen')">ðŸ“¸ CÃ³mo cargar el tablero</button>
-                <button class="btn outline" onclick="startTutorial('tablero')">ðŸ‘† CÃ³mo marcar en el tablero</button>
-                <button class="btn outline" onclick="startTutorial('ola')">ðŸŒŠ CÃ³mo usar la Ola</button>
-                <button class="btn outline" onclick="startTutorial('dato_externo')">âž• CÃ³mo registrar Dato Externo</button>
-                <button class="btn outline" onclick="startTutorial('deshacer')">â†© Uso de Deshacer</button>
-                <button class="btn outline" onclick="startTutorial('reiniciar')">ðŸ”„ Uso de Reiniciar</button>
+                <button class="btn outline" onclick="startTutorial('imagen')">📸 Cómo cargar el tablero</button>
+                <button class="btn outline" onclick="startTutorial('tablero')">👆 Cómo marcar en el tablero</button>
+                <button class="btn outline" onclick="startTutorial('ola')">🌊 Cómo usar la Ola</button>
+                <button class="btn outline" onclick="startTutorial('dato_externo')">➕ Cómo registrar Dato Externo</button>
+                <button class="btn outline" onclick="startTutorial('deshacer')">↩ Uso de Deshacer</button>
+                <button class="btn outline" onclick="startTutorial('reiniciar')">🔄 Uso de Reiniciar</button>
             </div>
-            <button id="btn-help-close" class="btn secondary" style="margin-top: 20px; width: 100%;">Cerrar MenÃº</button>
+            <button id="btn-help-close" class="btn secondary" style="margin-top: 20px; width: 100%;">Cerrar Menú</button>
         </div>
     </div>
 
@@ -141,7 +141,7 @@
                 <img id="crop-image" src="" style="max-width: 100%; display: block;">
             </div>
             <div class="modal-buttons">
-                <button id="btn-crop-confirm" class="btn accent">âœ… Procesar</button>
+                <button id="btn-crop-confirm" class="btn accent">✅ Procesar</button>
                 <button id="btn-crop-cancel" class="btn secondary">Cancelar</button>
             </div>
         </div>
@@ -149,10 +149,10 @@
 
     <!-- Mantenimiento -->
     <div id="maintenance-overlay" class="modal-overlay hidden" style="z-index: 9999; flex-direction: column; justify-content: center; align-items: center; background-color: rgba(15, 23, 42, 0.95); text-align: center;">
-        <h1 style="font-size: 2.5rem; margin-bottom: 20px; color: #f87171;">ðŸ› ï¸ En Mantenimiento</h1>
+        <h1 style="font-size: 2.5rem; margin-bottom: 20px; color: #f87171;">🛠�? En Mantenimiento</h1>
         <p style="font-size: 1.2rem; color: #e2e8f0; max-width: 400px; padding: 0 20px; line-height: 1.5;">
             El Buscaminas Bajo el Mar se encuentra en mantenimiento programado. 
-            Â¡Estaremos de vuelta pronto con mejoras!
+            ¡Estaremos de vuelta pronto con mejoras!
         </p>
     </div>
 
@@ -161,9 +161,9 @@
         <!-- Modal Onboarding -->
     <div id="onboarding-modal" class="modal-overlay hidden" style="z-index: 10000; flex-direction: column; justify-content: center; align-items: center; background-color: rgba(15, 23, 42, 0.95); text-align: center;">
         <div class="modal-content glass-panel" style="max-width: 400px; padding: 30px; text-align: center;">
-            <h2 style="color: #fcd34d; margin-top: 0;">¡Bienvenido Buscador! 🌊</h2>
+            <h2 style="color: #fcd34d; margin-top: 0;">�Bienvenido Buscador! ?</h2>
             <p style="color: #cbd5e1; font-size: 0.95rem; margin-bottom: 20px;">
-                Para entrar al Ranking Global necesitamos saber quién eres en <strong>Slayer Legend</strong>.
+                Para entrar al Ranking Global necesitamos saber qui�n eres en <strong>Slayer Legend</strong>.
             </p>
             <div style="margin-bottom: 15px; text-align: left;">
                 <label style="color: #94a3b8; font-size: 0.85rem; display: block; margin-bottom: 5px;">Nombre de tu Personaje</label>
@@ -173,26 +173,26 @@
                 <label style="color: #94a3b8; font-size: 0.85rem; display: block; margin-bottom: 5px;">Tu Nivel Actual</label>
                 <input type="number" id="input-slayer-level" placeholder="Ej. 1250" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: white; box-sizing: border-box;" />
             </div>
-            <button id="btn-save-onboarding" class="btn accent" style="width: 100%;">Comenzar Aventura 🚀</button>
+            <button id="btn-save-onboarding" class="btn accent" style="width: 100%;">Comenzar Aventura ?</button>
         </div>
     </div>
 
     <!-- Muro de Login -->
     <div id="auth-overlay" class="modal-overlay hidden" style="z-index: 9998; flex-direction: column; justify-content: center; align-items: center; background-color: rgba(15, 23, 42, 0.95); text-align: center;">
-        <h1 style="font-size: 2.5rem; margin-bottom: 20px; color: #fcd34d;">ðŸŒŠ Bienvenido</h1>
+        <h1 style="font-size: 2.5rem; margin-bottom: 20px; color: #fcd34d;">🌊 Bienvenido</h1>
         <p style="font-size: 1.2rem; color: #e2e8f0; max-width: 400px; padding: 0 20px; line-height: 1.5; margin-bottom: 30px;">
-            Inicia sesiÃ³n con Google para guardar tus partidas, desbloquear temas visuales y competir en el Ranking Global.
+            Inicia sesión con Google para guardar tus partidas, desbloquear temas visuales y competir en el Ranking Global.
         </p>
         <button id="btn-login" class="btn" style="background: white; color: #333; font-weight: bold; font-size: 1.1rem; padding: 12px 24px; display: flex; align-items: center; gap: 10px;">
             <img src="https://www.svgrepo.com/show/475656/google-color.svg" width="24" height="24" alt="Google">
-            Iniciar sesiÃ³n con Google
+            Iniciar sesión con Google
         </button>
     </div>
 
-    <!-- Modal ClasificaciÃ³n -->
+    <!-- Modal Clasificación -->
     <div id="leaderboard-modal" class="modal-overlay hidden">
         <div class="modal-content" style="max-width: 500px;">
-            <h2 style="color: #fcd34d;">ðŸ† Top 10 Buscadores</h2>
+            <h2 style="color: #fcd34d;">�?� Top 10 Buscadores</h2>
             <div id="leaderboard-list" style="text-align: left; max-height: 300px; overflow-y: auto; margin-bottom: 20px;">
                 Cargando...
             </div>
@@ -203,11 +203,11 @@
     <!-- Modal Temas -->
     <div id="themes-modal" class="modal-overlay hidden">
         <div class="modal-content">
-            <h2 style="color: #a855f7;">ðŸŽ¨ Temas Desbloqueables</h2>
+            <h2 style="color: #a855f7;">🎨 Temas Desbloqueables</h2>
             <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px;">
-                <button class="btn theme-btn" data-theme="default">ClÃ¡sico (Por defecto)</button>
+                <button class="btn theme-btn" data-theme="default">Clásico (Por defecto)</button>
                 <button class="btn theme-btn" data-theme="abyss">Modo Abismo (Oscuro)</button>
-                <button class="btn theme-btn" data-theme="neon">Modo NeÃ³n</button>
+                <button class="btn theme-btn" data-theme="neon">Modo Neón</button>
             </div>
             <button id="btn-close-themes" class="btn secondary">Cerrar</button>
         </div>
