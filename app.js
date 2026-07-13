@@ -349,7 +349,7 @@ function cerrarModal() {
 }
 
 // ─── Registrar resultado ──────────────────────────────────────────────────────
-async function registrarResultado(r, c, res) {
+async function registrarResultado(r, c, res, force = false) {
     const key = makeKey(r, c);
     // Guardar estado previo para poder deshacer correctamente
     const prevState = corales.has(key) ? 'C' : celdas_conocidas.get(key) || null;
