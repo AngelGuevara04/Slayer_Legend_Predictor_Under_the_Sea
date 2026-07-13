@@ -1,7 +1,7 @@
-// â”€â”€â”€ Variables Globales â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Variables Globales Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 let currentUser = null;
 
-// â”€â”€â”€ AutenticaciÃ³n â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ AutenticaciÃƒÂ³n Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 async function checkAuth() {
     const { data: { session } } = await db.auth.getSession();
     currentUser = session ? session.user : null;
@@ -16,9 +16,9 @@ async function checkAuth() {
             authOverlay.classList.remove('hidden');
             authOverlay.classList.add('show');
             const msgEl = document.getElementById('auth-wall-msg');
-            if (msgEl) msgEl.innerText = '¡Se acabaron tus tiradas de prueba! Inicia sesión con Google para guardar tus partidas, desbloquear temas visuales y competir en el Ranking Global.';
+            if (msgEl) msgEl.innerText = 'Â¡Se acabaron tus tiradas de prueba! Inicia sesiÃ³n con Google para guardar tus partidas, desbloquear temas visuales y competir en el Ranking Global.';
         } else {
-            // Aún tiene pruebas
+            // AÃºn tiene pruebas
             authOverlay.classList.add('hidden');
             authOverlay.classList.remove('show');
         }
@@ -45,7 +45,7 @@ async function checkAuth() {
     }
 }
 
-// â”€â”€â”€ Sistema de Logros e Insignias â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Sistema de Logros e Insignias Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 async function registrarLogro(achievement_id, nombre_logro) {
     if (!currentUser) return;
     
@@ -54,9 +54,9 @@ async function registrarLogro(achievement_id, nombre_logro) {
         achievement_id: achievement_id
     });
     
-    // Si no hubo error, significa que no lo tenÃ­a repetido (por el UNIQUE constraint)
+    // Si no hubo error, significa que no lo tenÃƒÂ­a repetido (por el UNIQUE constraint)
     if (!error) {
-        mostrarToast('ðŸ† Â¡LOGRO DESBLOQUEADO! ' + nombre_logro);
+        mostrarToast('Ã°Å¸Ââ€  Ã‚Â¡LOGRO DESBLOQUEADO! ' + nombre_logro);
         
         // Confeti especial
         if (typeof confetti === 'function') {
@@ -86,9 +86,10 @@ async function checkAchievementsOnPearlFound(intentosPrevios) {
     if (total === 50) registrarLogro('FIFTY_PEARLS', 'Buscaminas Maestro (50 perlas)');
     
     if (intentosPrevios === 0) registrarLogro('ONE_SHOT', 'Francotirador (A la primera)');
+    updateGlobalPearls();
 }
 
-// â”€â”€â”€ Tablas de ClasificaciÃ³n (Leaderboards) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Tablas de ClasificaciÃƒÂ³n (Leaderboards) Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 async function mostrarLeaderboards() {
     const modal = document.getElementById('leaderboard-modal');
     modal.classList.remove('hidden');
@@ -106,7 +107,7 @@ async function mostrarLeaderboards() {
     
     list.innerHTML = '';
     data.forEach((p, index) => {
-        const displayName = p.slayer_name ? p.slayer_name + (p.slayer_level ? ' (Lv.' + p.slayer_level + ')' : '') : (p.name || 'Buscador Anónimo');
+        const displayName = p.slayer_name ? p.slayer_name + (p.slayer_level ? ' (Lv.' + p.slayer_level + ')' : '') : (p.name || 'Buscador AnÃ³nimo');
         const div = document.createElement('div');
         div.style.cssText = 'display: flex; align-items: center; justify-content: space-between; padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);';
         div.innerHTML = `
@@ -116,15 +117,15 @@ async function mostrarLeaderboards() {
                 <span style="color: #f8fafc; font-weight: ${p.id === currentUser?.id ? 'bold' : 'normal'};">${displayName}</span>
             </div>
             <div style="text-align: right;">
-                <span style="color: #a855f7; font-weight: bold;">${p.pearls_found} 🔮</span><br>
-                <span style="color: #ef4444; font-size: 0.8rem;">🔥 ${p.highest_streak} racha</span>
+                <span style="color: #a855f7; font-weight: bold;">${p.pearls_found} ðŸ”®</span><br>
+                <span style="color: #ef4444; font-size: 0.8rem;">ðŸ”¥ ${p.highest_streak} racha</span>
             </div>
         `;
         list.appendChild(div);
     });
 }
 
-// â”€â”€â”€ Temas Visuales (Skins) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Temas Visuales (Skins) Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 function mostrarTemas() {
     const modal = document.getElementById('themes-modal');
     modal.classList.remove('hidden');
@@ -157,7 +158,7 @@ function aplicarTema(tema) {
     localStorage.setItem('user_theme', tema);
 }
 
-// â”€â”€â”€ Listeners y Setup â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Listeners y Setup Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 document.addEventListener('DOMContentLoaded', () => {
     // Auth listeners
     const btnLogin = document.getElementById('btn-login');
@@ -189,7 +190,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.theme-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
             aplicarTema(e.target.getAttribute('data-theme'));
-            mostrarToast('Tema aplicado âœ¨');
+            mostrarToast('Tema aplicado Ã¢Å“Â¨');
         });
     });
     
@@ -205,6 +206,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
     checkAuth();
+    updateGlobalPearls();
 });
 
 window.resetUserStreak = async () => {
@@ -215,7 +217,7 @@ window.resetUserStreak = async () => {
         if (streakEl) streakEl.innerText = "0";
     } catch(e) {}
 };
-// â”€â”€â”€ Onboarding de Slayer Legend â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Onboarding de Slayer Legend Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 async function checkSlayerProfile() {
     if (!currentUser) return;
     const { data: profile } = await db.from('profiles').select('slayer_name, slayer_level, name').eq('id', currentUser.id).single();
@@ -232,7 +234,7 @@ document.getElementById('btn-save-onboarding').addEventListener('click', async (
     const sLevel = parseInt(document.getElementById('input-slayer-level').value, 10);
     
     if (!sName) {
-        mostrarToast('âš ï¸ Por favor ingresa un nombre para tu personaje.');
+        mostrarToast('Ã¢Å¡Â Ã¯Â¸Â Por favor ingresa un nombre para tu personaje.');
         return;
     }
     
@@ -244,9 +246,19 @@ document.getElementById('btn-save-onboarding').addEventListener('click', async (
     if (!error) {
         document.getElementById('onboarding-modal').classList.add('hidden');
         document.getElementById('onboarding-modal').style.display = 'none';
-        mostrarToast('ðŸŽ® Â¡Perfil de Slayer Legend guardado!');
+        mostrarToast('Ã°Å¸Å½Â® Ã‚Â¡Perfil de Slayer Legend guardado!');
         document.getElementById('user-name').innerText = sName + (isNaN(sLevel) ? '' : ' (Lv.' + sLevel + ')');
     } else {
-        mostrarToast('âŒ Error guardando el perfil');
+        mostrarToast('Ã¢ÂÅ’ Error guardando el perfil');
     }
 });
+async function updateGlobalPearls() {
+    const { data, error } = await db.from('profiles').select('pearls_found');
+    if (!error && data) {
+        const total = data.reduce((sum, profile) => sum + (profile.pearls_found || 0), 0);
+        const globalPearlsEl = document.getElementById('global-pearls');
+        if (globalPearlsEl) globalPearlsEl.innerText = total;
+    }
+}
+
+
