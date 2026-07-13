@@ -1,28 +1,28 @@
 const FILAS = 6;
 const COLUMNAS = 6;
 
-// ─── Supabase ────────────────────────────────────────────────────────────────
+// ??? Supabase ????????????????????????????????????????????????????????????????
 const SUPABASE_URL = 'https://zvnbxgqbyadlmprhgfwr.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp2bmJ4Z3FieWFkbG1wcmhnZndyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM3MDk5NzQsImV4cCI6MjA5OTI4NTk3NH0.r8TSPhaHoBkzvCekwrCNNs0cFiN48ljwLkQzaU7swfY';
 const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// ─── Helpers de coordenadas ──────────────────────────────────────────────────
+// ??? Helpers de coordenadas ??????????????????????????????????????????????????
 // Las coordenadas se muestran y guardan como "Fila,Columna"
 // Fila: 1-6 (de arriba a abajo), Columna: A-F (de izquierda a derecha)
 // Ejemplo: celda superior-izquierda = "1,A", inferior-derecha = "6,F"
 
 function makeKey(r, c) {
-    // r: 0-5 (índice), c: 0-5 (índice)  →  "1,A" ... "6,F"
+    // r: 0-5 (�ndice), c: 0-5 (�ndice)  ?  "1,A" ... "6,F"
     return `${r + 1},${String.fromCharCode(65 + c)}`;
 }
 
 function parseKey(key) {
-    // "3,D"  →  { r: 2, c: 3 }
+    // "3,D"  ?  { r: 2, c: 3 }
     const [rowStr, colStr] = key.split(',');
     return { r: parseInt(rowStr) - 1, c: colStr.charCodeAt(0) - 65 };
 }
 
-// ─── Estado ──────────────────────────────────────────────────────────────────
+// ??? Estado ??????????????????????????????????????????????????????????????????
 let corales          = new Set();       // Set de keys
 let celdas_conocidas = new Map();       // key -> 'F' | 'S'
 let colores_tablero  = new Map();       // key -> 'Concha_Rosa' | 'Concha_Morada'
@@ -33,7 +33,7 @@ let cellElements     = {};             // key -> DOM element
 // Ola
 let filaOlaRecomendada = 0;            // actualizada en actualizarProbabilidades
 
-// ─── DOM ─────────────────────────────────────────────────────────────────────
+// ??? DOM ?????????????????????????????????????????????????????????????????????
 const statusText     = document.getElementById('status-text');
 const contextMenu    = document.getElementById('context-menu');
 const modalOverlay   = document.getElementById('modal-overlay');
@@ -46,7 +46,7 @@ let activeCell     = null;
 let externalTarget = null;
 let isTrainingMode = false;
 
-// ─── Init ────────────────────────────────────────────────────────────────────
+// ??? Init ????????????????????????????????????????????????????????????????????
 async function init() {
     const checkMaintenance = () => {
         const now = new Date();
@@ -88,18 +88,18 @@ async function init() {
     }
 }
 
-// ─── Menú de Ayuda y Tutoriales ──────────────────────────────────────────────
+// ??? Men� de Ayuda y Tutoriales ??????????????????????????????????????????????
 function startTutorialGeneral() {
     cerrarHelpMenu();
     introJs().setOptions({
         nextLabel: 'Siguiente',
-        prevLabel: 'Atrás',
-        doneLabel: '¡A jugar!',
+        prevLabel: 'Atr�s',
+        doneLabel: '�A jugar!',
         showStepNumbers: false,
         showBullets: true,
         steps: [
             {
-                intro: "<b>¡Bienvenido al Buscaminas Bajo el Mar!</b><br><br>Esta herramienta te ayudará a encontrar las perlas apoyándose en los datos de la comunidad y probabilidades matemáticas."
+                intro: "<b>�Bienvenido al Buscaminas Bajo el Mar!</b><br><br>Esta herramienta te ayudar� a encontrar las perlas apoy�ndose en los datos de la comunidad y probabilidades matem�ticas."
             },
             {
                 element: document.querySelector('.grid-labeled'),
@@ -107,11 +107,11 @@ function startTutorialGeneral() {
             },
             {
                 element: document.querySelector('.controls'),
-                intro: "<b>Herramientas Avanzadas</b><br><br>Aquí encontrarás opciones para Subir Capturas automáticas, usar la Ola, Deshacer movimientos o registrar Datos Externos."
+                intro: "<b>Herramientas Avanzadas</b><br><br>Aqu� encontrar�s opciones para Subir Capturas autom�ticas, usar la Ola, Deshacer movimientos o registrar Datos Externos."
             },
             {
                 element: document.querySelector('#btn-help'),
-                intro: "<b>¿Necesitas más detalles?</b><br><br>Si quieres saber exactamente cómo funciona alguna de estas herramientas, puedes presionar este botón de <b>📖 Ayuda</b> en cualquier momento para ver guías detalladas de cada función."
+                intro: "<b>�Necesitas m�s detalles?</b><br><br>Si quieres saber exactamente c�mo funciona alguna de estas herramientas, puedes presionar este bot�n de <b>? Ayuda</b> en cualquier momento para ver gu�as detalladas de cada funci�n."
             }
         ]
     }).start();
@@ -130,8 +130,8 @@ function startTutorial(tipo) {
     cerrarHelpMenu();
     let options = {
         nextLabel: 'Siguiente',
-        prevLabel: 'Atrás',
-        doneLabel: '¡Entendido!',
+        prevLabel: 'Atr�s',
+        doneLabel: '�Entendido!',
         showStepNumbers: false,
         showBullets: true,
         steps: []
@@ -141,10 +141,10 @@ function startTutorial(tipo) {
         options.steps = [
             {
                 element: document.querySelector('#btn-upload'),
-                intro: "<b>1. Subir Captura</b><br><br>Presiona este botón para subir una foto completa de tu celular."
+                intro: "<b>1. Subir Captura</b><br><br>Presiona este bot�n para subir una foto completa de tu celular."
             },
             {
-                intro: "<b>2. Recorte Inteligente</b><br><br>El sistema pre-seleccionará la zona inferior de tu pantalla.<br><img src='tutorial.png' style='width:100%; max-height:180px; object-fit:cover; border-radius:8px; margin-top:10px; border:1px solid #c49a45;'><br>Asegúrate de que el cuadro de recorte contenga exactamente la cuadrícula de 6x6 (las 36 conchas) y dale a Confirmar."
+                intro: "<b>2. Recorte Inteligente</b><br><br>El sistema pre-seleccionar� la zona inferior de tu pantalla.<br><img src='tutorial.png' style='width:100%; max-height:180px; object-fit:cover; border-radius:8px; margin-top:10px; border:1px solid #c49a45;'><br>Aseg�rate de que el cuadro de recorte contenga exactamente la cuadr�cula de 6x6 (las 36 conchas) y dale a Confirmar."
             }
         ];
     } else if (tipo === 'tablero') {
@@ -155,47 +155,47 @@ function startTutorial(tipo) {
             },
             {
                 element: document.querySelector('.grid-labeled'),
-                intro: "<b>2. Recomendación</b><br><br>La casilla que tenga el <b>borde resaltado en verde</b> es la que el sistema te sugiere como la más segura para encontrar una perla basándose en matemáticas."
+                intro: "<b>2. Recomendaci�n</b><br><br>La casilla que tenga el <b>borde resaltado en verde</b> es la que el sistema te sugiere como la m�s segura para encontrar una perla bas�ndose en matem�ticas."
             },
             {
                 element: document.querySelector('.grid-labeled'),
-                intro: "<b>3. Tipos de Celdas</b><br><br>Al hacer clic, se abrirá un menú donde podrás indicarle a la IA si encontraste Arena, una Estrella (Pista), Coral o una Perla."
+                intro: "<b>3. Tipos de Celdas</b><br><br>Al hacer clic, se abrir� un men� donde podr�s indicarle a la IA si encontraste Arena, una Estrella (Pista), Coral o una Perla."
             }
         ];
     } else if (tipo === 'ola') {
         options.steps = [
             {
                 element: document.querySelector('#btn-ola'),
-                intro: "<b>1. Activar la Ola</b><br><br>Cuando uses el ítem de la Ola dentro del juego, presiona este botón. El buscaminas calculará la mejor fila y la llenará de arena automáticamente."
+                intro: "<b>1. Activar la Ola</b><br><br>Cuando uses el �tem de la Ola dentro del juego, presiona este bot�n. El buscaminas calcular� la mejor fila y la llenar� de arena autom�ticamente."
             },
             {
                 element: document.querySelector('.grid-labeled'),
-                intro: "<b>2. Modificar la Ola</b><br><br>Si al pasar la Ola en el juego descubres una Estrella o una Perla, simplemente haz clic sobre esa casilla de arena en el tablero web para corregirla y actualizar los cálculos."
+                intro: "<b>2. Modificar la Ola</b><br><br>Si al pasar la Ola en el juego descubres una Estrella o una Perla, simplemente haz clic sobre esa casilla de arena en el tablero web para corregirla y actualizar los c�lculos."
             }
         ];
     } else if (tipo === 'dato_externo') {
         options.steps = [
             {
                 element: document.querySelector('#btn-train'),
-                intro: "<b>1. Ayuda a la Comunidad</b><br><br>Usa este botón si acabas de encontrar una perla en el juego pero tu tablero ya está arruinado y no quieres reiniciar."
+                intro: "<b>1. Ayuda a la Comunidad</b><br><br>Usa este bot�n si acabas de encontrar una perla en el juego pero tu tablero ya est� arruinado y no quieres reiniciar."
             },
             {
                 element: document.querySelector('#btn-train'),
-                intro: "<b>2. Entrenamiento Global</b><br><br>Te permitirá indicarle a la nube el color de la perla y sus coordenadas exactas para seguir entrenando a la Inteligencia Artificial global sin alterar tu partida actual."
+                intro: "<b>2. Entrenamiento Global</b><br><br>Te permitir� indicarle a la nube el color de la perla y sus coordenadas exactas para seguir entrenando a la Inteligencia Artificial global sin alterar tu partida actual."
             }
         ];
     } else if (tipo === 'deshacer') {
         options.steps = [
             {
                 element: document.querySelector('#btn-undo'),
-                intro: "<b>Deshacer un Error</b><br><br>Si te equivocas marcando una casilla, usa este botón para retroceder un paso. ¡Puedes deshacer varios pasos seguidos!"
+                intro: "<b>Deshacer un Error</b><br><br>Si te equivocas marcando una casilla, usa este bot�n para retroceder un paso. �Puedes deshacer varios pasos seguidos!"
             }
         ];
     } else if (tipo === 'reiniciar') {
         options.steps = [
             {
                 element: document.querySelector('#btn-restart'),
-                intro: "<b>Empezar de Nuevo</b><br><br>Cuando encuentres todas las perlas y el juego te dé un tablero nuevo, presiona Reiniciar para limpiar todo el buscaminas y comenzar de cero."
+                intro: "<b>Empezar de Nuevo</b><br><br>Cuando encuentres todas las perlas y el juego te d� un tablero nuevo, presiona Reiniciar para limpiar todo el buscaminas y comenzar de cero."
             }
         ];
     }
@@ -206,11 +206,11 @@ function startTutorial(tipo) {
 function setSyncStatus(estado) {
     syncDot.className = 'sync-dot ' + estado;
     if (estado === 'ok')          syncLabel.textContent = 'Conectado a la nube';
-    else if (estado === 'offline') syncLabel.textContent = 'Sin conexión (modo local)';
+    else if (estado === 'offline') syncLabel.textContent = 'Sin conexi�n (modo local)';
     else                           syncLabel.textContent = 'Conectando...';
 }
 
-// ─── Cuadrícula con etiquetas ─────────────────────────────────────────────────
+// ??? Cuadr�cula con etiquetas ?????????????????????????????????????????????????
 function crearCuadricula() {
     const wrapper = document.getElementById('grid-wrapper');
     wrapper.innerHTML = '';
@@ -219,7 +219,7 @@ function crearCuadricula() {
     const grid = document.createElement('div');
     grid.className = 'grid-labeled';
 
-    // Esquina vacía
+    // Esquina vac�a
     grid.appendChild(Object.assign(document.createElement('div'), { className: 'grid-corner' }));
 
     // Encabezados de columna: A B C D E F
@@ -253,7 +253,7 @@ function crearCuadricula() {
     wrapper.appendChild(grid);
 }
 
-// ─── Eventos ─────────────────────────────────────────────────────────────────
+// ??? Eventos ?????????????????????????????????????????????????????????????????
 function configurarEventos() {
     document.addEventListener('click', (e) => {
         if (!e.target.closest('.cell') && !e.target.closest('#context-menu')) cerrarMenu();
@@ -272,7 +272,7 @@ function configurarEventos() {
     document.getElementById('btn-train').addEventListener('click', () => {
         isTrainingMode = true;
         externalTarget = null;
-        showToast('🎯 Modo entrenamiento: haz clic en la celda donde quieres registrar el dato.', 'info');
+        showToast('? Modo entrenamiento: haz clic en la celda donde quieres registrar el dato.', 'info');
     });
 
     document.getElementById('btn-train-purple').addEventListener('click', () => guardarDatoExterno('Concha_Morada'));
@@ -285,7 +285,7 @@ function configurarEventos() {
 
     document.addEventListener('paste', handlePaste);
 
-    // Eventos para subida y recorte de imagen (móviles)
+    // Eventos para subida y recorte de imagen (m�viles)
     document.getElementById('btn-upload').addEventListener('click', () => {
         document.getElementById('file-upload').click();
     });
@@ -297,7 +297,7 @@ function configurarEventos() {
     document.getElementById('btn-help-close').addEventListener('click', cerrarHelpMenu);
 }
 
-// ─── Vecinos (devuelve keys en formato "Fila,Col") ───────────────────────────
+// ??? Vecinos (devuelve keys en formato "Fila,Col") ???????????????????????????
 function vecinos(r, c) {
     const res = [];
     for (const [dr, dc] of [[-1,0],[1,0],[0,-1],[0,1]]) {
@@ -307,9 +307,9 @@ function vecinos(r, c) {
     return res;
 }
 
-// ─── Click en celda ──────────────────────────────────────────────────────────
+// ??? Click en celda ??????????????????????????????????????????????????????????
 function onCellClick(r, c, e) {
-    // Lógica de 4 Tiradas Gratis
+    // L�gica de 4 Tiradas Gratis
     if (typeof currentUser === 'undefined' || !currentUser) {
         window.freeClicks = (window.freeClicks || 0) + 1;
         localStorage.setItem('freeClicks', window.freeClicks);
@@ -319,7 +319,7 @@ function onCellClick(r, c, e) {
                 authOverlay.classList.remove('hidden');
                 authOverlay.classList.add('show');
                 const msgEl = document.getElementById('auth-wall-msg');
-                if (msgEl) msgEl.innerText = '¡Se acabaron tus tiradas de prueba! Inicia sesión con Google para guardar tus partidas, desbloquear temas visuales y competir en el Ranking Global.';
+                if (msgEl) msgEl.innerText = '�Se acabaron tus tiradas de prueba! Inicia sesi�n con Google para guardar tus partidas, desbloquear temas visuales y competir en el Ranking Global.';
             }
             return;
         }
@@ -331,9 +331,9 @@ function onCellClick(r, c, e) {
     if (isTrainingMode) {
         isTrainingMode = false;
         externalTarget = { r, c };
-        document.getElementById('modal-title').textContent = 'Entrenar IA – ¿Qué color era la concha?';
+        document.getElementById('modal-title').textContent = 'Entrenar IA � �Qu� color era la concha?';
         document.getElementById('modal-desc').textContent =
-            `Posición: Fila ${r + 1}, Columna ${String.fromCharCode(65 + c)} (${key})`;
+            `Posici�n: Fila ${r + 1}, Columna ${String.fromCharCode(65 + c)} (${key})`;
         modalOverlay.classList.remove('hidden');
         modalOverlay.classList.add('show');
         return;
@@ -364,10 +364,10 @@ function cerrarModal() {
     externalTarget = null;
 }
 
-// ─── Registrar resultado ──────────────────────────────────────────────────────
+// ??? Registrar resultado ??????????????????????????????????????????????????????
 async function registrarResultado(r, c, res, force = false) {
     if (res === 'P' && !force) {
-        if (!confirm('¿Estás seguro de que has encontrado la PERLA en esta casilla?\n\n¡Cuidado! Si te equivocas, tu racha y las estadísticas de la IA se verán afectadas.')) {
+        if (!confirm('�Est�s seguro de que has encontrado la PERLA en esta casilla?\n\n�Cuidado! Si te equivocas, tu racha y las estad�sticas de la IA se ver�n afectadas.')) {
             return;
         }
     }
@@ -398,14 +398,14 @@ async function registrarResultado(r, c, res, force = false) {
             checkAchievementsOnPearlFound(intentos);
         }
 
-        statusText.textContent = '⌛ Guardando en la nube...';
+        statusText.textContent = '? Guardando en la nube...';
         statusText.style.color = '#f59e0b';
 
         await guardarEnHistorial(key, color, intentos);
 
-        const colorLabel = color === 'Concha_Morada' ? '🟣 Morada'
-                         : color === 'Concha_Rosa'   ? '🌸 Rosada' : '❓ Desconocido';
-        showToast(`🌊 Perla en ${key} → ${colorLabel} | ${intentos} intento${intentos !== 1 ? 's' : ''}`, 'success');
+        const colorLabel = color === 'Concha_Morada' ? '? Morada'
+                         : color === 'Concha_Rosa'   ? '? Rosada' : '? Desconocido';
+        showToast(`? Perla en ${key} ? ${colorLabel} | ${intentos} intento${intentos !== 1 ? 's' : ''}`, 'success');
         reiniciar(false);
         return;
     } else if (res === 'COLOR_MORADA') {
@@ -424,17 +424,17 @@ async function registrarResultado(r, c, res, force = false) {
     actualizarProbabilidades();
 }
 
-// ─── Dato externo ─────────────────────────────────────────────────────────────
+// ??? Dato externo ?????????????????????????????????????????????????????????????
 async function guardarDatoExterno(color) {
     if (!externalTarget) return;
     const key = makeKey(externalTarget.r, externalTarget.c);
     await guardarEnHistorial(key, color);
-    showToast(`Dato guardado en ${key} (${color === 'Concha_Morada' ? 'Morada 🟣' : 'Rosada 🌸'}).`, 'success');
+    showToast(`Dato guardado en ${key} (${color === 'Concha_Morada' ? 'Morada ?' : 'Rosada ?'}).`, 'success');
     cerrarModal();
     actualizarProbabilidades();
 }
 
-// ─── Supabase: guardar ────────────────────────────────────────────────────────
+// ??? Supabase: guardar ????????????????????????????????????????????????????????
 async function guardarEnHistorial(key, color, intentos = 0) {
     // Validar color antes de enviar al RPC
     const coloresValidos = ['Concha_Morada', 'Concha_Rosa', 'Desconocido'];
@@ -453,7 +453,7 @@ async function guardarEnHistorial(key, color, intentos = 0) {
             p_intentos: intentos
         });
         
-        // Si hay error (ej. límite de cuota), fallamos silenciosamente 
+        // Si hay error (ej. l�mite de cuota), fallamos silenciosamente 
         // para no interrumpir el juego del usuario.
         if (error) console.warn('Supabase write limit/error:', error);
         
@@ -462,7 +462,7 @@ async function guardarEnHistorial(key, color, intentos = 0) {
     }
 }
 
-// ─── Supabase: cargar ─────────────────────────────────────────────────────────
+// ??? Supabase: cargar ?????????????????????????????????????????????????????????
 async function cargarHistorial() {
     setSyncStatus('connecting');
     try {
@@ -496,7 +496,7 @@ async function cargarHistorial() {
     }
 }
 
-// ─── Deshacer / Reiniciar ─────────────────────────────────────────────────────
+// ??? Deshacer / Reiniciar ?????????????????????????????????????????????????????
 function deshacer() {
     if (!historial_acciones.length) return;
     const { r, c, res, prevState, prevColor } = historial_acciones.pop();
@@ -525,9 +525,9 @@ function deshacer() {
 }
 
 function reiniciar(ask = true) {
-    if (ask && !confirm('¿Reiniciar el tablero actual?')) return;
+    if (ask && !confirm('�Reiniciar el tablero actual?')) return;
     
-    // Si reinicias sin haber encontrado la perla y ya habías jugado, pierdes la racha
+    // Si reinicias sin haber encontrado la perla y ya hab�as jugado, pierdes la racha
     let foundPearl = false;
     for (const [k, v] of celdas_conocidas) if (v === 'P') foundPearl = true;
     if (ask && !foundPearl && (celdas_conocidas.size > 0 || corales.size > 0)) {
@@ -542,13 +542,13 @@ function reiniciar(ask = true) {
     actualizarProbabilidades();
 }
 
-// ─── Ola (Wave) ───────────────────────────────────────────────────────────────
+// ??? Ola (Wave) ???????????????????????????????????????????????????????????????
 
 function actualizarUIola() {
     btnOla.disabled = false;
     btnOla.classList.add('ready');
-    // Siempre mostrar la fila recomendada en el botón (aunque no haya ola disponible)
-    btnOla.textContent = `🌊 Usar Ola — Fila ${filaOlaRecomendada + 1} recomendada`;
+    // Siempre mostrar la fila recomendada en el bot�n (aunque no haya ola disponible)
+    btnOla.textContent = `? Usar Ola � Fila ${filaOlaRecomendada + 1} recomendada`;
 }
 
 function usarOla() {
@@ -557,14 +557,14 @@ function usarOla() {
 
     // La ola avanza de IZQUIERDA a DERECHA y se detiene al encontrar el primer coral.
     // Solo se limpian (marcan Arena) las celdas antes del primer coral en la fila.
-    // Score de la fila = candidatos que sería posible limpiar con la ola.
+    // Score de la fila = candidatos que ser�a posible limpiar con la ola.
     aplicarOla(filaOlaRecomendada);
 }
 
 function calcularMejorFilaOla(candidatos, pesos) {
     let mejorFila = 0, mejorVE = Infinity;
     for (let r = 0; r < FILAS; r++) {
-        // Encontrar hasta dónde llega la ola (se detiene en el primer coral)
+        // Encontrar hasta d�nde llega la ola (se detiene en el primer coral)
         let limiteCol = COLUMNAS;
         for (let c = 0; c < COLUMNAS; c++) {
             if (corales.has(makeKey(r, c))) { limiteCol = c; break; }
@@ -587,7 +587,7 @@ function calcularMejorFilaOla(candidatos, pesos) {
                 const reveloEstrella = [...celdasOla].some(x => vecPerla.has(x));
 
                 if (reveloEstrella) {
-                    // Reveló al menos una estrella. Las estrellas son las casillas de la ola vecinas a la perla.
+                    // Revel� al menos una estrella. Las estrellas son las casillas de la ola vecinas a la perla.
                     const estrellas = [...celdasOla].filter(x => vecPerla.has(x));
                     const arenas = [...celdasOla].filter(x => !vecPerla.has(x));
                     let validos = new Set(candidatos);
@@ -604,7 +604,7 @@ function calcularMejorFilaOla(candidatos, pesos) {
                     }
                     restantes = validos.size;
                 } else {
-                    // Reveló pura Arena
+                    // Revel� pura Arena
                     let validos = new Set(candidatos);
                     for (const a of celdasOla) {
                         const aVecinos = new Set(vecinos(parseKey(a).r, parseKey(a).c));
@@ -626,7 +626,7 @@ function calcularMejorFilaOla(candidatos, pesos) {
 }
 
 function aplicarOla(fila) {
-    // Encontrar primer coral desde la izquierda (la ola se bloquea ahí)
+    // Encontrar primer coral desde la izquierda (la ola se bloquea ah�)
     let limiteCol = COLUMNAS;
     for (let c = 0; c < COLUMNAS; c++) {
         if (corales.has(makeKey(fila, c))) { limiteCol = c; break; }
@@ -648,14 +648,14 @@ function aplicarOla(fila) {
     const bloqueadaEn = limiteCol < COLUMNAS
         ? ` (bloqueada por coral en col ${String.fromCharCode(65 + limiteCol)})`
         : '';
-    showToast(`🌊 Ola en Fila ${fila + 1}: ${limpiadas} celdas limpiadas${bloqueadaEn}.`, 'success');
+    showToast(`? Ola en Fila ${fila + 1}: ${limpiadas} celdas limpiadas${bloqueadaEn}.`, 'success');
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// MODELO DE PREDICCIÓN
-// Combina: restricciones lógicas + frecuencia bayesiana (Beta) + eficiencia
-// (intentos promedio) + estrategia óptima (minimiza candidatos esperados).
-// ─────────────────────────────────────────────────────────────────────────────
+// ?????????????????????????????????????????????????????????????????????????????
+// MODELO DE PREDICCI�N
+// Combina: restricciones l�gicas + frecuencia bayesiana (Beta) + eficiencia
+// (intentos promedio) + estrategia �ptima (minimiza candidatos esperados).
+// ?????????????????????????????????????????????????????????????????????????????
 
 function actualizarProbabilidades() {
     // 1. Candidatos iniciales (todas menos corales)
@@ -666,7 +666,7 @@ function actualizarProbabilidades() {
             if (!corales.has(key)) candidatos.add(key);
         }
 
-    // 2. Restricciones lógicas
+    // 2. Restricciones l�gicas
     for (const [key, res] of celdas_conocidas) {
         const { r, c } = parseKey(key);
         if (res === 'F') {
@@ -700,7 +700,7 @@ function actualizarProbabilidades() {
     const pesos = {};
     for (const cand of candidatos) pesos[cand] = sumaPrior > 0 ? prior[cand] / sumaPrior : 0;
 
-    // 4. Estrategia óptima: minimizar candidatos esperados tras revelar
+    // 4. Estrategia �ptima: minimizar candidatos esperados tras revelar
     let mejorCelda = null, mejorVE = Infinity, mejorProb = -1;
     for (const jugada of candidatos) {
         const { r: jr, c: jc } = parseKey(jugada);
@@ -712,11 +712,11 @@ function actualizarProbabilidades() {
             if (perla === jugada) {
                 restantes = 0;
             } else if (vecJ.has(perla)) {
-                // Sería estrella: perla en vecinos de jugada
+                // Ser�a estrella: perla en vecinos de jugada
                 const vv = new Set(vecinos(jr, jc).filter(v => !corales.has(v)));
                 restantes = [...candidatos].filter(c => vv.has(c)).length;
             } else {
-                // Sería arena: excluir jugada + vecinos
+                // Ser�a arena: excluir jugada + vecinos
                 const excluir = new Set(vecJ);
                 excluir.add(jugada);
                 restantes = [...candidatos].filter(c => !excluir.has(c)).length;
@@ -742,7 +742,7 @@ function actualizarProbabilidades() {
     }
 }
 
-// ─── Render ───────────────────────────────────────────────────────────────────
+// ??? Render ???????????????????????????????????????????????????????????????????
 function renderGrid(candidatos, pesos, mejorCelda) {
     for (let r = 0; r < FILAS; r++) {
         for (let c = 0; c < COLUMNAS; c++) {
@@ -761,14 +761,14 @@ function renderGrid(candidatos, pesos, mejorCelda) {
                 // Coral: bloquea la ola y excluye probabilidad
                 // Mostrar indicador de bloqueo si es la fila recomendada
                 cell.classList.add('coral');
-                const bloqueLabel = esFilaOla ? '<span class="coral-block-icon" title="Bloquea la ola">🚫</span>' : '';
-                cell.innerHTML = `🪸${bloqueLabel}<br><small>Coral</small>`;
+                const bloqueLabel = esFilaOla ? '<span class="coral-block-icon" title="Bloquea la ola">?</span>' : '';
+                cell.innerHTML = `?${bloqueLabel}<br><small>Coral</small>`;
 
             } else if (celdas_conocidas.has(key)) {
                 const res = celdas_conocidas.get(key);
-                if (res === 'F') { cell.classList.add('arena'); cell.innerHTML = '🏖️<br><small>Arena</small>'; }
-                if (res === 'S') { cell.classList.add('pista'); cell.innerHTML = '⭐<br><small>Pista</small>'; }
-                // Las celdas ya reveladas en la fila recomendada también se resaltan
+                if (res === 'F') { cell.classList.add('arena'); cell.innerHTML = '??<br><small>Arena</small>'; }
+                if (res === 'S') { cell.classList.add('pista'); cell.innerHTML = '?<br><small>Pista</small>'; }
+                // Las celdas ya reveladas en la fila recomendada tambi�n se resaltan
                 if (esFilaOla) cell.classList.add('ola-sugerida');
 
             } else if (candidatos.has(key)) {
@@ -785,7 +785,7 @@ function renderGrid(candidatos, pesos, mejorCelda) {
                 let dot = '';
                 if (colorDetectado === 'Concha_Morada') dot = '<span class="color-dot dot-morada"></span>';
                 else if (colorDetectado === 'Concha_Rosa') dot = '<span class="color-dot dot-rosa"></span>';
-                cell.innerHTML = `<span style="font-size:0.7rem;opacity:0.4">✕</span>${dot}`;
+                cell.innerHTML = `<span style="font-size:0.7rem;opacity:0.4">?</span>${dot}`;
                 if (esFilaOla) cell.classList.add('ola-sugerida');
             }
         }
@@ -793,21 +793,21 @@ function renderGrid(candidatos, pesos, mejorCelda) {
 
     // Status text
     if (candidatos.size === 1) {
-        statusText.textContent = '🎯 ¡La perla ESTÁ en la celda verde!';
+        statusText.textContent = '? �La perla EST� en la celda verde!';
         statusText.style.color = '#4ade80';
     } else if (candidatos.size === 0) {
-        statusText.textContent = '⚠️ Conflicto: ningún candidato. ¿Te equivocaste?';
+        statusText.textContent = '?? Conflicto: ning�n candidato. �Te equivocaste?';
         statusText.style.color = '#f87171';
     } else {
-        const colMsg = colores_tablero.size > 0 ? ` · ${colores_tablero.size} colores detectados` : '';
-        // Siempre mostrar la recomendación de ola
-        const olaMsg = ` · 🌊 Ola → Fila ${filaOlaRecomendada + 1}`;
+        const colMsg = colores_tablero.size > 0 ? ` � ${colores_tablero.size} colores detectados` : '';
+        // Siempre mostrar la recomendaci�n de ola
+        const olaMsg = ` � ? Ola ? Fila ${filaOlaRecomendada + 1}`;
         statusText.textContent = `${candidatos.size} posibles. Verde = mejor jugada${colMsg}${olaMsg}`;
         statusText.style.color = '#93c5fd';
     }
 }
 
-// ─── Portapapeles / Imagen y Recorte ───────────────────────────────────────────
+// ??? Portapapeles / Imagen y Recorte ???????????????????????????????????????????
 function openCropForUrl(url) {
     // Liberar blob URL anterior si existe
     if (currentBlobUrl) URL.revokeObjectURL(currentBlobUrl);
@@ -886,7 +886,7 @@ function confirmarCrop() {
     const canvas = cropperInstance.getCroppedCanvas();
     if (!canvas) return;
     
-    // Limpiar el tablero sin pedir confirmación (el usuario ya confirmó al dar Procesar)
+    // Limpiar el tablero sin pedir confirmaci�n (el usuario ya confirm� al dar Procesar)
     reiniciar(false);
 
     // Pasar el canvas directamente en vez de convertir a dataURL y recargar (evita race condition)
@@ -909,7 +909,7 @@ function procesarImagen(source) {
 
     for (let r = 0; r < FILAS; r++) {
         for (let c = 0; c < COLUMNAS; c++) {
-            // Muestreo más pequeño (20%) y centrado para evitar el fondo de arena
+            // Muestreo m�s peque�o (20%) y centrado para evitar el fondo de arena
             const x = Math.floor(c * cellW + cellW * 0.4);
             const y = Math.floor(r * cellH + cellH * 0.4);
             const w = Math.max(1, Math.floor(cellW * 0.2));
@@ -931,7 +931,7 @@ function procesarImagen(source) {
     }
 
     const totalCeldas     = FILAS * COLUMNAS;
-    // Consideramos tablero inicial SÓLO si no hay absolutamente ninguna celda revelada
+    // Consideramos tablero inicial S�LO si no hay absolutamente ninguna celda revelada
     const reveladasTotales = (conteo.Arena || 0) + (conteo.Estrella || 0) + (conteo.Coral || 0);
     const esTableroInicial = reveladasTotales === 0;
     let reveladasNuevas   = 0;
@@ -950,9 +950,9 @@ function procesarImagen(source) {
 
     actualizarProbabilidades();
     if (esTableroInicial) {
-        showToast(`🎨 Tablero registrado: ${conteo.Concha_Morada||0} moradas 🟣, ${conteo.Concha_Rosa||0} rosadas 🌸`, 'success');
+        showToast(`? Tablero registrado: ${conteo.Concha_Morada||0} moradas ?, ${conteo.Concha_Rosa||0} rosadas ?`, 'success');
     } else if (reveladasNuevas > 0) {
-        showToast(`✅ ${reveladasNuevas} celdas reveladas detectadas.`, 'success');
+        showToast(`? ${reveladasNuevas} celdas reveladas detectadas.`, 'success');
     } else {
         showToast('Imagen procesada. Sin cambios detectados.', 'info');
     }
@@ -976,9 +976,9 @@ function clasificarColor(rgb) {
     return best;
 }
 
-// ─── Toast ────────────────────────────────────────────────────────────────────
+// ??? Toast ????????????????????????????????????????????????????????????????????
 function showToast(msg, type = 'info') {
-    // Limitar a 5 toasts simultáneos para no desbordar la pantalla
+    // Limitar a 5 toasts simult�neos para no desbordar la pantalla
     while (toastContainer.children.length >= 5) {
         toastContainer.removeChild(toastContainer.firstChild);
     }
@@ -993,5 +993,5 @@ function showToast(msg, type = 'info') {
     }, 3500);
 }
 
-// ─── Arrancar ─────────────────────────────────────────────────────────────────
+// ??? Arrancar ?????????????????????????????????????????????????????????????????
 init();
