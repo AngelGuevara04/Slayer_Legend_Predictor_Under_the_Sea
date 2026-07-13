@@ -1,18 +1,27 @@
-// ─── Variables Globales ────────────────────────────────────────────────────────
+// â”€â”€â”€ Variables Globales â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 let currentUser = null;
 
-// ─── Autenticación ─────────────────────────────────────────────────────────────
+// â”€â”€â”€ AutenticaciÃ³n â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 async function checkAuth() {
     const { data: { session } } = await db.auth.getSession();
     currentUser = session ? session.user : null;
     
     const authOverlay = document.getElementById('auth-overlay');
     const userProfile = document.getElementById('user-profile');
+    window.freeClicks = parseInt(localStorage.getItem('freeClicks') || '0', 10);
     
     if (!currentUser) {
-        // Bloquear con Muro de Pago/Login
-        authOverlay.classList.remove('hidden');
-        authOverlay.classList.add('show');
+        if (window.freeClicks >= 4) {
+            // Bloquear con Muro de Pago/Login
+            authOverlay.classList.remove('hidden');
+            authOverlay.classList.add('show');
+            const msgEl = document.getElementById('auth-wall-msg');
+            if (msgEl) msgEl.innerText = '¡Se acabaron tus tiradas de prueba! Inicia sesión con Google para guardar tus partidas, desbloquear temas visuales y competir en el Ranking Global.';
+        } else {
+            // Aún tiene pruebas
+            authOverlay.classList.add('hidden');
+            authOverlay.classList.remove('show');
+        }
         userProfile.classList.add('hidden');
     } else {
         // Desbloquear
@@ -23,70 +32,20 @@ async function checkAuth() {
         // Cargar perfil
         const { data: profile } = await db.from('profiles').select('*').eq('id', currentUser.id).single();
         if (profile) {
-            document.getElementById('user-name').innerText = profile.name || 'Buscador';
+            const displayName = profile.slayer_name ? profile.slayer_name + (profile.slayer_level ? ' (Lv.' + profile.slayer_level + ')' : '') : (profile.name || 'Buscador');
+            document.getElementById('user-name').innerText = displayName;
             document.getElementById('user-avatar').src = profile.avatar_url || 'https://www.svgrepo.com/show/5125/avatar.svg';
             document.getElementById('user-pearls').innerText = profile.pearls_found;
             const streakEl = document.getElementById('user-streak');
             if (streakEl) streakEl.innerText = profile.current_streak || 0;
-        }
-        
-        // Cargar partida en la nube (Feature 2)
-        cargarPartidaEnLaNube();
-    }
-}
-
-async function loginConGoogle() {
-    const { error } = await db.auth.signInWithOAuth({ provider: 'google' });
-    if (error) mostrarToast('Error al iniciar sesión: ' + error.message, true);
-}
-
-async function logout() {
-    await db.auth.signOut();
-    window.location.reload();
-}
-
-// ─── Guardado en la Nube (Cross-play) ──────────────────────────────────────
-async function guardarPartidaEnLaNube() {
-    if (!currentUser) return;
-    
-    // Convertir el estado a un objeto serializable
-    const state = {
-        celdas_conocidas: Array.from(celdas_conocidas.entries()),
-        corales: Array.from(corales),
-        colores_tablero: Array.from(colores_tablero.entries()),
-        historial_acciones: historial_acciones
-    };
-    
-    await db.from('saved_games').upsert({
-        user_id: currentUser.id,
-        game_state: state,
-        updated_at: new Date().toISOString()
-    });
-}
-
-async function cargarPartidaEnLaNube() {
-    const { data } = await db.from('saved_games').select('game_state').eq('user_id', currentUser.id).single();
-    if (data && data.game_state) {
-        try {
-            // Restaurar estado
-            celdas_conocidas.clear();
-            corales.clear();
-            colores_tablero.clear();
             
-            data.game_state.celdas_conocidas.forEach(([k, v]) => celdas_conocidas.set(k, v));
-            data.game_state.corales.forEach(k => corales.add(k));
-            data.game_state.colores_tablero.forEach(([k, v]) => colores_tablero.set(k, v));
-            
-            // Re-render
-            actualizarProbabilidades();
-            mostrarToast('Partida restaurada de la nube ☁️');
-        } catch (e) {
-            console.error('Error cargando partida:', e);
+            // Verificar Onboarding de Slayer Legend
+            checkSlayerProfile();
         }
     }
 }
 
-// ─── Sistema de Logros e Insignias ──────────────────────────────────────────
+// â”€â”€â”€ Sistema de Logros e Insignias â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 async function registrarLogro(achievement_id, nombre_logro) {
     if (!currentUser) return;
     
@@ -95,9 +54,9 @@ async function registrarLogro(achievement_id, nombre_logro) {
         achievement_id: achievement_id
     });
     
-    // Si no hubo error, significa que no lo tenía repetido (por el UNIQUE constraint)
+    // Si no hubo error, significa que no lo tenÃ­a repetido (por el UNIQUE constraint)
     if (!error) {
-        mostrarToast('🏆 ¡LOGRO DESBLOQUEADO! ' + nombre_logro);
+        mostrarToast('ðŸ† Â¡LOGRO DESBLOQUEADO! ' + nombre_logro);
         
         // Confeti especial
         if (typeof confetti === 'function') {
@@ -129,7 +88,7 @@ async function checkAchievementsOnPearlFound(intentosPrevios) {
     if (intentosPrevios === 0) registrarLogro('ONE_SHOT', 'Francotirador (A la primera)');
 }
 
-// ─── Tablas de Clasificación (Leaderboards) ─────────────────────────────────
+// â”€â”€â”€ Tablas de ClasificaciÃ³n (Leaderboards) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 async function mostrarLeaderboards() {
     const modal = document.getElementById('leaderboard-modal');
     modal.classList.remove('hidden');
@@ -138,23 +97,34 @@ async function mostrarLeaderboards() {
     const list = document.getElementById('leaderboard-list');
     list.innerHTML = 'Cargando...';
     
-    const { data, error } = await db.from('profiles').select('name, pearls_found').order('pearls_found', { ascending: false }).limit(10);
+    const { data, error } = await db.from('profiles').select('name, slayer_name, slayer_level, pearls_found, highest_streak, avatar_url').order('pearls_found', { ascending: false }).limit(10);
     
     if (error || !data) {
         list.innerHTML = 'Error al cargar los marcadores.';
         return;
     }
     
-    let html = '<ol style="padding-left: 20px; font-size: 1.1rem; color: #e2e8f0; line-height: 1.8;">';
-    data.forEach((p, i) => {
-        const medal = i === 0 ? '🥇' : (i === 1 ? '🥈' : (i === 2 ? '🥉' : ''));
-        html += `<li>${medal} <strong>${p.name || 'Jugador'}</strong>: <span style="color:#a855f7;">${p.pearls_found} perlas</span></li>`;
+    list.innerHTML = '';
+    data.forEach((p, index) => {
+        const displayName = p.slayer_name ? p.slayer_name + (p.slayer_level ? ' (Lv.' + p.slayer_level + ')' : '') : (p.name || 'Buscador Anónimo');
+        const div = document.createElement('div');
+        div.style.cssText = 'display: flex; align-items: center; justify-content: space-between; padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);';
+        div.innerHTML = `
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span style="font-weight: bold; color: ${index === 0 ? '#fcd34d' : index === 1 ? '#e2e8f0' : index === 2 ? '#b45309' : '#94a3b8'}; width: 20px;">#${index + 1}</span>
+                <img src="${p.avatar_url || 'https://www.svgrepo.com/show/5125/avatar.svg'}" style="width:30px; height:30px; border-radius:50%; border: 1px solid #a855f7;">
+                <span style="color: #f8fafc; font-weight: ${p.id === currentUser?.id ? 'bold' : 'normal'};">${displayName}</span>
+            </div>
+            <div style="text-align: right;">
+                <span style="color: #a855f7; font-weight: bold;">${p.pearls_found} 🔮</span><br>
+                <span style="color: #ef4444; font-size: 0.8rem;">🔥 ${p.highest_streak} racha</span>
+            </div>
+        `;
+        list.appendChild(div);
     });
-    html += '</ol>';
-    list.innerHTML = html;
 }
 
-// ─── Temas Visuales (Skins) ─────────────────────────────────────────────────
+// â”€â”€â”€ Temas Visuales (Skins) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function mostrarTemas() {
     const modal = document.getElementById('themes-modal');
     modal.classList.remove('hidden');
@@ -187,7 +157,7 @@ function aplicarTema(tema) {
     localStorage.setItem('user_theme', tema);
 }
 
-// ─── Listeners y Setup ─────────────────────────────────────────────────────
+// â”€â”€â”€ Listeners y Setup â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 document.addEventListener('DOMContentLoaded', () => {
     // Auth listeners
     const btnLogin = document.getElementById('btn-login');
@@ -219,7 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.theme-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
             aplicarTema(e.target.getAttribute('data-theme'));
-            mostrarToast('Tema aplicado ✨');
+            mostrarToast('Tema aplicado âœ¨');
         });
     });
     
@@ -245,3 +215,38 @@ window.resetUserStreak = async () => {
         if (streakEl) streakEl.innerText = "0";
     } catch(e) {}
 };
+// â”€â”€â”€ Onboarding de Slayer Legend â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+async function checkSlayerProfile() {
+    if (!currentUser) return;
+    const { data: profile } = await db.from('profiles').select('slayer_name, slayer_level, name').eq('id', currentUser.id).single();
+    if (profile && !profile.slayer_name) {
+        document.getElementById('onboarding-modal').classList.remove('hidden');
+        document.getElementById('onboarding-modal').style.display = 'flex';
+        // Auto-llenar con el nombre de google para ahorrarles tiempo
+        document.getElementById('input-slayer-name').value = profile.name || '';
+    }
+}
+
+document.getElementById('btn-save-onboarding').addEventListener('click', async () => {
+    const sName = document.getElementById('input-slayer-name').value.trim();
+    const sLevel = parseInt(document.getElementById('input-slayer-level').value, 10);
+    
+    if (!sName) {
+        mostrarToast('âš ï¸ Por favor ingresa un nombre para tu personaje.');
+        return;
+    }
+    
+    const { error } = await db.from('profiles').update({ 
+        slayer_name: sName,
+        slayer_level: isNaN(sLevel) ? null : sLevel
+    }).eq('id', currentUser.id);
+    
+    if (!error) {
+        document.getElementById('onboarding-modal').classList.add('hidden');
+        document.getElementById('onboarding-modal').style.display = 'none';
+        mostrarToast('ðŸŽ® Â¡Perfil de Slayer Legend guardado!');
+        document.getElementById('user-name').innerText = sName + (isNaN(sLevel) ? '' : ' (Lv.' + sLevel + ')');
+    } else {
+        mostrarToast('âŒ Error guardando el perfil');
+    }
+});

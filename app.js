@@ -309,6 +309,22 @@ function vecinos(r, c) {
 
 // ─── Click en celda ──────────────────────────────────────────────────────────
 function onCellClick(r, c, e) {
+    // Lógica de 4 Tiradas Gratis
+    if (typeof currentUser === 'undefined' || !currentUser) {
+        window.freeClicks = (window.freeClicks || 0) + 1;
+        localStorage.setItem('freeClicks', window.freeClicks);
+        if (window.freeClicks >= 5) {
+            const authOverlay = document.getElementById('auth-overlay');
+            if (authOverlay) {
+                authOverlay.classList.remove('hidden');
+                authOverlay.classList.add('show');
+                const msgEl = document.getElementById('auth-wall-msg');
+                if (msgEl) msgEl.innerText = '¡Se acabaron tus tiradas de prueba! Inicia sesión con Google para guardar tus partidas, desbloquear temas visuales y competir en el Ranking Global.';
+            }
+            return;
+        }
+    }
+
     if (typeof window.playBloop === 'function') window.playBloop();
     const key = makeKey(r, c);
 
