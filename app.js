@@ -310,16 +310,18 @@ function vecinos(r, c) {
 // ??? Click en celda ??????????????????????????????????????????????????????????
 function onCellClick(r, c, e) {
     // Lgica de 4 Tiradas Gratis
-    if (typeof currentUser === 'undefined' || !currentUser) {
+        if (typeof currentUser === 'undefined' || !currentUser) {
         window.freeClicks = (window.freeClicks || 0) + 1;
-        localStorage.setIítem('freeClicks', window.freeClicks);
+        localStorage.setItem('freeClicks', window.freeClicks);
         if (window.freeClicks >= 5) {
+            showToast('¡Se acabaron tus tiradas gratis! Inicia sesión para continuar.', 'error');
             const authOverlay = document.getElementById('auth-overlay');
             if (authOverlay) {
                 authOverlay.classList.remove('hidden');
                 authOverlay.classList.add('show');
-                const msgEl = document.getElementById('auth-wall-msg');
-                if (msgEl) msgEl.innerText = '¡Se acabaron tus tiradas de prueba! Inicia sesión con Google para guardar tus partidas, desbloquear ítemas visuales y competir en el Ranking Global.';
+                // Forzar que se muestre como flex y bloquee clics
+                authOverlay.style.display = 'flex';
+                authOverlay.style.pointerEvents = 'auto';
             }
             return;
         }
