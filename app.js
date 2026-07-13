@@ -49,12 +49,26 @@ let isTrainingMode = false;
 // ─── Init ────────────────────────────────────────────────────────────────────
 async function init() {
     const checkMaintenance = () => {
-        if (new Date() >= new Date('2026-07-12T22:59:00-06:00')) {
-            const overlay = document.getElementById('maintenance-overlay');
+        const now = new Date();
+        const startMaint = new Date('2026-07-13T22:59:00-06:00');
+        const endMaint = new Date('2026-07-13T23:59:00-06:00');
+        const overlay = document.getElementById('maintenance-overlay');
+        
+        if (now >= startMaint && now < endMaint) {
             overlay.classList.remove('hidden');
             overlay.classList.add('show');
             overlay.style.display = 'flex';
             return true;
+        } else {
+            overlay.classList.add('hidden');
+            overlay.classList.remove('show');
+            overlay.style.display = 'none';
+        }
+        
+        if (now >= endMaint) {
+            const donationUI = document.getElementById('donation-features');
+            if (donationUI) donationUI.classList.remove('hidden');
+            window.featuresActivados = true;
         }
         return false;
     };
@@ -347,6 +361,14 @@ async function registrarResultado(r, c, res) {
         corales.add(key);
         celdas_conocidas.delete(key);
     } else if (res === 'P') {
+        if (window.featuresActivados && typeof confetti === 'function') {
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#a855f7', '#f472b6', '#fcd34d']
+            });
+        }
         const color   = colores_tablero.get(key) || 'Desconocido';
         const intentos = celdas_conocidas.size + corales.size;
 

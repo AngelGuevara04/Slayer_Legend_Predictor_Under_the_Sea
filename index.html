@@ -13,6 +13,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/7.2.0/intro.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 </head>
 <body>
     <div class="app-container">
@@ -40,6 +41,17 @@
             <a href="https://forms.gle/Kz9EbmQVSE6QDjP58" target="_blank" class="btn outline" style="margin-left:auto; text-decoration:none; display:flex; align-items:center; color: #f87171; border-color: rgba(248, 113, 113, 0.4);">💬 Reportar Falla</a>
             <button id="btn-help" class="btn outline">📖 Ayuda</button>
         </aside>
+
+        <!-- Donaciones y Estadísticas (Ocultas hasta mañana 23:59) -->
+        <div id="donation-features" class="hidden" style="margin-top: 15px; padding: 15px; background: rgba(30,41,59,0.8); border: 1px solid rgba(24cd, 211, 77, 0.3); border-radius: 12px; text-align: center; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.5);">
+            <p style="color: #cbd5e1; font-size: 0.9rem; margin-bottom: 10px;">
+                🌟 <strong style="color: #fcd34d;">Estadística Global:</strong> La IA ha encontrado <span id="global-pearls" style="font-weight: bold; color: #a855f7;">86</span> perlas para la comunidad.
+            </p>
+            <a href="https://ko-fi.com/" target="_blank" class="btn" style="background: linear-gradient(135deg, #fcd34d, #f59e0b); color: #000; font-weight: bold; width: 100%; display: flex; align-items: center; justify-content: center; text-decoration: none;">
+                ☕ Apoyar a la IA
+            </a>
+            <p style="font-size: 0.75rem; color: #94a3b8; margin-top: 8px;">Las donaciones mantienen viva esta herramienta. ¡Gracias!</p>
+        </div>
 
         <div id="sync-status" class="sync-status">
             <span id="sync-dot" class="sync-dot"></span>
