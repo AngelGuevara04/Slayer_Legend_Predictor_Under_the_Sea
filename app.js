@@ -64,8 +64,7 @@ async function init() {
             overlay.style.display = 'none';
         }
         
-        const donationUI = document.getElementById('donation-features');
-        if (donationUI) donationUI.classList.remove('hidden');
+        
         window.featuresActivados = true;
         
         return false;
