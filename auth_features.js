@@ -321,7 +321,19 @@ document.getElementById('btn-save-onboarding').addEventListener('click', async (
     
     const { error } = await db.from('profiles').update(updateData).eq('id', currentUser.id);
     
-    if (!error) {
+    if (error && updateData.metadata) {
+        // Si falla por la columna metadata, reintentar sin ella
+        delete updateData.metadata;
+        const { error: err2 } = await db.from('profiles').update(updateData).eq('id', currentUser.id);
+        if (!err2) {
+            document.getElementById('onboarding-modal').classList.add('hidden');
+            document.getElementById('onboarding-modal').style.display = 'none';
+            mostrarToast('🎮 ¡Perfil de Slayer Legend guardado!');
+            document.getElementById('user-name').innerText = sName + (isNaN(sLevel) ? '' : ' (Lv.' + sLevel + ')');
+        } else {
+            mostrarToast('❌ Error guardando el perfil');
+        }
+    } else if (!error) {
         document.getElementById('onboarding-modal').classList.add('hidden');
         document.getElementById('onboarding-modal').style.display = 'none';
         mostrarToast('🎮 ¡Perfil de Slayer Legend guardado!');
