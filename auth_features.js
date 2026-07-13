@@ -11,12 +11,12 @@ async function checkAuth() {
     window.freeClicks = parseInt(localStorage.getItem('freeClicks') || '0', 10);
     
     if (!currentUser) {
-        if (window.freeClicks >= 4) {
-            // Bloquear con Muro de Pago/Login
+                if (window.freeClicks >= 5) {
+            // Mostrar muro
             authOverlay.classList.remove('hidden');
             authOverlay.classList.add('show');
-            const msgEl = document.getElementById('auth-wall-msg');
-            if (msgEl) msgEl.innerText = 'Â¡Se acabaron tus tiradas de prueba! Inicia sesiÃ³n con Google para guardar tus partidas, desbloquear temas visuales y competir en el Ranking Global.';
+            authOverlay.style.display = 'flex';
+            authOverlay.style.pointerEvents = 'auto';
         } else {
             // Aún tiene pruebas
             authOverlay.classList.add('hidden');
