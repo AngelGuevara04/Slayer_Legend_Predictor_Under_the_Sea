@@ -1,0 +1,4 @@
+553: btnOla.textContent = `? Usar Ola � Fila ${filaOlaRecomendada + 1} recomendada`;
+653: showToast(`? Ola en Fila ${fila + 1}: ${limpiadas} celdas limpiadas${bloqueadaEn}.`, 'success');
+766: const bloqueLabel = esFilaOla ? '<span class="coral-block-icon" title="Bloquea la ola">?</span>' : '';
+806: const olaMsg = ` � ? Ola ? Fila ${filaOlaRecomendada + 1}`;
