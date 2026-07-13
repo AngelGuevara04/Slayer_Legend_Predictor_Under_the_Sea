@@ -18,16 +18,18 @@ async function checkAuth() {
             const msgEl = document.getElementById('auth-wall-msg');
             if (msgEl) msgEl.innerText = 'Â¡Se acabaron tus tiradas de prueba! Inicia sesiÃ³n con Google para guardar tus partidas, desbloquear temas visuales y competir en el Ranking Global.';
         } else {
-            // AÃºn tiene pruebas
+            // Aún tiene pruebas
             authOverlay.classList.add('hidden');
             authOverlay.classList.remove('show');
         }
-        userProfile.classList.add('hidden');
+        document.getElementById('profile-logged-in').classList.add('hidden');
+        document.getElementById('profile-logged-out').classList.remove('hidden');
     } else {
         // Desbloquear
         authOverlay.classList.add('hidden');
         authOverlay.classList.remove('show');
-        userProfile.classList.remove('hidden');
+        document.getElementById('profile-logged-out').classList.add('hidden');
+        document.getElementById('profile-logged-in').classList.remove('hidden');
         
         // Cargar perfil
         const { data: profile } = await db.from('profiles').select('*').eq('id', currentUser.id).single();
@@ -219,6 +221,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Auth listeners
     const btnLogin = document.getElementById('btn-login');
     if (btnLogin) btnLogin.addEventListener('click', loginConGoogle);
+    
+    const btnLoginSidebar = document.getElementById('btn-login-sidebar');
+    if (btnLoginSidebar) btnLoginSidebar.addEventListener('click', loginConGoogle);
     
     const btnLogout = document.getElementById('btn-logout');
     if (btnLogout) btnLogout.addEventListener('click', logout);
