@@ -48,30 +48,7 @@ let isTrainingMode = false;
 
 // ??? Init ????????????????????????????????????????????????????????????????????
 async function init() {
-    const checkMaintenance = () => {
-        const now = new Date();
-        const startMaint = new Date('2026-07-13T22:59:00-06:00');
-        const overlay = document.getElementById('maintenance-overlay');
-        
-        if (now >= startMaint) {
-            overlay.classList.remove('hidden');
-            overlay.classList.add('show');
-            overlay.style.display = 'flex';
-            return true;
-        } else {
-            overlay.classList.add('hidden');
-            overlay.classList.remove('show');
-            overlay.style.display = 'none';
-        }
-        
-        
-        window.featuresActivados = true;
-        
-        return false;
-    };
-    
-    if (checkMaintenance()) return; // Bloquear arranque
-    setInterval(checkMaintenance, 30000); // Comprobar si ya es la hora (cada 30s)
+    window.featuresActivados = true;
 
     crearCuadricula();
     configurarEventos();
